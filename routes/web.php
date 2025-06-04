@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\WebsiteController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,4 +44,30 @@ Route::prefix('website')->name('website.')->middleware('auth')->group(function (
 
          Route::delete('delete_testimonial/{id}', [WebsiteController::class, 'delete_testimonial'])->name('delete_testimonial');
 
+});
+
+
+
+Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('');
+
+
+
+    Route::delete('contact/destroy/{id}', [DashboardController::class, 'destroy'])->name('contact.destroy');
+
+    Route::prefix('category')->name('category.')->group(function () {
+        Route::get('/', [CategoryController::class, 'index'])->name('index');
+
+        Route::get('search', [CategoryController::class, 'search'])->name('search');
+
+        Route::get('exportPDF', [CategoryController::class, 'exportPDF'])->name('exportPDF');
+
+            Route::get('exportExcel', [CategoryController::class, 'exportExcel'])->name('exportExcel');
+
+
+        Route::delete('forcedelete/{id}', [CategoryController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [CategoryController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [CategoryController::class, 'restore'])->name('restore');
+    });
+    Route::resource('category', CategoryController::class);
 });

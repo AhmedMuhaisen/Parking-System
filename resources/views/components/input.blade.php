@@ -1,4 +1,4 @@
-@props(['type', 'name', 'value', 'title', 'folder'])
+@props(['type', 'name', 'value', 'title', 'folder' ,'id'])
 
 
 @if ($type == 'file')
@@ -9,8 +9,8 @@
 @endif
 
 
-    <input type="{{ $type }}" name={{ $name }}
-        class="input-text
+    <input type="{{ $type }}" name={{ $name }} id="{{ $id ?? $name }}"
+        class="form-control input-text
             @error($name)
             is-invalid
             @enderror"

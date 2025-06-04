@@ -42,6 +42,10 @@ class User extends Authenticatable
         return $this->belongsTo(Unit::class)->withDefault();
     }
 
+     function role()  {
+        return $this->belongsTo(Role::class)->withDefault();
+    }
+
        function vehicle()  {
         return $this->hasMany(Vehicle::class);
     }
