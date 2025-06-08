@@ -317,7 +317,60 @@
                 </ul>
             </li><!-- End Components Nav -->
 
+        <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav4" data-bs-toggle="collapse"
+                    href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>vehicles Type</span><i
+                        class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav4" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('Dashboard.vehiclesType.index') }}">
+                            <i class="bi bi-circle"></i><span>show all vehicles Type</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('Dashboard.vehiclesType.create') }}">
+                            <i class="bi bi-circle"></i><span>create vehicles Type</span>
+                        </a>
+                    </li>
 
+                    <li>
+                        <a href="{{ route('Dashboard.vehiclesType.trash') }}">
+                            <i class="bi bi-circle"></i><span>trashed vehicles Type</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li><!-- End Components Nav -->
+
+
+    <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav5" data-bs-toggle="collapse"
+                    href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>vehicles Brands</span><i
+                        class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav5" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('Dashboard.vehiclesBrand.index') }}">
+                            <i class="bi bi-circle"></i><span>show all vehicles Brand</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('Dashboard.vehiclesBrand.create') }}">
+                            <i class="bi bi-circle"></i><span>create vehicles Brand</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('Dashboard.vehiclesBrand.trash') }}">
+                            <i class="bi bi-circle"></i><span>trashed vehicles Brand</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li><!-- End Components Nav -->
 
 
         </ul>

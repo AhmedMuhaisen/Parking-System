@@ -4,7 +4,7 @@
 use App\Mail\reset_passwordMail;
 use App\Mail\Send_messageMail;
 use App\Models\Building;
-use App\Models\CarsType;
+use App\Models\VehiclesBrand;
 use App\Models\Guest;
 use App\Models\MotorType;
 
@@ -125,7 +125,7 @@ class AuthController extends Controller
         $unit = Unit::get();
         $vehicle_type = VehiclesType::get();
         $motor_type = MotorType::get();
-        $cars_type = CarsType::get();
+        $cars_type = VehiclesBrand::get();
 
 
         return view('auth.register', compact('building', 'unit', 'vehicle_type', 'motor_type', 'cars_type'));
@@ -145,7 +145,7 @@ class AuthController extends Controller
             'image' => 'required|file|image|mimes:jpeg,jpg,png,svg|max:2048',
             'vehicle_type' => ['required', 'exists:vehicles_types,id'],
             'motor_type' => ['required', 'exists:motor_types,id'],
-            'car_type' => ['required', 'exists:cars_types,id'],
+            'VehiclesBrand' => ['required', 'exists:VehiclesBrands,id'],
             'building' => ['required', 'exists:buildings,id'],
             'unit' => ['required', 'exists:units,id'],
             'vehicle_color' => ['required', 'string', 'min:3', 'max:20'],
@@ -173,7 +173,7 @@ class AuthController extends Controller
             'vehicle_number' => $request->vehicle_number,
             'vehicle_type_id' => $request->vehicle_type,
             'motor_type_id' => $request->motor_type,
-            'car_type_id' => $request->car_type,
+            'VehiclesBrand_id' => $request->VehiclesBrand,
             'category_id' => 1,
             'color' => $request->vehicle_color,
             'user_id' => $user->id

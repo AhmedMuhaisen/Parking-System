@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('color');
             $table->foreignId('category_id');
             $table->foreignId('vehicle_type_id');
-            $table->foreignId('car_type_id');
+            $table->foreignId('VehiclesBrand_id');
             $table->foreignId('motor_type_id');
             $table->foreignId('building_id');
             $table->foreignId('Unit_id');

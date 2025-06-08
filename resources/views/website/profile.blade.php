@@ -139,7 +139,7 @@
                                                                 <i class="bi bi-car-front"></i>
                                                             </div>
                                                             <h4>car type</h4>
-                                                            <p>{{ $vehicle->car_type->name }}</p>
+                                                            <p>{{ $vehicle->VehiclesBrand->name }}</p>
                                                         </div>
                                                     </div>
                                                     @endif

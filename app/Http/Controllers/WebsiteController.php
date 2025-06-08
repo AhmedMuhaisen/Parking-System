@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\reset_passwordMail;
 use App\Mail\Send_messageMail;
 use App\Models\Building;
-use App\Models\CarsType;
+use App\Models\VehiclesBrand;
 use App\Models\Guest;
 use App\Models\MotorType;
 use App\Models\ParkingWork;
@@ -46,8 +46,8 @@ class WebsiteController extends Controller
         $units = Unit::get();
         $vehicles_type = VehiclesType::get();
         $motor_type = MotorType::get();
-        $car_type = CarsType::get();
-        return view('website.profile', compact('units', 'buildings', 'settings', 'vehicles_type', 'motor_type', 'car_type'));
+        $VehiclesBrand = VehiclesBrand::get();
+        return view('website.profile', compact('units', 'buildings', 'settings', 'vehicles_type', 'motor_type', 'VehiclesBrand'));
     }
 
     function contact(Request $request)
@@ -87,7 +87,7 @@ class WebsiteController extends Controller
         'vehicle_number' => 'required|string|max:255|digits:6',
         'vehicle_type' => 'required|exists:vehicles_types,id',
         'motor_type' => 'required|exists:motor_types,id',
-        'car_type' => 'required|exists:cars_types,id',
+        'VehiclesBrand' => 'required|exists:VehiclesBrands,id',
         'color' => 'required|string|max:255',
         'date_end' => 'required|date|after:today',
     ]);
@@ -95,10 +95,10 @@ class WebsiteController extends Controller
 $data=$validator->validated();
 $data['vehicle_type_id'] = $data['vehicle_type'];
 $data['motor_type_id'] = $data['motor_type'];
-$data['car_type_id'] = $data['car_type'];
+$data['VehiclesBrand_id'] = $data['VehiclesBrand'];
 
 // Remove them from the array
-unset($data['vehicle_type'], $data['motor_type'], $data['car_type']);
+unset($data['vehicle_type'], $data['motor_type'], $data['VehiclesBrand']);
 
     if ($validator->fails()) {
         return response()->json([
@@ -127,7 +127,7 @@ unset($data['vehicle_type'], $data['motor_type'], $data['car_type']);
         'vehicle_number' => 'required|string|max:255|digits:6',
         'vehicle_type' => 'required|exists:vehicles_types,id',
         'motor_type' => 'required|exists:motor_types,id',
-        'car_type' => 'required|exists:cars_types,id',
+        'VehiclesBrand' => 'required|exists:VehiclesBrands,id',
         'color' => 'required|string|max:255',
         'date_end' => 'required|date|after:today',
     ]);
@@ -142,9 +142,9 @@ unset($data['vehicle_type'], $data['motor_type'], $data['car_type']);
 $data=$validator->validated();
 $data['vehicle_type_id'] = $data['vehicle_type'];
 $data['motor_type_id'] = $data['motor_type'];
-$data['car_type_id'] = $data['car_type'];
+$data['VehiclesBrand_id'] = $data['VehiclesBrand'];
 
-unset($data['vehicle_type'], $data['motor_type'], $data['car_type']);
+unset($data['vehicle_type'], $data['motor_type'], $data['VehiclesBrand']);
 
     $data['category_id'] = 1;
     $data['user_id'] = Auth::user()->id;

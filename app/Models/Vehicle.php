@@ -16,7 +16,7 @@ class Vehicle extends Model
      function vehicle_type()  {
         return $this->belongsTo(VehiclesType::class)->withDefault();
     }
-  function car_type()  {
-        return $this->belongsTo(CarsType::class)->withDefault();
+  function VehiclesBrand()  {
+        return $this->belongsTo(VehiclesBrand::class)->withDefault();
     }
 }

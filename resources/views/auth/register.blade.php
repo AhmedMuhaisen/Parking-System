@@ -92,7 +92,7 @@
 
                         </div>
                         <div class="form-row form-row-1">
-                            <x-select name='car_type' title="car type" value="" :array="$cars_type"></x-select>
+                            <x-select name='VehiclesBrand' title="car type" value="" :array="$cars_type"></x-select>
 
                         </div>
                         <div class="form-label">

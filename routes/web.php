@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\VehiclesBrandController;
+use App\Http\Controllers\Dashboard\VehiclesTypeController;
 use App\Http\Controllers\WebsiteController;
 use Illuminate\Support\Facades\Route;
 
@@ -51,8 +53,6 @@ Route::prefix('website')->name('website.')->middleware('auth')->group(function (
 Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('');
 
-
-
     Route::delete('contact/destroy/{id}', [DashboardController::class, 'destroy'])->name('contact.destroy');
 
     Route::prefix('category')->name('category.')->group(function () {
@@ -70,4 +70,44 @@ Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth')->group(functi
         Route::get('restore/{id}', [CategoryController::class, 'restore'])->name('restore');
     });
     Route::resource('category', CategoryController::class);
+
+
+    Route::prefix('vehiclesType')->name('vehiclesType.')->group(function () {
+        Route::get('/', [VehiclesTypeController::class, 'index'])->name('index');
+
+        Route::get('search', [VehiclesTypeController::class, 'search'])->name('search');
+
+        Route::get('exportPDF', [VehiclesTypeController::class, 'exportPDF'])->name('exportPDF');
+
+            Route::get('exportExcel', [VehiclesTypeController::class, 'exportExcel'])->name('exportExcel');
+
+
+        Route::delete('forcedelete/{id}', [VehiclesTypeController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [VehiclesTypeController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [VehiclesTypeController::class, 'restore'])->name('restore');
+    });
+    Route::resource('vehiclesType', VehiclesTypeController::class);
+
+
+
+
+    Route::prefix('vehiclesBrand')->name('vehiclesBrand.')->group(function () {
+        Route::get('/', [VehiclesBrandController::class, 'index'])->name('index');
+
+        Route::get('search', [VehiclesBrandController::class, 'search'])->name('search');
+
+        Route::get('exportPDF', [VehiclesBrandController::class, 'exportPDF'])->name('exportPDF');
+
+            Route::get('exportExcel', [VehiclesBrandController::class, 'exportExcel'])->name('exportExcel');
+
+
+        Route::delete('forcedelete/{id}', [VehiclesBrandController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [VehiclesBrandController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [VehiclesBrandController::class, 'restore'])->name('restore');
+    });
+    Route::resource('vehiclesBrand', VehiclesBrandController::class);
+
+
+
 });
+

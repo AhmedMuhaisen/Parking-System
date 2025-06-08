@@ -43,8 +43,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Car Type</label>
-                                <x-select name='car_type' id="car_type{{ $vehicle->id ?? 'A' }}" title="car Type"
-                                    value="{{ $vehicle->car_type->id ?? 'A' }}" :array="$car_type">
+                                <x-select name='VehiclesBrand' id="VehiclesBrand{{ $vehicle->id ?? 'A' }}" title="car Type"
+                                    value="{{ $vehicle->VehiclesBrand->id ?? 'A' }}" :array="$VehiclesBrand">
                                 </x-select>
                             </div>
                             <div class="form-group">
