@@ -96,5 +96,30 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('vehiclesBrand.forceDelete', function ($user) {
             return (in_array('vehiclesBrand.forceDelete', $user->role->permission->pluck('code')->toArray()));
         });
+
+         Gate::define('vehicle.index', function ($user) {
+            return (in_array('vehicle.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('vehicle.create', function ($user) {
+            return (in_array('vehicle.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('vehicle.update', function ($user) {
+            return (in_array('vehicle.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('vehicle.delete', function ($user) {
+            return (in_array('vehicle.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('vehicle.restore', function ($user) {
+            return (in_array('vehicle.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('vehicle.forceDelete', function ($user) {
+            return (in_array('vehicle.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
+
     }
 }

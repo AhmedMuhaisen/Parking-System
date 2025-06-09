@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('vehicle_number');
             $table->string('color');
+            $table->string('image')->nullable();
             $table->foreignId('category_id');
             $table->foreignId('vehicle_type_id');
             $table->foreignId('VehiclesBrand_id');
@@ -24,8 +25,6 @@ return new class extends Migration
             $table->date('date_End');
             $table->foreignId('user_id');
             $table->softDeletes();
-
-
             $table->timestamps();
         });
     }

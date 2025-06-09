@@ -28,7 +28,7 @@ class Category extends Model
     }
 
     if ($request->filled('created_at')) {
-        $categories->whereDate('created_at', $request->created_at);
+        $categories->whereDate('created_at','like', '%' . $request->created_at . '%');
     }
 
     if ($request->page == 'trash') {

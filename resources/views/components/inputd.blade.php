@@ -1,6 +1,6 @@
 @props(['type', 'name', 'value', 'title', 'folder' ,'id'])
 
-
+<div class="my-2">
 @if ($type == 'file')
 
     @if ($folder != null)
@@ -21,3 +21,4 @@
         <p class="text-danger">{{ $message }}</p>
     @enderror
 
+</div>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\VehicleController;
 use App\Http\Controllers\Dashboard\VehiclesBrandController;
 use App\Http\Controllers\Dashboard\VehiclesTypeController;
 use App\Http\Controllers\WebsiteController;
@@ -107,6 +108,21 @@ Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth')->group(functi
     });
     Route::resource('vehiclesBrand', VehiclesBrandController::class);
 
+   Route::prefix('vehicle')->name('vehicle.')->group(function () {
+        Route::get('/', [VehicleController::class, 'index'])->name('index');
+
+        Route::get('search', [VehicleController::class, 'search'])->name('search');
+
+        Route::get('exportPDF', [VehicleController::class, 'exportPDF'])->name('exportPDF');
+
+            Route::get('exportExcel', [VehicleController::class, 'exportExcel'])->name('exportExcel');
+
+
+        Route::delete('forcedelete/{id}', [VehicleController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [VehicleController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [VehicleController::class, 'restore'])->name('restore');
+    });
+    Route::resource('vehicle', VehicleController::class);
 
 
 });

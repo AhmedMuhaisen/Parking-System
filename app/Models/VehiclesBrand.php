@@ -13,20 +13,25 @@ class VehiclesBrand extends Model
 
 
       public static function search($request){
-         $vehiclesBrands=VehiclesBrand::select('id', 'name','created_at');
-        $vehiclesBrands = VehiclesBrand::query();
+       $vehiclesBrands = VehiclesBrand::withCount('vehicles');
 
     if ($request->filled('name')) {
         $vehiclesBrands->where('name', 'like', '%' . $request->name . '%');
     }
-
+if ($request->filled('vehicles_number')) {
+    $vehiclesBrands->having('vehicles_count', '=', $request->vehicles_number);
+}
     if ($request->filled('created_at')) {
-        $vehiclesBrands->whereDate('created_at', $request->created_at);
+        $vehiclesBrands->whereDate('created_at','like', '%' . $request->created_at . '%');
     }
 
     if ($request->page == 'trash') {
         $vehiclesBrands = $vehiclesBrands->onlyTrashed();
     }
     return $vehiclesBrands;
+    }
+
+        function vehicles()  {
+        return $this->hasMany(Vehicle::class);
     }
 }

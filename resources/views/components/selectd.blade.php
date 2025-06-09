@@ -1,7 +1,7 @@
 @props(['array', 'name', 'value', 'title' ,'id'])
 
 
-    <div class="col-sm-12">
+    <div class="col-sm-12 my-2">
    <label for="" class="col-sm-2 col-form-label">
         {{ $title }}
     </label>

@@ -59,6 +59,7 @@
                         <tr>
 
                             <th scope="col">Name</th>
+                             <th scope="col">number of vehicles</th>
                             <th scope="col" width='100'>created_at</th>
                             <th scope="col" width="120">Action</th>
                         </tr>
@@ -69,7 +70,9 @@
                             <td scope="col">
                                 <x-input type="text" value="" name="name" id="name" title="search" />
                             </td>
-
+  <td scope="col" width='100'>
+                                <x-input type="text" value="" title="vehicles number" name="vehicles_number" id="vehicles_number" />
+                            </td>
 
                             <td scope="col" width='100'>
                                 <x-input type="date" value="" title="search" name="created_at" id="created_at" />
@@ -114,6 +117,7 @@
     function datavalue(){
         return{
         name: $('#name').val(),
+         vehicles_number: $('#vehicles_number').val(),
         created_at: $('#created_at').val(),
         page: $('#page').val()
     };

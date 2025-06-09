@@ -4,8 +4,8 @@
 
 
                             <td width="200">{{ $item->name }}</td>
-
-                            <td width="200">{{$item->created_at->format('Y-m-d');}}</td>
+  <td width="200">{{ $item->vehicles->count() }}</td>
+                            <td width="200">{{$item->created_at->format('m-d-Y');}}</td>
 
 
 
@@ -20,8 +20,8 @@
                             <td>
                                 <div class="d-flex">
                                     <a href=@if ($page=='trash'
-                                        ) "{{ route('Dashboard.vehiclesType.restore', $item->id) }}"
-                                        @else "{{ route('Dashboard.vehiclesType.edit', $item->id) }}" @endif>
+                                        ) "{{ route('Dashboard.vehiclesBrand.restore', $item->id) }}"
+                                        @else "{{ route('Dashboard.vehiclesBrand.edit', $item->id) }}" @endif>
 
                                         <i class="@if ($page == 'trash') fa fa-store @else fa fa-pencil @endif" style="background: #4154f1;
                                                             padding: 9px 10px;
@@ -29,7 +29,7 @@
                                                             border-radius: 8px;"></i></a>
 
                                     <form
-                                        action="@if ($page == 'trash') {{ route('Dashboard.vehiclesType.forcedelete', $item->id) }}@else{{ route('Dashboard.vehiclesType.destroy', $item->id) }} @endif"
+                                        action="@if ($page == 'trash') {{ route('Dashboard.vehiclesBrand.forcedelete', $item->id) }}@else{{ route('Dashboard.vehiclesBrand.destroy', $item->id) }} @endif"
                                         method="post">
                                         @csrf
                                         @method('delete')

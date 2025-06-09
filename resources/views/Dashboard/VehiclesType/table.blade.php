@@ -4,8 +4,8 @@
 
 
                             <td width="200">{{ $item->name }}</td>
-
-                            <td width="200">{{$item->created_at->format('Y-m-d');}}</td>
+ <td width="200">{{ $item->vehicles->count() }}</td>
+                            <td width="200">{{$item->created_at->format('m-d-Y');}}</td>
 
 
 

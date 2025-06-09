@@ -40,6 +40,7 @@ class VehiclesBrandsExport implements FromCollection, WithHeadings, WithEvents, 
         return [
             $vehiclesBrand->id,
             $vehiclesBrand->name,
+            $vehiclesBrand->vehicles_count,
             $vehiclesBrand->created_at->format('Y-m-d H:i'), // ← تنسيق التاريخ
         ];
     }
@@ -49,13 +50,14 @@ class VehiclesBrandsExport implements FromCollection, WithHeadings, WithEvents, 
         return [
             'A' => 10,
             'B' => 20,
-            'C' => 25,
+            'C' => 20,
+            'D' => 25,
         ];
     }
 
     public function headings(): array
     {
-        return ['ID', 'Name', 'Created At'];
+        return ['ID', 'Name', 'Number Of Vehicles', 'Created At'];
     }
 
 
@@ -93,12 +95,18 @@ class VehiclesBrandsExport implements FromCollection, WithHeadings, WithEvents, 
        // تمييز الصفوف الفردية والزوجية
             for ($row = 6; $row <= vehiclesBrand::count() + 5; $row++) {
                 $fillColor = $row % 2 == 0 ? 'F2F2F2' : 'FFFFFF'; // رمادي فاتح للزوجي، أبيض للفردي
-                $sheet->getStyle("A{$row}:E{$row}")
-                      ->getFill()
-                      ->setFillType('solid')
-                      ->getStartColor()
-                      ->setRGB($fillColor);
-            }
+             $sheet->getStyle("A{$row}:E{$row}")->applyFromArray([
+                        'fill' => [
+                            'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                            'startColor' => [
+                                'rgb' => $fillColor,
+                            ],
+                        ],
+                        'alignment' => [
+                            'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+                        ],
+                    ]);
+                }
             $lastRow = $sheet->getHighestRow();     // آخر صف يحتوي على بيانات
 $lastColumn = $sheet->getHighestColumn(); // آخر عمود يحتوي على بيانات
 

@@ -115,17 +115,18 @@ $settings=App\Models\Setting::first();
             <tr>
                 <th>#</th>
                 <th>Name</th>
-                <th>Work Method</th>
-                <th>Status</th>
+                <th>Number Of Vehicles</th>
                 <th>Created At</th>
             </tr>
         </thead>
         <tbody>
             @forelse ($vehiclesTypes as $index => $item)
                 <tr>
-                    <td>{{ $index + 1 }}</td>
+                   <td>{{ $index + 1 }}</td>
                     <td>{{ $item->name }}</td>
-                    <td>{{ $item->created_at->format('Y-m-d') }}</td>
+                    <td>{{ $item->vehicles_count }}</td>
+                    <td>{{ $item->created_at->format('m-d-Y') }}</td>
+
                 </tr>
             @empty
                 <tr>

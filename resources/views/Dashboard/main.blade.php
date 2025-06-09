@@ -372,7 +372,32 @@
                 </ul>
             </li><!-- End Components Nav -->
 
+         <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav6" data-bs-toggle="collapse"
+                    href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>Vehicle</span><i
+                        class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav6" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('Dashboard.vehicle.index') }}">
+                            <i class="bi bi-circle"></i><span>show all vehicle</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('Dashboard.vehicle.create') }}">
+                            <i class="bi bi-circle"></i><span>create vehicle</span>
+                        </a>
+                    </li>
 
+                    <li>
+                        <a href="{{ route('Dashboard.vehicle.trash') }}">
+                            <i class="bi bi-circle"></i><span>trashed vehicles</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
         </ul>
 
     </aside><!-- End Sidebar-->

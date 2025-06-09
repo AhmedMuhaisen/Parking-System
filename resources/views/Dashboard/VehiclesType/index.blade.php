@@ -17,7 +17,7 @@
         <div class="card">
             <div class="card-body right-thead">
                 <div class="d-flex justify-content-between align-items-center my-3">
-                    <h 5 class="card-title">show All Categoris</h>
+                    <h 5 class="card-title">show All vehicles_types</h>
                     @if ($page == 'index')
                     @can('vehiclesType.index')
                     <a href="{{ route('Dashboard.vehiclesType.trash') }}" class="btn btn-outline-danger" style="
@@ -59,6 +59,7 @@
                         <tr>
 
                             <th scope="col">Name</th>
+                                <th scope="col">number of vehicles</th>
                             <th scope="col" width='100'>created_at</th>
                             <th scope="col" width="120">Action</th>
                         </tr>
@@ -70,7 +71,9 @@
                                 <x-input type="text" value="" name="name" id="name" title="search" />
                             </td>
 
-
+ <td scope="col" width='100'>
+                                <x-input type="text" value="" title="vehicles number" name="vehicles_number" id="vehicles_number" />
+                            </td>
                             <td scope="col" width='100'>
                                 <x-input type="date" value="" title="search" name="created_at" id="created_at" />
                             </td>
@@ -114,8 +117,7 @@
     function datavalue(){
         return{
         name: $('#name').val(),
-        status: $('#status').val(),
-        work_method: $('#work_method').val(),
+         vehicles_number: $('#vehicles_number').val(),
         created_at: $('#created_at').val(),
         page: $('#page').val()
     };

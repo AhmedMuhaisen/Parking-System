@@ -83,282 +83,273 @@ class WebsiteController extends Controller
     function edit_vehicle_post(Request $request, $id)
     {
 
-    $validator = FacadesValidator::make($request->all(), [
-        'vehicle_number' => 'required|string|max:255|digits:6',
-        'vehicle_type' => 'required|exists:vehicles_types,id',
-        'motor_type' => 'required|exists:motor_types,id',
-        'VehiclesBrand' => 'required|exists:VehiclesBrands,id',
-        'color' => 'required|string|max:255',
-        'date_end' => 'required|date|after:today',
-    ]);
+        $validator = FacadesValidator::make($request->all(), [
+            'vehicle_number' => 'required|string|max:255|digits:6',
+            'vehicle_type' => 'required|exists:vehicles_types,id',
+            'motor_type' => 'required|exists:motor_types,id',
+            'VehiclesBrand' => 'required|exists:VehiclesBrands,id',
+            'color' => 'required|string|max:255',
+            'date_end' => 'required|date|after:today',
+        ]);
 
-$data=$validator->validated();
-$data['vehicle_type_id'] = $data['vehicle_type'];
-$data['motor_type_id'] = $data['motor_type'];
-$data['VehiclesBrand_id'] = $data['VehiclesBrand'];
+        $data = $validator->validated();
+        $data['vehicle_type_id'] = $data['vehicle_type'];
+        $data['motor_type_id'] = $data['motor_type'];
+        $data['VehiclesBrand_id'] = $data['VehiclesBrand'];
 
-// Remove them from the array
-unset($data['vehicle_type'], $data['motor_type'], $data['VehiclesBrand']);
+        // Remove them from the array
+        unset($data['vehicle_type'], $data['motor_type'], $data['VehiclesBrand']);
 
-    if ($validator->fails()) {
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 200); // Use 422 for validation errors
+        }
+
+        $vehicle = Vehicle::find($id);
+        if (!$vehicle) {
+            return response()->json(['error' => 'Vehicle not found'], 200);
+        }
+
+        $vehicle->update($data);
+
+
         return response()->json([
-            'errors' => $validator->errors()
-        ], 200); // Use 422 for validation errors
-    }
-
-    $vehicle = Vehicle::find($id);
-    if (!$vehicle) {
-        return response()->json(['error' => 'Vehicle not found'], 200);
-    }
-
-    $vehicle->update($data);
-
-
-    return response()->json([
-        'message' => 'Vehicle updated successfully',
-        'status' => 200
-    ]);
+            'message' => 'Vehicle updated successfully',
+            'status' => 200
+        ]);
     }
 
     function add_vehicle_post(Request $request)
     {
 
-   $validator = FacadesValidator::make($request->all(), [
-        'vehicle_number' => 'required|string|max:255|digits:6',
-        'vehicle_type' => 'required|exists:vehicles_types,id',
-        'motor_type' => 'required|exists:motor_types,id',
-        'VehiclesBrand' => 'required|exists:VehiclesBrands,id',
-        'color' => 'required|string|max:255',
-        'date_end' => 'required|date|after:today',
-    ]);
+        $validator = FacadesValidator::make($request->all(), [
+            'vehicle_number' => 'required|string|max:255|digits:6',
+            'vehicle_type' => 'required|exists:vehicles_types,id',
+            'motor_type' => 'required|exists:motor_types,id',
+            'VehiclesBrand' => 'required|exists:VehiclesBrands,id',
+            'color' => 'required|string|max:255',
+            'date_end' => 'required|date|after:today',
+        ]);
 
 
-    if ($validator->fails()) {
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 200); // Use 422 for validation errors
+        }
+
+        $data = $validator->validated();
+        $data['vehicle_type_id'] = $data['vehicle_type'];
+        $data['motor_type_id'] = $data['motor_type'];
+        $data['VehiclesBrand_id'] = $data['VehiclesBrand'];
+
+        unset($data['vehicle_type'], $data['motor_type'], $data['VehiclesBrand']);
+
+        $data['category_id'] = 1;
+        $data['user_id'] = Auth::user()->id;
+        Vehicle::Create($data);
         return response()->json([
-            'errors' => $validator->errors()
-        ], 200); // Use 422 for validation errors
+            'message' => 'Vehicle Add successfully',
+            'status' => 200
+        ]);
     }
-
-$data=$validator->validated();
-$data['vehicle_type_id'] = $data['vehicle_type'];
-$data['motor_type_id'] = $data['motor_type'];
-$data['VehiclesBrand_id'] = $data['VehiclesBrand'];
-
-unset($data['vehicle_type'], $data['motor_type'], $data['VehiclesBrand']);
-
-    $data['category_id'] = 1;
-    $data['user_id'] = Auth::user()->id;
-    Vehicle::Create($data);
-    return response()->json([
-        'message' => 'Vehicle Add successfully',
-        'status' => 200
-    ]);
-    }
- function delete_vehicle(Request $request , $id)
+    function delete_vehicle(Request $request, $id)
     {
 
         Vehicle::find($id)->delete();
 
-    return redirect()->route('website.profile')->with('msg','Vehicle Deleted successfully');
-
+        return redirect()->route('website.profile')->with('msg', 'Vehicle Deleted successfully');
     }
 
-       function edit_guest_post(Request $request, $id)
+    function edit_guest_post(Request $request, $id)
     {
 
-    $validator = FacadesValidator::make($request->all(), [
-       'name' => 'required|string|max:255',
-    'vehicle_number' => 'required|digits:6',
-    'login_date' => 'required|date',
-    'login_time' => 'required|string|max:40',
-    'logOut_date' => 'required|date|after_or_equal:today|after_or_equal:login_date',
-    'logOut_time' => 'required|string|max:40|after_or_equal:login_time',
-]);
+        $validator = FacadesValidator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'vehicle_number' => 'required|digits:6',
+            'login_date' => 'required|date',
+            'login_time' => 'required|string|max:40',
+            'logOut_date' => 'required|date|after_or_equal:today|after_or_equal:login_date',
+            'logOut_time' => 'required|string|max:40|after_or_equal:login_time',
+        ]);
 
-    if ($validator->fails()) {
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 200); // Use 422 for validation errors
+        }
+
+        $guest = Guest::find($id);
+        if (!$guest) {
+            return response()->json(['error' => 'guest not found'], 200);
+        }
+
+        $guest->update($validator->validated());
+
         return response()->json([
-            'errors' => $validator->errors()
-        ], 200); // Use 422 for validation errors
-    }
-
-    $guest = Guest::find($id);
-    if (!$guest) {
-        return response()->json(['error' => 'guest not found'], 200);
-    }
-
-    $guest->update($validator->validated());
-
-    return response()->json([
-        'message' => 'guest updated successfully',
-        'status' => 200
-    ]);
+            'message' => 'guest updated successfully',
+            'status' => 200
+        ]);
     }
 
 
 
-         function add_guest_post(Request $request)
+    function add_guest_post(Request $request)
     {
 
-    $validator = FacadesValidator::make($request->all(), [
-       'name' => 'required|string|max:255',
-    'vehicle_number' => 'required|digits:6',
-    'login_date' => 'required|date',
-    'login_time' => 'required|string|max:40',
-    'logOut_date' => 'required|date|after_or_equal:today|after_or_equal:login_date',
-    'logOut_time' => 'required|string|max:40|after_or_equal:login_time',
-    ]);
+        $validator = FacadesValidator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'vehicle_number' => 'required|digits:6',
+            'login_date' => 'required|date',
+            'login_time' => 'required|string|max:40',
+            'logOut_date' => 'required|date|after_or_equal:today|after_or_equal:login_date',
+            'logOut_time' => 'required|string|max:40|after_or_equal:login_time',
+        ]);
 
-    if ($validator->fails()) {
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 200); // Use 422 for validation errors
+        }
+
+
+        $data = $validator->validated();
+
+        $data['user_id'] = Auth::user()->id;
+        Guest::create($data);
+
         return response()->json([
-            'errors' => $validator->errors()
-        ], 200); // Use 422 for validation errors
-    }
-
-
-  $data = $validator->validated();
-
-    $data['user_id'] = Auth::user()->id;
-    Guest::create($data);
-
-    return response()->json([
-        'message' => 'guest Add successfully',
-        'status' => 200
-    ]);
+            'message' => 'guest Add successfully',
+            'status' => 200
+        ]);
     }
 
 
 
 
-     function delete_guest(Request $request , $id)
+    function delete_guest(Request $request, $id)
     {
 
         Guest::find($id)->delete();
 
-    return redirect()->route('website.profile')->with('msg','guest Deleted successfully');
-
+        return redirect()->route('website.profile')->with('msg', 'guest Deleted successfully');
     }
 
 
 
-      function edit_testimonial_post(Request $request, $id)
+    function edit_testimonial_post(Request $request, $id)
     {
 
-    $validator = FacadesValidator::make($request->all(), [
-        'rating' => 'required|integer|between:1,5',
-        'text' => 'required|string|max:1000',
-    ]);
+        $validator = FacadesValidator::make($request->all(), [
+            'rating' => 'required|integer|between:1,5',
+            'text' => 'required|string|max:1000',
+        ]);
 
-    if ($validator->fails()) {
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 200); // Use 422 for validation errors
+        }
+
+        $testimonial = Testimonial::find($id);
+        if (!$testimonial) {
+            return response()->json(['error' => 'testimonial not found'], 200);
+        }
+
+        $testimonial->update($validator->validated());
+
         return response()->json([
-            'errors' => $validator->errors()
-        ], 200); // Use 422 for validation errors
+            'message' => 'testimonial updated successfully',
+            'status' => 200
+        ]);
     }
 
-    $testimonial = Testimonial::find($id);
-    if (!$testimonial) {
-        return response()->json(['error' => 'testimonial not found'], 200);
-    }
-
-    $testimonial->update($validator->validated());
-
-    return response()->json([
-        'message' => 'testimonial updated successfully',
-        'status' => 200
-    ]);
-}
-
-      function add_testimonial_post(Request $request)
+    function add_testimonial_post(Request $request)
     {
 
-    $validator = FacadesValidator::make($request->all(), [
-        'rating' => 'required|integer|between:1,5',
-        'text' => 'required|string|max:1000',
-    ]);
+        $validator = FacadesValidator::make($request->all(), [
+            'rating' => 'required|integer|between:1,5',
+            'text' => 'required|string|max:1000',
+        ]);
 
-    if ($validator->fails()) {
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 200); // Use 422 for validation errors
+        }
+
+        $data = $validator->validated();
+
+        $data['user_id'] = Auth::user()->id;
+
+        Testimonial::create($data);
+
         return response()->json([
-            'errors' => $validator->errors()
-        ], 200); // Use 422 for validation errors
-    }
-
-  $data = $validator->validated();
-
-    $data['user_id'] = Auth::user()->id;
-
-    Testimonial::create($data);
-
-    return response()->json([
-        'message' => 'testimonial Add successfully',
-        'status' => 200
-    ]);
+            'message' => 'testimonial Add successfully',
+            'status' => 200
+        ]);
     }
 
 
 
- function delete_testimonial(Request $request , $id)
+    function delete_testimonial(Request $request, $id)
     {
 
         Testimonial::find($id)->delete();
 
-    return redirect()->route('website.profile')->with('msg','testimonial Deleted successfully');
-
+        return redirect()->route('website.profile')->with('msg', 'testimonial Deleted successfully');
     }
 
 
 
-     function edit_personal_post(Request $request, $id)
+    function edit_personal_post(Request $request, $id)
     {
-     $validator = FacadesValidator::make($request->all(), [
-        'first_name' => 'required|string|max:255',
-        'second_name' => 'required|string|max:255',
-        'image' => 'nullable|image|mimes:jpeg,jpg,png,svg|max:2048',
+        $validator = FacadesValidator::make($request->all(), [
+            'first_name' => 'required|string|max:255',
+            'second_name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png,svg|max:2048',
 
-        'email' => [
-            'required',
-            'string',
-            'email',
-            'max:255',
-            Rule::unique('users', 'email')->ignore($id),
-        ],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($id),
+            ],
 
-        'building_id' => ['required', 'exists:buildings,id'],
-        'unit_id' => ['required', 'exists:units,id'],
+            'building_id' => ['required', 'exists:buildings,id'],
+            'unit_id' => ['required', 'exists:units,id'],
 
-        'phone' => [
-            'required',
-            'min:10',
-            'max:12',
-            Rule::unique('users', 'phone')->ignore($id),
-        ],
-    ]);
+            'phone' => [
+                'required',
+                'min:10',
+                'max:12',
+                Rule::unique('users', 'phone')->ignore($id),
+            ],
+        ]);
 
-    if ($validator->fails()) {
-        return response()->json([
-            'errors' => $validator->errors()
-        ], 200); // Use 422 for validation errors
-    }
-      if ($request->image) {
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 200); // Use 422 for validation errors
+        }
+        if ($request->image) {
             $image = $request->image;
             $image = $image->storePublicly('product', 'new');
         } else {
             $image = Auth::user()->image;
         }
 
-        $data=$validator->validated();
-        $data['image']= $image;
+        $data = $validator->validated();
+        $data['image'] = $image;
 
 
-    Auth::user()->update($data);
+        Auth::user()->update($data);
 
-    return response()->json([
-        'message' => 'Vehicle updated successfully',
-        'status' => 200
-    ]);
+        return response()->json([
+            'message' => 'Vehicle updated successfully',
+            'status' => 200
+        ]);
     }
-
-
-
-
-
-
 }
