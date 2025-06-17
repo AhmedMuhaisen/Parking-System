@@ -398,6 +398,33 @@
 
                 </ul>
             </li>
+
+                     <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav7" data-bs-toggle="collapse"
+                    href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>VehicleMovement</span><i
+                        class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav7" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('Dashboard.vehicleMovement.index') }}">
+                            <i class="bi bi-circle"></i><span>show all vehicleMovement</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('Dashboard.vehicleMovement.create') }}">
+                            <i class="bi bi-circle"></i><span>create vehicleMovement</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('Dashboard.vehicleMovement.trash') }}">
+                            <i class="bi bi-circle"></i><span>trashed vehiclesMovement</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
         </ul>
 
     </aside><!-- End Sidebar-->

@@ -121,5 +121,29 @@ class AppServiceProvider extends ServiceProvider
             return (in_array('vehicle.forceDelete', $user->role->permission->pluck('code')->toArray()));
         });
 
+
+                     Gate::define('vehiclesMovement.index', function ($user) {
+            return (in_array('vehiclesMovement.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('vehiclesMovement.create', function ($user) {
+            return (in_array('vehiclesMovement.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('vehiclesMovement.update', function ($user) {
+            return (in_array('vehiclesMovement.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('vehiclesMovement.delete', function ($user) {
+            return (in_array('vehiclesMovement.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('vehiclesMovement.restore', function ($user) {
+            return (in_array('vehiclesMovement.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('vehiclesMovement.forceDelete', function ($user) {
+            return (in_array('vehiclesMovement.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
     }
 }

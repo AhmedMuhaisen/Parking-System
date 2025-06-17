@@ -52,7 +52,7 @@
             <a href="{{ url('website') }}" class="logo d-flex align-items-center me-auto me-xl-0">
                 <!-- Uncomment the line below if you also wish to use an image logo -->
                 <!-- <img src="{{ asset('assets/website/img/logo.webp') }}" alt=""> -->
-                <h1 class="sitename">{{ $settings->website_Logo }}</h1>
+                <h1 class="sitename">{{ $settings->website_logo }}</h1>
             </a>
 
             <nav id="navmenu" class="navmenu">

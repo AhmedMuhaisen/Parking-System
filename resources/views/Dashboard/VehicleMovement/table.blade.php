@@ -1,21 +1,16 @@
 
-                        @forelse ($vehicle as $item)
+                        @forelse ($vehicleMovement as $item)
                         <tr>
 
-                            <td width="200">{{ $item->vehicle_number }}</td>
-                            <td><input  type="color"  disabled name="" value="{{ $item->color }}" id=""></td>
-                            <td  ><img src="{{asset($item->image)}} " alt=""  style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;"></td>
-                            <td>{{ $item->category->name }}</td>
-                            <td>{{ $item->user->building->name }}</td>
-                              <td>{{ $item->user->unit->name }}</td>
-                            <td>{{ $item->vehicle_type->name }}</td>
-                            <td>{{ $item->vehicle_brand->name }}</td>
-                            <td>{{ $item->motor_type->name }}</td>
-                             <td>{{ $item->user->first_name .' '.$item->user->second_name }}</td>
-                            <td>{{ $item->date_start}}</td>
-                            <td>{{$item->date_End}}</td>
+                            <td width="200">{{ $item->vehicle->vehicle_number }}</td>
+                             <td>{{ $item->vehicle->user->first_name .' '.$item->vehicle->user->second_name }}</td>
+                            <td>{{ $item->gate->name }}</td>
+                            <td>{{ $item->type_Movement }}</td>
+                              <td>{{ $item->Method_of_passage }}</td>
 
                             <td width="200">{{$item->created_at->format('m-d-Y');}}</td>
+
+                               <td width="200">{{$item->created_at->format('h-m-s');}}</td>
 
 
 
@@ -37,8 +32,8 @@
                             <td>
                                 <div class="d-flex">
                                     <a href=@if ($page=='trash'
-                                        ) "{{ route('Dashboard.vehicle.restore', $item->id) }}"
-                                        @else "{{ route('Dashboard.vehicle.edit', $item->id) }}" @endif>
+                                        ) "{{ route('Dashboard.vehicleMovement.restore', $item->id) }}"
+                                        @else "{{ route('Dashboard.vehicleMovement.edit', $item->id) }}" @endif>
 
                                         <i class="@if ($page == 'trash') fa fa-store @else fa fa-pencil @endif" style="background: #4154f1;
                                                             padding: 9px 10px;
@@ -46,7 +41,7 @@
                                                             border-radius: 8px;"></i></a>
 
                                     <form
-                                        action="@if ($page == 'trash') {{ route('Dashboard.vehicle.forcedelete', $item->id) }}@else{{ route('Dashboard.vehicle.destroy', $item->id) }} @endif"
+                                        action="@if ($page == 'trash') {{ route('Dashboard.vehicleMovement.forcedelete', $item->id) }}@else{{ route('Dashboard.vehicleMovement.destroy', $item->id) }} @endif"
                                         method="post">
                                         @csrf
                                         @method('delete')

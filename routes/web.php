@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\VehicleController;
+use App\Http\Controllers\Dashboard\VehicleMovementController;
 use App\Http\Controllers\Dashboard\VehiclesBrandController;
 use App\Http\Controllers\Dashboard\VehiclesTypeController;
 use App\Http\Controllers\WebsiteController;
@@ -124,6 +125,20 @@ Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth')->group(functi
     });
     Route::resource('vehicle', VehicleController::class);
 
+   Route::prefix('vehicleMovement')->name('vehicleMovement.')->group(function () {
+        Route::get('/', [VehicleMovementController::class, 'index'])->name('index');
 
+        Route::get('search', [VehicleMovementController::class, 'search'])->name('search');
+
+        Route::get('exportPDF', [VehicleMovementController::class, 'exportPDF'])->name('exportPDF');
+
+            Route::get('exportExcel', [VehicleMovementController::class, 'exportExcel'])->name('exportExcel');
+
+
+        Route::delete('forcedelete/{id}', [VehicleMovementController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [VehicleMovementController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [VehicleMovementController::class, 'restore'])->name('restore');
+    });
+    Route::resource('vehicleMovement', VehicleMovementController::class);
 });
 

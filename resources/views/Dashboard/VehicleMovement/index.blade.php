@@ -1,4 +1,4 @@
-@section('title', 'Show Vehicles')
+@section('title', 'Show Vehicles Movements')
 
 @extends('Dashboard.main')
 @section('content')
@@ -6,8 +6,8 @@
 
     <div class="pagetitle">
         <div class="d-flex justify-content-between align-items-center my-3">
-            <h1>Vehicles</h1>
-            <a href="{{ route('Dashboard.vehicle.create') }}" class="btn btn-primary" style="
+            <h1>Vehicles Movements</h1>
+            <a href="{{ route('Dashboard.vehicleMovement.create') }}" class="btn btn-primary" style="
 ">add
                 new vehicle</a>
         </div>
@@ -16,27 +16,27 @@
 
     <style>
         table thead th,
-        select {
-            min-width: 120px;
+        select ,input {
+            min-width: 150px;
         }
     </style>
     <section class="section">
         <div class="card">
             <div class="card-body right-thead">
                 <div class="d-flex justify-content-between align-items-center my-3">
-                    <h 5 class="card-title">show All Vehicles</h>
+                    <h 5 class="card-title">show All Vehicles Movements</h>
                     @if ($page == 'index')
-                    @can('vehicle.index')
-                    <a href="{{ route('Dashboard.vehicle.trash') }}" class="btn btn-outline-danger" style="
+                    @can('vehicleMovement.index')
+                    <a href="{{ route('Dashboard.vehicleMovement.trash') }}" class="btn btn-outline-danger" style="
                                   ">
                         <i class="fas fa-trash"></i>
-                        Trashed Vehicles</a>
+                        Trashed Vehicles Movements</a>
                     @endcan
                     @else
-                    @can('vehicle.index')
-                    <a href="{{ route('Dashboard.vehicle.index') }}" class="btn btn-outline-primary">
+                    @can('vehicleMovement.index')
+                    <a href="{{ route('Dashboard.vehicleMovement.index') }}" class="btn btn-outline-primary">
                         <i class="fas fa-tag"></i>
-                        All Vehicles</a>
+                        All Vehicles Movements</a>
                     @endcan
                     @endif
 
@@ -67,84 +67,90 @@
                         <tr>
 
                             <th scope="col">Number</th>
-                            <th scope="col">Color</th>
-                            <th scope="col" width="200">Image</th>
-                            <th scope="col">Category</th>
-                              <th scope="col">Building</th>
-                                <th scope="col">Unit</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Brand</th>
 
-                            <th scope="col">Motor</th>
                             <th scope="col">Onr Name</th>
-                            <th scope="col" width="200">Date Start</th>
 
-                            <th scope="col" width="200">Date End</th>
+                                <th scope="col">Gate</th>
+                                   <th scope="col">Movement Type</th>
+                                      <th scope="col">Open Method</th>
 
-                            <th scope="col" width='100'>created_at</th>
+                                                     <th scope="col">Date</th>
+   <th scope="col">Time</th>
                             <th scope="col" width="120">Action</th>
                         </tr>
 
 
                         <tr>
 
-                            <td scope="col" colspan="3" width='200'>
+                            <td scope="col" colspan="1">
                                 <x-input type="text" value="" name="vehicle_number" id="vehicle_number"
                                     title="search" />
                             </td>
 
 
-
-                            <td scope="col" width='200'>
-                                <x-select type="text" value="" :array="$category" name="category" id="category"
-                                    title="search" />
-                            </td>
-
-                            <td scope="col" width='200'>
-                                <x-select type="text" value="" :array="$building" name="building" id="building"
-                                    title="search" />
-                            </td>
-
-
-                            <td scope="col" width='200'>
-                                <x-select type="text" value="" :array="$unit" name="unit" id="unit" title="search" />
-                            </td>
-                            <td scope="col" width='200'>
-                                <x-select type="text" value="" :array="$vehicle_type" name="vehicle_type"
-                                    id="vehicle_type" title="search" />
-                            </td>
-                            <td scope="col" width='200'>
-                                <x-select type="text" value="" :array="$vehicle_brand" name="vehicle_brand"
-                                    id="vehicle_brand" title="search" />
-                            </td>
-                            <td scope="col" width='200'>
-                                <x-select type="text" value="" :array="$motor_type" name="motor_type" id="motor_type"
-                                    title="search" />
-                            </td>
-                            <td scope="col" width='200'>
+      <td scope="col" >
                                 <x-input type="text" value="" name="onr_name" id="onr_name" title="search" />
                             </td>
-                            <td scope="col" width='200'>
-                                <x-input type="date" value="" name="date_start" id="date_start" title="search" />
+
+
+
+
+                                 <td scope="col" >
+                                <x-select type="text" value="" :array="$gate" name="gate" id="gate"
+                                    title="search" />
                             </td>
-                            <td scope="col" width='200'>
-                                <x-input type="date" value="" name="date_end" id="date_end" title="search" />
+
+
+             <td scope="col" width="200">
+                               <select class="form-select" title="search" name="movement_type" id="movement_type" value="">
+                                    <option selected value="">search
+                                    </option>
+                                    <option value="Exit">Exit
+                                    </option>
+                                    <option value="Enter">Enter
+                                    </option>
+
+                                </select>
+                            </td>
+                            <td scope="col">
+                                <select class="form-select" title="search" name="open_method" id="open_method" value="">
+                                    <option selected value="">search
+                                    </option>
+                                     <option value="manual">manual
+                                    </option>
+                                    <option value="automatic">automatic
+                                    </option>
+
+                                </select>
+
                             </td>
 
 
 
-                            <td scope="col" width='200' width='100'>
-                                <x-input type="date" value="" title="search" name="created_at" id="created_at" />
+                            <td scope="col" >
+                                <x-input type="date" value="" name="date" id="date" title="search" />
                             </td>
+
+                                    <td scope="col" >
+                                <x-input type="time" value="" name="time" id="time" title="search" />
+                            </td>
+
+
+
+
+
+
+
+
                             <input type="hidden" name="page" id="page" value="{{ $page }}">
 
-                            <td scope="col" width='200' width="120"><button class="btn btn-primary"
+                            <td scope="col"  width="120"><button class="btn btn-primary"
                                     id="searchBtn">Search</button>
                             </td>
                         </tr>
                     </thead>
                     <tbody id="tableContainer">
-                        @include('Dashboard.vehicle.table', ['vehicle' => $vehicle, 'page' => $page])
+                        @include('Dashboard.vehicleMovement.table', ['vehicleMovement' => $vehicleMovement, 'page' => $page])
                     </tbody>
                 </table>
 
@@ -177,16 +183,13 @@
     function datavalue(){
         return{
         vehicle_number: $('#vehicle_number').val(),
-        category: $('#category').val(),
-         building: $('#building').val(),
-          unit: $('#unit').val(),
-        vehicle_type: $('#vehicle_type').val(),
-        vehicle_brand: $('#vehicle_brand').val(),
-        motor_type: $('#motor_type').val(),
         onr_name: $('#onr_name').val(),
-        date_start: $('#date_start').val(),
-       date_end: $('#date_end').val(),
-        created_at: $('#created_at').val(),
+         gate: $('#gate').val(),
+          movement_type: $('#movement_type').val(),
+        open_method: $('#open_method').val(),
+        date: $('#date').val(),
+        time: $('#time').val(),
+
         page: $('#page').val()
     };
     }
@@ -194,14 +197,14 @@
 $('#printExcelReport').on('click', function () {
     let query = $.param(datavalue());
     // فتح رابط الطباعة مع تمرير الفلاتر
-    window.open("{{ route('Dashboard.vehicle.exportExcel') }}?" + query, '_blank');
+    window.open("{{ route('Dashboard.vehicleMovement.exportExcel') }}?" + query, '_blank');
 });
 
 
 $('#printPdfReport').on('click', function () {
     let query = $.param(datavalue());
     // فتح رابط الطباعة مع تمرير الفلاتر
-    window.open("{{ route('Dashboard.vehicle.exportPDF') }}?" + query, '_blank');
+    window.open("{{ route('Dashboard.vehicleMovement.exportPDF') }}?" + query, '_blank');
 });
 
 
@@ -213,7 +216,7 @@ $('#printPdfReport').on('click', function () {
         let data = datavalue()
 
         $.ajax({
-            url: "{{ route('Dashboard.vehicle.search') }}",
+            url: "{{ route('Dashboard.vehicleMovement.search') }}",
             type: "GET",
             data: data,
             success: function (response) {

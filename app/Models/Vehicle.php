@@ -10,14 +10,19 @@ class Vehicle extends Model
 {
      use HasFactory, SoftDeletes;
        protected $guarded = [];
-protected $casts = [
-    'date_End' => 'date', // or 'date'
-     'date_start' => 'date', // or 'date'
-];
+// protected $casts = [
+//     'date_End' => 'date', // or 'date'
+//      'date_start' => 'date', // or 'date'
+// ];
  function user()  {
         return $this->belongsTo(User::class,'user_id')->withDefault();
     }
-
+ function building()  {
+        return $this->belongsTo(Building::class,'building_id')->withDefault();
+    }
+    function unit()  {
+        return $this->belongsTo(Unit::class,'unit_id')->withDefault();
+    }
  function category()  {
         return $this->belongsTo(Category::class,'category_id')->withDefault();
     }
@@ -39,6 +44,18 @@ protected $casts = [
      $vehicles = Vehicle::with(['category', 'motor_type', 'vehicle_type', 'vehicle_brand', 'user']);
 
     // Filter by related Category
+   if ($request->filled('building')) {
+    $vehicles->whereHas('user.building', function ($q) use ($request) {
+        $q->where('id', $request->building);
+    });
+}
+
+     if ($request->filled('unit')) {
+    $vehicles->whereHas('user.unit', function ($q) use ($request) {
+        $q->where('id', $request->unit);
+    });
+}
+
       if ($request->filled('vehicle_number')) {
         $vehicles->where('vehicle_number', 'like', '%' . $request->vehicle_number . '%');
     }

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Exports\VehiclesExport;
 use App\Http\Controllers\Controller;
+use App\Models\Building;
 use App\Models\Category;
 use App\Models\MotorType;
+use App\Models\Unit;
 use App\Models\User;
 use App\Models\Vehicle;
 use App\Models\VehiclesBrand;
@@ -31,11 +33,13 @@ class VehicleController extends Controller
         $category = Category::get();
         $vehicle_type = VehiclesType::get();
         $vehicle_brand = VehiclesBrand::get();
+         $unit = Unit::get();
+        $building = Building::get();
 
         $motor_type = MotorType::get();
 
 
-        return view('Dashboard.Vehicle.index', compact('vehicle', 'page','category'  ,'vehicle_type'   ,'vehicle_brand'  ,'motor_type'   ));
+        return view('Dashboard.Vehicle.index', compact('vehicle', 'page','category'  ,'vehicle_type'   ,'vehicle_brand'  ,'motor_type','building','unit'   ));
     }
 
     public function search(Request $request)
@@ -78,12 +82,14 @@ $result=$vehicles->get();
            $category = Category::get();
         $vehicle_type = VehiclesType::get();
         $vehicle_brand = VehiclesBrand::get();
+         $unit = Unit::get();
+        $building = Building::get();
          $motor_type = MotorType::get();
          $user = User::get();
          $page = 'create';
         $folder = '';
         $vehicle = new Vehicle();
-        return view('Dashboard.Vehicle.create', compact('page', 'vehicle', 'folder','category'  ,'vehicle_type' ,'user'  ,'vehicle_brand'  ,'motor_type' ));
+        return view('Dashboard.Vehicle.create', compact('page', 'vehicle', 'folder','category'  ,'vehicle_type' ,'user'  ,'vehicle_brand'  ,'motor_type','building','unit' ));
     }
 
     /**
@@ -141,10 +147,12 @@ $result=$vehicles->get();
         $category = Category::get();
         $vehicle_type = VehiclesType::get();
         $vehicle_brand = VehiclesBrand::get();
+         $unit = Unit::get();
+        $building = Building::get();
 
         $motor_type = MotorType::get();
         $page = 'trash';
-        return view('Dashboard.Vehicle.index', compact('vehicle', 'page','category'  ,'vehicle_type'   ,'vehicle_brand'  ,'motor_type'));
+        return view('Dashboard.Vehicle.index', compact('vehicle', 'page','category'  ,'vehicle_type'   ,'vehicle_brand'  ,'motor_type','building','unit'));
     }
     /**
      * Display the specified resource.
@@ -159,12 +167,14 @@ $result=$vehicles->get();
                $category = Category::get();
         $vehicle_type = VehiclesType::get();
         $vehicle_brand = VehiclesBrand::get();
+         $unit = Unit::get();
+        $building = Building::get();
          $motor_type = MotorType::get();
          $user = User::get();
         $folder = 'vehicle';
         $vehicle = Vehicle::find($id);
         $page = 'edit';
-        return view('Dashboard.Vehicle.edit', compact('vehicle', 'page', 'folder','category'  ,'vehicle_type' ,'user'  ,'vehicle_brand'  ,'motor_type'));
+        return view('Dashboard.Vehicle.edit', compact('vehicle', 'page', 'folder','category'  ,'vehicle_type' ,'user'  ,'vehicle_brand'  ,'motor_type','building','unit'));
     }
 
     /**
