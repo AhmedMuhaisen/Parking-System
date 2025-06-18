@@ -14,12 +14,12 @@ class VehiclesMovement extends Model
         return $this->belongsTo(Gate::class,'gate_id')->withDefault();
     }
   function vehicle()  {
-        return $this->belongsTo(Vehicle::class);
+        return $this->belongsTo(Vehicle::class)->withDefault();
     }
 
 
     public static function search($request){
-     $vehicles = Vehicle::with(['gate', 'vehicle']);
+     $vehicles = VehiclesMovement::with(['gate', 'vehicle']);
 
     // Filter by related Category
    if ($request->filled('vehicle_number')) {
@@ -30,18 +30,16 @@ class VehiclesMovement extends Model
 
      if ($request->filled('gate')) {
     $vehicles->whereHas('gate', function ($q) use ($request) {
-        $q->where('name', $request->gate);
+        $q->where('id', $request->gate);
     });
 }
 
-      if ($request->filled('vehicle_number')) {
-        $vehicles->where('vehicle_number', 'like', '%' . $request->vehicle_number . '%');
+      if ($request->filled('movement_type')) {
+        $vehicles->where('type_Movement', 'like', '%' . $request->movement_type . '%');
     }
 
-    if ($request->filled('category')) {
-        $vehicles->whereHas('category', function ($q) use ($request) {
-            $q->where('id',  $request->category );
-        });
+   if ($request->filled('open_method')) {
+        $vehicles->where('method_passage', 'like', '%' . $request->open_method . '%');
     }
 
     // Filter by related User (Owner Name)
@@ -52,11 +50,11 @@ class VehiclesMovement extends Model
     });
     }
    if ($request->filled('date')) {
-        $vehicles->where('created_at', 'like', '%' . $request->date . '%');
+        $vehicles->where('date', 'like', '%' . $request->date . '%');
     }
 
        if ($request->filled('time')) {
-        $vehicles->where('created_at', 'like', '%' . $request->time . '%');
+        $vehicles->where('time', 'like', '%' . $request->time . '%');
     }
 
     // Show trashed only if specified

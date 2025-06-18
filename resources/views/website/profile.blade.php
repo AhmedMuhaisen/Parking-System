@@ -12,41 +12,7 @@
 
                 <div class="col-lg-8 order-lg-1 order-2">
                     <div class="service-main-content">
-                        <div class="service-header" data-aos="fade-up">
-                            <h1>{{ Auth::user()->first_name . ' ' . Auth::user()->second_name }}</h1>
-                            <div class="service-meta">
-                                <span><i class="bi bi-building"></i> {{ Auth::user()->building->name }} Building</span>
-                                <span><i class="bi "></i> </span>
-                                <span><i class="bi bi-star"></i> {{ Auth::user()->unit->name }} Unit</span>
 
-                            </div>
-                            <div class="service-features-list d-flex flex-wrap" data-aos="fade-up" data-aos-delay="200">
-
-                                <div>
-
-                                    <div>
-                                        <h5> <i class="bi bi-clock-history"></i> Date Of Barth</h5>
-                                        <p>{{ Auth::user()->date_birth }}</p>
-                                    </div>
-                                </div>
-                                <div>
-
-                                    <div>
-                                        <h5><i class="bi bi-telephone-fill"></i> Phone Number</h5>
-                                        <p>{{ Auth::user()->phone }}</p>
-                                    </div>
-                                </div>
-
-                                <div>
-
-                                    <div>
-                                        <h5> <i class="bi bi-envelope-fill"></i> Email Address</h5>
-                                        <p>{{ Auth::user()->email }}</p>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
 
                         <div class="service-tabs" data-aos="fade-up" data-aos-delay="200">
                             <ul class="nav nav-tabs" id="serviceTab" role="tablist">
@@ -82,11 +48,11 @@
 
                                         @foreach (Auth::user()->vehicle as $vehicle)
                                         <div class="timeline-item mb-5">
-                                            <div class="timeline-marker">{{ $loop->iteration }}</div>
+                                            <div class="timeline-marker" style="background-image: url({{ asset($vehicle->image) }}) "></div>
 
-                                            <div class="timeline-content">
+                                            <div class="timeline-content my-5">
                                                 <div class="d-flex justify-content-between align-items-center mb-5">
-                                                    <div>
+                                                    <div style="margin-left: 30px; margin-top: 10px;">
                                                         <h4>Vehicle {{ $loop->iteration }} details</h4>
                                                     </div>
 
@@ -275,7 +241,41 @@
                             </div>
                         </div>
 
+    <div class="service-header" data-aos="fade-up">
+                            <h1>{{ Auth::user()->first_name . ' ' . Auth::user()->second_name }}</h1>
+                            <div class="service-meta">
+                                <span><i class="bi bi-building"></i> {{ Auth::user()->building->name }} Building</span>
+                                <span><i class="bi "></i> </span>
+                                <span><i class="bi bi-star"></i> {{ Auth::user()->unit->name }} Unit</span>
 
+                            </div>
+                            <div class="service-features-list d-flex flex-wrap" data-aos="fade-up" data-aos-delay="200">
+
+                                <div>
+
+                                    <div>
+                                        <h5> <i class="bi bi-clock-history"></i> Date Of Barth</h5>
+                                        <p>{{ Auth::user()->date_birth }}</p>
+                                    </div>
+                                </div>
+                                <div>
+
+                                    <div>
+                                        <h5><i class="bi bi-telephone-fill"></i> Phone Number</h5>
+                                        <p>{{ Auth::user()->phone }}</p>
+                                    </div>
+                                </div>
+
+                                <div>
+
+                                    <div>
+                                        <h5> <i class="bi bi-envelope-fill"></i> Email Address</h5>
+                                        <p>{{ Auth::user()->email }}</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -283,14 +283,6 @@
 
                     <div class="service-sidebar" data-aos="fade-left">
 
-                        <div class="action-card" data-aos="zoom-in" data-aos-delay="100">
-                            <img src="{{ asset(Auth::user()->image) }}" class="profile-img" alt="">
-
-                            <button href="#" class="btn-primary " onclick="openModal('personal',1)">Edit Your
-                                Parsonal
-                                Information</button>
-
-                        </div>
 
                         <div class="service-features-list aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
                             <h4>What We Offer</h4>
@@ -322,6 +314,14 @@
                             </ul>
                         </div>
 
+                        <div class="action-card" data-aos="zoom-in" data-aos-delay="100">
+                            <img src="{{ asset(Auth::user()->image) }}" class="profile-img" alt="">
+
+                            <button href="#" class="btn-primary " onclick="openModal('personal',1)">Edit Your
+                                Parsonal
+                                Information</button>
+
+                        </div>
 
 
 

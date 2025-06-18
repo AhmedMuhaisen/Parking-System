@@ -1,11 +1,8 @@
 <?php
 namespace App\Exports;
 
-use App\Models\Vehicle;
 use App\Models\Setting;
 use App\Models\VehiclesMovement;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Request as FacadesRequest;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -33,26 +30,20 @@ class VehiclesMovementExport implements FromCollection, WithHeadings, WithEvents
     return $vehiclesMovement->get();
 
 
-
-
 }
 
- public function map($vehicle): array
+ public function map($vehiclesMovement): array
     {
         return [
-             $vehicle->id,
-            $vehicle->vehicle_number
-           , $vehicle->color
-           , asset($vehicle->image)
-           , $vehicle->category->name
-           , $vehicle->vehicle_type->name
-           , $vehicle->vehicle_brand->name
-           , $vehicle->motor_type->name
-           , $vehicle->user->first_name
-           .' '.$vehicle->user->second_name
-           , $vehicle->date_start
-           , $vehicle->date_End
-            ,$vehicle->created_at->format('m-d-Y')
+             $vehiclesMovement->id,
+            $vehiclesMovement->vehicle->vehicle_number
+           , $vehiclesMovement->gate->name
+           , $vehiclesMovement->type_Movement
+           , $vehiclesMovement->method_passage
+           , $vehiclesMovement->vehicle->user->first_name
+           .' '.$vehiclesMovement->vehicle->user->second_name
+           , $vehiclesMovement->date
+           , $vehiclesMovement->time
         ];
     }
   public function drawings()
@@ -84,18 +75,14 @@ class VehiclesMovementExport implements FromCollection, WithHeadings, WithEvents
             'E' => 20,
                 'F' => 20,
             'G' => 20,
-            'H' => 20,
-            'I' => 20,
-            'J' => 20,
-                'K' => 20,
-            'L' => 20,
+
 
         ];
     }
 
     public function headings(): array
     {
-        return [ '#ID','Number',   'Color',   'Image',  'Category', 'Type',   'Brand',  'Motor',  'Onr Name',    'Date Start',  'Date End',    'created_at'];
+        return [ '#ID','Vehicle Number',   'Gate',  ' Movement Type',	'Open Method',  'Onr Name',    'Date ',  'time'];
     }
 
 

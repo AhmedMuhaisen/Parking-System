@@ -425,6 +425,35 @@
 
                 </ul>
             </li>
+
+
+  <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav10" data-bs-toggle="collapse"
+                    href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>user</span><i
+                        class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav10" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('Dashboard.user.index') }}">
+                            <i class="bi bi-circle"></i><span>show all user</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('Dashboard.user.create') }}">
+                            <i class="bi bi-circle"></i><span>create user</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('Dashboard.user.trash') }}">
+                            <i class="bi bi-circle"></i><span>trashed users</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
         </ul>
 
     </aside><!-- End Sidebar-->

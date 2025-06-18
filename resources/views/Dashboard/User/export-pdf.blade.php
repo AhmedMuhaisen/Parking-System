@@ -115,36 +115,42 @@ $companyLogo = public_path($settings->logo ?? 'assets/dashboard/img/city-square.
         </div>
     </div>
 
-    <h1>Categories Report</h1>
+    <h1>Users Report</h1>
 
     <table>
         <thead>
             <tr>
                 <th>#</th>
-                <th scope="col" width="60">Vehicle Number</th>
-                <th scope="col" width="60">Gate</th>
-                <th scope="col" width="60">Movement Type</th>
-                <th scope="col" width="60">Open Method</th>
-                <th scope="col" width="60">Onr Name</th>
-                <th scope="col" width="60">Date</th>
-                <th scope="col" width="60">time</th>
-
+                <th scope="col" width="60">Name</th>
+                <th scope="col" width="60">date birth</th>
+                <th scope="col" width="60">phone</th>
+                <th scope="col" width="60">email</th>
+                <th scope="col" width="60">Type</th>
+                <th scope="col" width="60">Unit</th>
+                <th scope="col" width="60">Building</th>
+                <th scope="col" width="60">Cars</th>
+                <th scope="col" width="60">verified</th>
+                <th>created_at</th>
             </tr>
         </thead>
         <tbody>
-            @forelse ($vehicleMovements as $index => $item)
+            @forelse ($users as $index => $item)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                      <td>{{ $item->vehicle->vehicle_number }}</td>
-                            <td>{{ $item->gate->name }}</td>
-                            <td>{{ $item->type_Movement }}</td>
-                            <td>{{ $item->method_passage }}</td>
+                      <td>{{ $item->first_name .' '.$item->second_name }}</td>
+                            <td >{{ $item->date_birth}}</div> </td>
 
-                             <td>{{ $item->vehicle->user->first_name .' '.$item->vehicle->user->second_name }}</td>
-                            <td>{{ $item->date }}</td>
-                            <td>{{ $item->time }}</td>
+                            <td>{{ $item->phone }}</td>
+                            <td>{{ $item->email }}</td>
+                            <td>{{ $item->type }}</td>
+                            <td>{{ $item->unit->name}}</td>
+                             <td>{{ $item->building->name }}</td>
+                            <td>{{ $item->vehicle->count() }}</td>
+                            <td>@if($item->email_verified_at == null) <p class="btn btn-secondary">Deactivated</p> @else
+                            <p class="btn btn-success">Activated</p>
+                          @endif  </td>
 
-
+                            <td >{{$item->created_at->format('m-d-Y');}}</td>
             </tr>
             @empty
             <tr>

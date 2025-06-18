@@ -101,7 +101,7 @@ $result=$vehicles->get();
       $request->validate([
         'vehicle_number'=>['required','digits:6'],
         'color'=>['required','max:10'],
-        'image'=>['required','image','mimes:jpeg,jpg,png,svg|max:2048'],
+        'image'=>['required','image','mimes:jpeg,jpg,png,svg,webp|max:2048'],
         'category'=>['required','exists:Categories,id'],
         'vehicle_type'=>['required','exists:vehicles_types,id'],
         'vehicle_brand'=>['required','exists:vehicles_brands,id'],
@@ -186,7 +186,7 @@ $result=$vehicles->get();
               $request->validate([
         'vehicle_number'=>['required','min:5','max:12'],
         'color'=>['required','max:10'],
-        'image'=>['nullable','image','mimes:jpeg,jpg,png,svg|max:2048'],
+        'image'=>['nullable','image','mimes:jpeg,jpg,png,svg,webp|max:2048'],
         'category'=>['required','exists:Categories,id'],
         'vehicle_type'=>['required','exists:vehicles_types,id'],
         'vehicle_brand'=>['required','exists:vehicles_brands,id'],

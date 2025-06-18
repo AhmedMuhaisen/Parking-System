@@ -3442,10 +3442,14 @@ section,
 
 .service-details .service-tabs .tab-content .process-timeline .timeline-item .timeline-marker {
   position: absolute;
-  left: -30px;
+  left: -50px;
   top: -5px;
-  width: 32px;
-  height: 32px;
+  width: 70px;
+
+  height: 70px;
+background-repeat: no-repeat;
+background-size: cover;
+
   background-color: var(--accent-color);
   color: var(--contrast-color);
   border-radius: 50%;

@@ -8,15 +8,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Building;
 use App\Models\Category;
 use App\Models\Gate as ModelsGate;
+use App\Models\Gates;
 use App\Models\MotorType;
 
 use App\Models\User;
+use App\Models\Vehicle;
 use App\Models\VehicleMovement;
 use App\Models\VehiclesMovement;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
 class VehicleMovementController extends Controller
@@ -56,7 +59,7 @@ $vehicleMovements=VehiclesMovement::search($request);
 $result=$vehicleMovements->get();
         $data = ['title' => 'My PDF Report', 'page' => 'index', 'vehicleMovements' => $result];
 
-        $pdf = Pdf::loadView('Dashboard.VehicleMovement.export-pdf', $data)->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('tabloid', 'landscape');
+        $pdf = Pdf::loadView('Dashboard.VehicleMovement.export-pdf', $data)->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('a4', 'landscape');
 
         return $pdf->download('vehicleMovement.pdf');  // download
         // return $pdf->stream('users.pdf'); // OR show in browser
@@ -73,16 +76,13 @@ $result=$vehicleMovements->get();
      */
     public function create()
     {
-        Gate::authorize('vehicleMovement.create');
-           $category = Category::get();
-
-        $building = Building::get();
-         $motor_type = MotorType::get();
-         $user = User::get();
+        Gate::authorize('vehiclesMovement.create');
+        $gate = Gates::get();
+         $vehicles = Vehicle::get();
          $page = 'create';
         $folder = '';
         $vehicleMovement = new VehiclesMovement();
-        return view('Dashboard.VehicleMovement.create', compact('page', 'vehicleMovement', 'folder','category'  ,'vehicleMovement_type' ,'user'  ,'vehicleMovement_brand'  ,'motor_type','building','unit' ));
+        return view('Dashboard.VehicleMovement.create', compact('page', 'vehicleMovement', 'folder' ,'vehicles','gate' ));
     }
 
     /**
@@ -90,42 +90,30 @@ $result=$vehicleMovements->get();
      */
     public function store(Request $request)
     {
-        Gate::authorize('vehicleMovement.create');
-      $request->validate([
-        'vehicleMovement_number'=>['required','digits:6'],
-        'color'=>['required','max:10'],
-        'image'=>['required','image','mimes:jpeg,jpg,png,svg|max:2048'],
-        'category'=>['required','exists:Categories,id'],
-        'vehicleMovement_type'=>['required','exists:vehicleMovements_types,id'],
-        'vehicleMovement_brand'=>['required','exists:vehicleMovements_brands,id'],
-        'motor_type'=>['required','exists:motor_types,id'],
-        'user'=>['required','exists:users,id'],
-        'date_start'=>'required|date|after_or_equal:today',
-        'date_end'=>'required|date|max:40|after_or_equal:date_start',
+        Gate::authorize('vehiclesMovement.create');
+       $request->validate([
+        'vehicle_number'=>['required'],
+        'gate'=>['required'],
+        'method_passage'=>['required'],
+        'type_movement'=>['required'],
+        'date'=>'required|date',
+        'time'=>'required|max:40',
         ]);
 
-            $image = $request->image;
-            $image = $image->storePublicly('vehicleMovement', 'new');
-
-
-        VehiclesMovement::create([
-            'vehicleMovement_number'=>$request->vehicleMovement_number,
-            'color'=>$request->color,
-            'image'=>$image,
-            'category_id'=>$request->category,
-            'vehicleMovements_type_id'=>$request->vehicleMovement_type,
-            'vehicleMovements_brand_id'=>$request->vehicleMovement_brand,
-            'motor_type_id'=>$request->motor_type,
-            'user_id'=>$request->user,
-            'date_start'=>$request->date_start,
-            'date_End'=>$request->date_end,
+        VehiclesMovement::Create([
+            'vehicle_id'=>$request->vehicle_number,
+        'gate_id'=>$request->gate,
+        'method_passage'=>$request->method_passage,
+        'type_movement'=>$request->type_movement,
+        'date'=>$request->date,
+        'time'=>$request->time,
         ]);
         return redirect()->route('Dashboard.vehicleMovement.index');
     }
 
     public function restore(string $id)
     {
-        Gate::authorize('vehicleMovement.restore');
+        Gate::authorize('vehiclesMovement.restore');
         VehiclesMovement::withTrashed()->find($id)->restore();
         return redirect()->route('Dashboard.vehicleMovement.trash');
     }
@@ -133,17 +121,14 @@ $result=$vehicleMovements->get();
 
     public function trash(Request $request)
     {
-        Gate::authorize('vehicleMovement.index');
+        Gate::authorize('vehiclesMovement.index');
 
-        $vehicleMovement = VehiclesMovement::onlyTrashed()->get();
-
-        $category = Category::get();
-
-        $building = Building::get();
-
-        $motor_type = MotorType::get();
         $page = 'trash';
-        return view('Dashboard.VehicleMovement.index', compact('vehicleMovement', 'page','category'  ,'vehicleMovement_type'   ,'vehicleMovement_brand'  ,'motor_type','building','unit'));
+         $vehicleMovement = VehiclesMovement::onlyTrashed()->get();
+        $gate = ModelsGate::get();
+
+
+        return view('Dashboard.VehicleMovement.index', compact('vehicleMovement', 'page' ,'gate'  ));
     }
     /**
      * Display the specified resource.
@@ -154,16 +139,15 @@ $result=$vehicleMovements->get();
      */
     public function edit(string $id)
     {
-        Gate::authorize('vehicleMovement.update');
-               $category = Category::get();
+        Gate::authorize('vehiclesMovement.update');
 
-        $building = Building::get();
-         $motor_type = MotorType::get();
-         $user = User::get();
-        $folder = 'vehicleMovement';
+  $gate = Gates::get();
+         $vehicles = Vehicle::get();
         $vehicleMovement = VehiclesMovement::find($id);
         $page = 'edit';
-        return view('Dashboard.VehicleMovement.edit', compact('vehicleMovement', 'page', 'folder','category'  ,'vehicleMovement_type' ,'user'  ,'vehicleMovement_brand'  ,'motor_type','building','unit'));
+        return view('Dashboard.VehicleMovement.edit', compact('page', 'vehicleMovement','vehicles','gate' ));
+
+
     }
 
     /**
@@ -171,41 +155,25 @@ $result=$vehicleMovements->get();
      */
     public function update(Request $request, string $id)
     {
-        Gate::authorize('vehicleMovement.update');
-              $request->validate([
-        'vehicleMovement_number'=>['required','min:5','max:12'],
-        'color'=>['required','max:10'],
-        'image'=>['nullable','image','mimes:jpeg,jpg,png,svg|max:2048'],
-        'category'=>['required','exists:Categories,id'],
-        'vehicleMovement_type'=>['required','exists:vehicleMovements_types,id'],
-        'vehicleMovement_brand'=>['required','exists:vehicleMovements_brands,id'],
-        'motor_type'=>['required','exists:motor_types,id'],
-        'user'=>['required','exists:users,id'],
-        'date_start'=>'required|date|after_or_equal:today',
-        'date_end'=>'required|date|max:40|after_or_equal:date_start',
+        Gate::authorize('vehiclesMovement.update');
+            $request->validate([
+        'vehicle_number'=>['required'],
+        'gate'=>['required'],
+        'method_passage'=>['required'],
+        'type_movement'=>['required'],
+        'date'=>'required|date',
+        'time'=>'required|max:40',
         ]);
+
            $vehicleMovement = VehiclesMovement::find($id);
 
-if($request->image){
-   $image = $request->image;
-            $image = $image->storePublicly('vehicleMovement', 'new');
-
-            }
-            else{
-                $image=$vehicleMovement->image;
-            }
-
         $vehicleMovement->update([
-            'vehicleMovement_number'=>$request->vehicleMovement_number,
-            'color'=>$request->color,
-            'image'=>$image,
-            'category_id'=>$request->category,
-            'vehicleMovements_type_id'=>$request->vehicleMovement_type,
-            'vehicleMovements_brand_id'=>$request->vehicleMovement_brand,
-            'motor_type_id'=>$request->motor_type,
-            'user_id'=>$request->user,
-            'date_start'=>$request->date_start,
-            'date_End'=>$request->date_end,
+                'vehicle_id'=>$request->vehicle_number,
+        'gate_id'=>$request->gate,
+        'method_passage'=>$request->method_passage,
+        'type_movement'=>$request->type_movement,
+        'date'=>$request->date,
+        'time'=>$request->time,
         ]);
         return redirect()->route('Dashboard.vehicleMovement.index');
     }
@@ -215,14 +183,14 @@ if($request->image){
      */
     public function destroy(string $id)
     {
-        Gate::authorize('vehicleMovement.delete');
+        Gate::authorize('vehiclesMovement.delete');
         VehiclesMovement::find($id)->delete();
         return redirect()->route('Dashboard.vehicleMovement.index');
     }
 
     public function delete(string $id)
     {
-        Gate::authorize('vehicleMovement.forcedelete');
+        Gate::authorize('vehiclesMovement.forcedelete');
         VehiclesMovement::withTrashed()->find($id)->forceDelete();
 
         return redirect()->route('Dashboard.vehicleMovement.index');

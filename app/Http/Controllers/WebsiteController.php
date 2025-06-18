@@ -84,18 +84,19 @@ class WebsiteController extends Controller
     {
 
         $validator = FacadesValidator::make($request->all(), [
-            'vehicle_number' => 'required|string|max:255|digits:6',
+             'vehicle_number' => 'required|string|max:255|digits:6',
             'vehicle_type' => 'required|exists:vehicles_types,id',
             'motor_type' => 'required|exists:motor_types,id',
-            'VehiclesBrand' => 'required|exists:VehiclesBrands,id',
+            'VehiclesBrand' => 'required|exists:vehicles_brands,id',
             'color' => 'required|string|max:255',
             'date_end' => 'required|date|after:today',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png,svg,webp|max:2048',
         ]);
 
         $data = $validator->validated();
-        $data['vehicle_type_id'] = $data['vehicle_type'];
+        $data['vehicles_type_id'] = $data['vehicle_type'];
         $data['motor_type_id'] = $data['motor_type'];
-        $data['VehiclesBrand_id'] = $data['VehiclesBrand'];
+        $data['vehicles_brand_id'] = $data['VehiclesBrand'];
 
         // Remove them from the array
         unset($data['vehicle_type'], $data['motor_type'], $data['VehiclesBrand']);
@@ -110,6 +111,13 @@ class WebsiteController extends Controller
         if (!$vehicle) {
             return response()->json(['error' => 'Vehicle not found'], 200);
         }
+   if ($request->image) {
+            $image = $request->image;
+            $image = $image->storePublicly('vehicles', 'new');
+        } else {
+            $image = $vehicle->image;
+        }
+        $data['image'] = $image;
 
         $vehicle->update($data);
 
@@ -127,10 +135,12 @@ class WebsiteController extends Controller
             'vehicle_number' => 'required|string|max:255|digits:6',
             'vehicle_type' => 'required|exists:vehicles_types,id',
             'motor_type' => 'required|exists:motor_types,id',
-            'VehiclesBrand' => 'required|exists:VehiclesBrands,id',
+            'VehiclesBrand' => 'required|exists:vehicles_brands,id',
             'color' => 'required|string|max:255',
-            'date_end' => 'required|date|after:today',
+            'date_end' => 'required|date|after:today',  'image' => 'required|image|mimes:jpeg,jpg,png,svg,webp|max:2048',
+
         ]);
+
 
 
         if ($validator->fails()) {
@@ -138,15 +148,19 @@ class WebsiteController extends Controller
                 'errors' => $validator->errors()
             ], 200); // Use 422 for validation errors
         }
+  $image = $request->image->storePublicly('vehicles', 'new');
+
 
         $data = $validator->validated();
-        $data['vehicle_type_id'] = $data['vehicle_type'];
+         $data['image'] = $image;
+        $data['vehicles_type_id'] = $data['vehicle_type'];
         $data['motor_type_id'] = $data['motor_type'];
-        $data['VehiclesBrand_id'] = $data['VehiclesBrand'];
+        $data['vehicles_brand_id'] = $data['VehiclesBrand'];
+
 
         unset($data['vehicle_type'], $data['motor_type'], $data['VehiclesBrand']);
 
-        $data['category_id'] = 1;
+ $data['category_id'] = 1;
         $data['user_id'] = Auth::user()->id;
         Vehicle::Create($data);
         return response()->json([
@@ -308,7 +322,7 @@ class WebsiteController extends Controller
         $validator = FacadesValidator::make($request->all(), [
             'first_name' => 'required|string|max:255',
             'second_name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,jpg,png,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png,svg,webp|max:2048',
 
             'email' => [
                 'required',

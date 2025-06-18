@@ -26,14 +26,14 @@
                 <div class="d-flex justify-content-between align-items-center my-3">
                     <h 5 class="card-title">show All Vehicles Movements</h>
                     @if ($page == 'index')
-                    @can('vehicleMovement.index')
+                    @can('vehiclesMovement.index')
                     <a href="{{ route('Dashboard.vehicleMovement.trash') }}" class="btn btn-outline-danger" style="
                                   ">
                         <i class="fas fa-trash"></i>
                         Trashed Vehicles Movements</a>
                     @endcan
                     @else
-                    @can('vehicleMovement.index')
+                    @can('vehiclesMovement.index')
                     <a href="{{ route('Dashboard.vehicleMovement.index') }}" class="btn btn-outline-primary">
                         <i class="fas fa-tag"></i>
                         All Vehicles Movements</a>

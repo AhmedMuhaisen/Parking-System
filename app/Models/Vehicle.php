@@ -8,109 +8,118 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vehicle extends Model
 {
-     use HasFactory, SoftDeletes;
-       protected $guarded = [];
-// protected $casts = [
-//     'date_End' => 'date', // or 'date'
-//      'date_start' => 'date', // or 'date'
-// ];
- function user()  {
-        return $this->belongsTo(User::class,'user_id')->withDefault();
+    use HasFactory, SoftDeletes;
+    protected $guarded = [];
+    // protected $casts = [
+    //     'date_End' => 'date', // or 'date'
+    //      'date_start' => 'date', // or 'date'
+    // ];
+    function user()
+    {
+        return $this->belongsTo(User::class, 'user_id')->withDefault();
     }
- function building()  {
-        return $this->belongsTo(Building::class,'building_id')->withDefault();
+    function building()
+    {
+        return $this->belongsTo(Building::class, 'building_id')->withDefault();
     }
-    function unit()  {
-        return $this->belongsTo(Unit::class,'unit_id')->withDefault();
+    function unit()
+    {
+        return $this->belongsTo(Unit::class, 'unit_id')->withDefault();
     }
- function category()  {
-        return $this->belongsTo(Category::class,'category_id')->withDefault();
-    }
-
-    function motor_type()  {
-        return $this->belongsTo(MotorType::class,'motor_type_id')->withDefault();
-    }
-
-     function vehicle_type()  {
-        return $this->belongsTo(VehiclesType::class,'vehicles_type_id')->withDefault();
-    }
-  function vehicle_brand()  {
-        return $this->belongsTo(VehiclesBrand::class,'vehicles_brand_id')->withDefault();
+    function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id')->withDefault();
     }
 
-
-
-      public static function search($request){
-     $vehicles = Vehicle::with(['category', 'motor_type', 'vehicle_type', 'vehicle_brand', 'user']);
-
-    // Filter by related Category
-   if ($request->filled('building')) {
-    $vehicles->whereHas('user.building', function ($q) use ($request) {
-        $q->where('id', $request->building);
-    });
-}
-
-     if ($request->filled('unit')) {
-    $vehicles->whereHas('user.unit', function ($q) use ($request) {
-        $q->where('id', $request->unit);
-    });
-}
-
-      if ($request->filled('vehicle_number')) {
-        $vehicles->where('vehicle_number', 'like', '%' . $request->vehicle_number . '%');
+    function motor_type()
+    {
+        return $this->belongsTo(MotorType::class, 'motor_type_id')->withDefault();
     }
 
-    if ($request->filled('category')) {
-        $vehicles->whereHas('category', function ($q) use ($request) {
-            $q->where('id',  $request->category );
-        });
+    function vehicle_type()
+    {
+        return $this->belongsTo(VehiclesType::class, 'vehicles_type_id')->withDefault();
+    }
+    function vehicle_brand()
+    {
+        return $this->belongsTo(VehiclesBrand::class, 'vehicles_brand_id')->withDefault();
     }
 
-    // Filter by related Motor type
-    if ($request->filled('motor_type')) {
-        $vehicles->whereHas('motor_type', function ($q) use ($request) {
-            $q->where('id',$request->motor_type );
-        });
-    }
+    public static function search($request)
+    {
+        $vehicles = Vehicle::with(['category', 'motor_type', 'vehicle_type', 'vehicle_brand', 'user']);
 
-    // Filter by related Vehicle Type
-    if ($request->filled('vehicle_type')) {
-        $vehicles->whereHas('vehicle_type', function ($q) use ($request) {
-            $q->where('id', $request->vehicle_type);
-        });
-    }
+        // Filter by related Category
+        if ($request->filled('building')) {
+            $vehicles->whereHas('user.building', function ($q) use ($request) {
+                $q->where('id', $request->building);
+            });
+        }
 
-    // Filter by related Brand
-    if ($request->filled('vehicle_brand')) {
-        $vehicles->whereHas('vehicle_brand', function ($q) use ($request) {
-            $q->where('id', $request->vehicle_brand);
-        });
-    }
+        if ($request->filled('unit')) {
+            $vehicles->whereHas('user.unit', function ($q) use ($request) {
+                $q->where('id', $request->unit);
+            });
+        }
 
-    // Filter by related User (Owner Name)
- if ($request->filled('onr_name')) {
-        $vehicles->whereHas('user', function ($q) use ($request) {
-        $q->whereRaw("CONCAT(first_name, ' ', second_name) LIKE ?", ["%{$request->onr_name}%"]);
+        if ($request->filled('vehicle_number')) {
+            $vehicles->where('vehicle_number', 'like', '%' . $request->vehicle_number . '%');
+        }
 
-    });
-    }
-   if ($request->filled('date_start')) {
-        $vehicles->where('date_start', 'like', '%' . $request->date_start . '%');
-    }
+        if ($request->filled('category')) {
+            $vehicles->whereHas('category', function ($q) use ($request) {
+                $q->where('id',  $request->category);
+            });
+        }
 
-       if ($request->filled('date_end')) {
-        $vehicles->where('date_End', 'like', '%' . $request->date_end . '%');
-    }
+        // Filter by related Motor type
+        if ($request->filled('motor_type')) {
+            $vehicles->whereHas('motor_type', function ($q) use ($request) {
+                $q->where('id', $request->motor_type);
+            });
+        }
 
-    // Filter by Created At
-    if ($request->filled('created_at')) {
-        $vehicles->where('created_at', 'like', '%' . $request->created_at . '%');
-    }
+        // Filter by related Vehicle Type
+        if ($request->filled('vehicle_type')) {
+            $vehicles->whereHas('vehicle_type', function ($q) use ($request) {
+                $q->where('id', $request->vehicle_type);
+            });
+        }
 
-    // Show trashed only if specified
-    if ($request->page == 'trash') {
-        $vehicles = $vehicles->onlyTrashed();
-    }
-    return $vehicles;
+        // Filter by related Brand
+        if ($request->filled('vehicle_brand')) {
+            $vehicles->whereHas('vehicle_brand', function ($q) use ($request) {
+                $q->where('id', $request->vehicle_brand);
+            });
+        }
+
+        // Filter by related User (Owner Name)
+        if ($request->filled('onr_name')) {
+            $vehicles->whereHas('user', function ($q) use ($request) {
+                $q->whereRaw("CONCAT(first_name, ' ', second_name) LIKE ?", ["%{$request->onr_name}%"]);
+            });
+        }
+        if ($request->filled('date_start')) {
+            search_date(
+                $request->input('date_start'),
+                'date_start',
+                $vehicles
+            );
+        }
+
+        if ($request->filled('date_end')) {
+            $vehicles->where('date_End', 'like', '%' . $request->date_end . '%');
+        }
+
+        // Filter by Created At
+        if ($request->filled('created_at')) {
+            $vehicles->where('created_at', 'like', '%' . $request->created_at . '%');
+        }
+
+        // Show trashed only if specified
+        if ($request->page == 'trash') {
+            $vehicles = $vehicles->onlyTrashed();
+        }
+        return $vehicles;
     }
 }

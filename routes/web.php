@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\userController;
 use App\Http\Controllers\Dashboard\VehicleController;
 use App\Http\Controllers\Dashboard\VehicleMovementController;
 use App\Http\Controllers\Dashboard\VehiclesBrandController;
@@ -22,11 +23,11 @@ Route::post('/reset_password', [AuthController::class, 'reset_password_post'])->
 Route::get('/create_new_password/{id}', [AuthController::class, 'create_new_password'])->name('create_new_password');
 Route::post('/create_new_password/{id}', [AuthController::class, 'create_new_password_post'])->name('create_new_password_post');
 
-
+ Route::post('website/contact', [WebsiteController::class, 'contact'])->name('website.contact');
 
 Route::prefix('website')->name('website.')->middleware('auth')->group(function () {
     Route::get('/', [WebsiteController::class, 'index']);
-    Route::post('/contact', [WebsiteController::class, 'contact'])->name('contact');
+
     Route::get('/profile', [WebsiteController::class, 'profile'])->name('profile');
     Route::post('/edit_personal/{id}', [WebsiteController::class, 'edit_personal_post'])->name('edit_personal');
 
@@ -140,5 +141,38 @@ Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth')->group(functi
         Route::get('restore/{id}', [VehicleMovementController::class, 'restore'])->name('restore');
     });
     Route::resource('vehicleMovement', VehicleMovementController::class);
+
+
+       Route::prefix('vehiclesBrand')->name('vehiclesBrand.')->group(function () {
+        Route::get('/', [VehiclesBrandController::class, 'index'])->name('index');
+
+        Route::get('search', [VehiclesBrandController::class, 'search'])->name('search');
+
+        Route::get('exportPDF', [VehiclesBrandController::class, 'exportPDF'])->name('exportPDF');
+
+            Route::get('exportExcel', [VehiclesBrandController::class, 'exportExcel'])->name('exportExcel');
+
+
+        Route::delete('forcedelete/{id}', [VehiclesBrandController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [VehiclesBrandController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [VehiclesBrandController::class, 'restore'])->name('restore');
+    });
+    Route::resource('vehiclesBrand', VehiclesBrandController::class);
+
+   Route::prefix('user')->name('user.')->group(function () {
+        Route::get('/', [userController::class, 'index'])->name('index');
+
+        Route::get('search', [userController::class, 'search'])->name('search');
+
+        Route::get('exportPDF', [userController::class, 'exportPDF'])->name('exportPDF');
+
+            Route::get('exportExcel', [userController::class, 'exportExcel'])->name('exportExcel');
+
+
+        Route::delete('forcedelete/{id}', [userController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [userController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [userController::class, 'restore'])->name('restore');
+    });
+    Route::resource('user', userController::class);
 });
 

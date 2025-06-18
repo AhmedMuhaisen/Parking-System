@@ -142,7 +142,7 @@ class AuthController extends Controller
             'phone' => ['required ','min:13','max:13', 'unique:' . User::class],
             'vehicle_number' => 'required|digits:6',
             'date_barth' => 'required| date |before:2year',
-            'image' => 'required|file|image|mimes:jpeg,jpg,png,svg|max:2048',
+            'image' => 'required|file|image|mimes:jpeg,jpg,png,svg,webp|max:2048',
             'vehicle_type' => ['required', 'exists:vehicles_types,id'],
             'motor_type' => ['required', 'exists:motor_types,id'],
             'VehiclesBrand' => ['required', 'exists:VehiclesBrands,id'],

@@ -36,8 +36,11 @@ class reset_passwordMail extends Mailable
      */
     public function content(): Content
     {
+
         return new Content(
-            view: 'auth.reset_password_mail',
+           view: 'auth.reset_password_mail',
+        with: ['data' => $this->data],
+
         );
     }
 
