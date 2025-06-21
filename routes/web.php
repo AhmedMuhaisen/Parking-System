@@ -3,7 +3,11 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\ParkingController;
+use App\Http\Controllers\Dashboard\PermissionController;
+use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\userController;
+use App\Http\Controllers\Dashboard\UserRoleController;
 use App\Http\Controllers\Dashboard\VehicleController;
 use App\Http\Controllers\Dashboard\VehicleMovementController;
 use App\Http\Controllers\Dashboard\VehiclesBrandController;
@@ -174,5 +178,60 @@ Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth')->group(functi
         Route::get('restore/{id}', [userController::class, 'restore'])->name('restore');
     });
     Route::resource('user', userController::class);
+
+
+
+    Route::prefix('parking')->name('parking.')->group(function () {
+        Route::get('/', [ParkingController::class, 'index'])->name('index');
+
+        Route::get('search', [ParkingController::class, 'search'])->name('search');
+
+        Route::get('exportPDF', [ParkingController::class, 'exportPDF'])->name('exportPDF');
+
+            Route::get('exportExcel', [ParkingController::class, 'exportExcel'])->name('exportExcel');
+
+
+        Route::delete('forcedelete/{id}', [ParkingController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [ParkingController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [ParkingController::class, 'restore'])->name('restore');
+    });
+    Route::resource('parking', ParkingController::class);
+
+
+
+
+
+
+
+
+Route::prefix('permission')->name('permission.')->group(function () {
+        Route::get('/', [PermissionController::class, 'index'])->name('index');
+        Route::delete('forcedelete/{id}', [PermissionController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [PermissionController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [PermissionController::class, 'restore'])->name('restore');
+    });
+        Route::resource('permission', PermissionController::class);
+
+
+    Route::prefix('role')->name('role.')->group(function () {
+        Route::get('/', [RoleController::class, 'index'])->name('index');
+        Route::delete('forcedelete/{id}', [RoleController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [RoleController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [RoleController::class, 'restore'])->name('restore');
+    });
+    Route::resource('role', RoleController::class);
+
+
+
+    Route::prefix('user_role')->name('user_role.')->group(function () {
+        Route::get('/', [UserRoleController::class, 'index'])->name('index');
+        Route::delete('destroy/{id}', [UserRoleController::class, 'destroy'])->name('destroy');
+        Route::get('edit/{id}', [UserRoleController::class, 'edit'])->name('edit');
+        Route::get('create', [UserRoleController::class, 'create'])->name('create');
+        Route::put('update', [UserRoleController::class, 'update'])->name('update');
+        Route::get('trash', [UserRoleController::class, 'trash'])->name('trash');
+
+    });
+
 });
 

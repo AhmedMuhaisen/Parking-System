@@ -72,7 +72,7 @@ class PermissionController extends Controller
      */
     public function edit(string $id)
     {
-        Gate::authorize('permission.Update');
+        Gate::authorize('permission.update');
         $permission = Permission::find($id);
         $page = 'edit';
         return view('Dashboard.permission.edit', compact('permission', 'page'));
@@ -83,7 +83,7 @@ class PermissionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        Gate::authorize('permission.Update');
+        Gate::authorize('permission.update');
         $request->validate([
             'code' => 'required',
             'description' => 'required',

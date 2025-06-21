@@ -16,7 +16,7 @@ class UserRoleController extends Controller
      */
     public function index()
     {
-        Gate::authorize('role_user.index');
+        Gate::authorize('roleuser.index');
         $user = User::where('role_id', '!=', 0)->get();
         return view('Dashboard.UserRole.index', compact('user'));
     }
@@ -26,7 +26,7 @@ class UserRoleController extends Controller
      */
     public function create()
     {
-        Gate::authorize('role_user.create');
+        Gate::authorize('roleuser.create');
         $user = new User();
         $role = Role::get();
         $users = User::where('role_id', '=', 0)->get();
@@ -42,7 +42,7 @@ class UserRoleController extends Controller
 
     public function edit(string $id)
     {
-        Gate::authorize('role_user.update');
+        Gate::authorize('roleuser.update');
         $user = User::find($id);
         $users = User::get();
         $role = Role::get();
@@ -54,13 +54,12 @@ class UserRoleController extends Controller
      */
     public function update(Request $request)
     {
-        Gate::authorize('role_user.update');
+        Gate::authorize('roleuser.update');
         $request->validate([
             'user_id' => 'required',
             'role_id' => 'required',
         ]);
-
-        $user = User::find(2);
+        $user = User::findOrFail($request->user_id);
         $user->update([
             'role_id' => $request->role_id,
         ]);
@@ -73,7 +72,7 @@ class UserRoleController extends Controller
      */
     public function destroy(string $id)
     {
-        Gate::authorize('role_user.delete');
+        Gate::authorize('roleuser.delete');
 
         User::find($id)->update([
             'role_id' => 0

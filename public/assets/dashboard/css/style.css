@@ -692,7 +692,7 @@ h6 {
 }
 
 .sidebar-nav .nav-link i {
-    font-size: 16px;
+    font-size: 16px !important;
     margin-right: 10px;
     color: #4154f1;
 }

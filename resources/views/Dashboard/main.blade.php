@@ -8,7 +8,7 @@
     <title>@yield('title', 'Dashboard')</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
-<meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicons -->
     <link href="{{ asset('assets/Dashboard/img/favicon.png') }}" rel="icon">
     <link href="{{ asset('assets/Dashboard/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
@@ -217,8 +217,7 @@
 
                 <li class="nav-item dropdown pe-3">
 
-                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
-                        data-bs-toggle="dropdown">
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img src="{{ asset('assets/Dashboard/img/profile-img.jpg') }}" alt="Profile"
                             class="rounded-circle">
                         <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
@@ -291,8 +290,7 @@
             </li><!-- End Dashboard Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav3" data-bs-toggle="collapse"
-                    href="#">
+                <a class="nav-link collapsed" data-bs-target="#components-nav3" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-menu-button-wide"></i><span>Category</span><i
                         class="bi bi-chevron-down ms-auto"></i>
                 </a>
@@ -316,122 +314,85 @@
 
                 </ul>
             </li><!-- End Components Nav -->
-
-        <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav4" data-bs-toggle="collapse"
-                    href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>vehicles Type</span><i
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-toggle="collapse" href="#vehicles-management">
+                    <i class="bi bi-truck-front"></i><span>Vehicles Management</span><i
                         class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-nav4" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="{{ route('Dashboard.vehiclesType.index') }}">
-                            <i class="bi bi-circle"></i><span>show all vehicles Type</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('Dashboard.vehiclesType.create') }}">
-                            <i class="bi bi-circle"></i><span>create vehicles Type</span>
-                        </a>
-                    </li>
 
-                    <li>
-                        <a href="{{ route('Dashboard.vehiclesType.trash') }}">
-                            <i class="bi bi-circle"></i><span>trashed vehicles Type</span>
-                        </a>
-                    </li>
+                <ul id="vehicles-management" class="nav-content collapse" data-bs-parent="#sidebar-nav">
 
-                </ul>
-            </li><!-- End Components Nav -->
-
-
-    <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav5" data-bs-toggle="collapse"
-                    href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>vehicles Brands</span><i
-                        class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="components-nav5" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <!-- Vehicle Types -->
                     <li>
-                        <a href="{{ route('Dashboard.vehiclesBrand.index') }}">
-                            <i class="bi bi-circle"></i><span>show all vehicles Brand</span>
+                        <a class="nav-link collapsed" data-bs-toggle="collapse" href="#vehicle-types">
+                            <i class="bi bi-tags"></i><span>Vehicle Types</span><i
+                                class="bi bi-chevron-down ms-auto"></i>
                         </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('Dashboard.vehiclesBrand.create') }}">
-                            <i class="bi bi-circle"></i><span>create vehicles Brand</span>
-                        </a>
+                        <ul id="vehicle-types" class="nav-content collapse">
+                            <li><a href="{{ route('Dashboard.vehiclesType.index') }}"><i class="bi bi-circle"></i> Show
+                                    All</a></li>
+                            <li><a href="{{ route('Dashboard.vehiclesType.create') }}"><i class="bi bi-circle"></i>
+                                    Create</a></li>
+                            <li><a href="{{ route('Dashboard.vehiclesType.trash') }}"><i class="bi bi-circle"></i>
+                                    Trashed</a></li>
+                        </ul>
                     </li>
 
+                    <!-- Vehicle Brands -->
                     <li>
-                        <a href="{{ route('Dashboard.vehiclesBrand.trash') }}">
-                            <i class="bi bi-circle"></i><span>trashed vehicles Brand</span>
+                        <a class="nav-link collapsed" data-bs-toggle="collapse" href="#vehicle-brands">
+                            <i class="bi bi-patch-check"></i><span>Vehicle Brands</span><i
+                                class="bi bi-chevron-down ms-auto"></i>
                         </a>
+                        <ul id="vehicle-brands" class="nav-content collapse">
+                            <li><a href="{{ route('Dashboard.vehiclesBrand.index') }}"><i class="bi bi-circle"></i> Show
+                                    All</a></li>
+                            <li><a href="{{ route('Dashboard.vehiclesBrand.create') }}"><i class="bi bi-circle"></i>
+                                    Create</a></li>
+                            <li><a href="{{ route('Dashboard.vehiclesBrand.trash') }}"><i class="bi bi-circle"></i>
+                                    Trashed</a></li>
+                        </ul>
                     </li>
 
-                </ul>
-            </li><!-- End Components Nav -->
-
-         <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav6" data-bs-toggle="collapse"
-                    href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>Vehicle</span><i
-                        class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="components-nav6" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <!-- Vehicles -->
                     <li>
-                        <a href="{{ route('Dashboard.vehicle.index') }}">
-                            <i class="bi bi-circle"></i><span>show all vehicle</span>
+                        <a class="nav-link collapsed" data-bs-toggle="collapse" href="#vehicles">
+                            <i class="bi bi-car-front-fill"></i><span>Vehicles</span><i
+                                class="bi bi-chevron-down ms-auto"></i>
                         </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('Dashboard.vehicle.create') }}">
-                            <i class="bi bi-circle"></i><span>create vehicle</span>
-                        </a>
+                        <ul id="vehicles" class="nav-content collapse">
+                            <li><a href="{{ route('Dashboard.vehicle.index') }}"><i class="bi bi-circle"></i> Show
+                                    All</a></li>
+                            <li><a href="{{ route('Dashboard.vehicle.create') }}"><i class="bi bi-circle"></i>
+                                    Create</a></li>
+                            <li><a href="{{ route('Dashboard.vehicle.trash') }}"><i class="bi bi-circle"></i>
+                                    Trashed</a></li>
+                        </ul>
                     </li>
 
+                    <!-- Vehicle Movements -->
                     <li>
-                        <a href="{{ route('Dashboard.vehicle.trash') }}">
-                            <i class="bi bi-circle"></i><span>trashed vehicles</span>
+                        <a class="nav-link collapsed" data-bs-toggle="collapse" href="#vehicle-movements">
+                            <i class="bi bi-arrow-left-right"></i><span>Vehicle Movements</span><i
+                                class="bi bi-chevron-down ms-auto"></i>
                         </a>
-                    </li>
-
-                </ul>
-            </li>
-
-                     <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav7" data-bs-toggle="collapse"
-                    href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>VehicleMovement</span><i
-                        class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="components-nav7" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="{{ route('Dashboard.vehicleMovement.index') }}">
-                            <i class="bi bi-circle"></i><span>show all vehicleMovement</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('Dashboard.vehicleMovement.create') }}">
-                            <i class="bi bi-circle"></i><span>create vehicleMovement</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="{{ route('Dashboard.vehicleMovement.trash') }}">
-                            <i class="bi bi-circle"></i><span>trashed vehiclesMovement</span>
-                        </a>
+                        <ul id="vehicle-movements" class="nav-content collapse">
+                            <li><a href="{{ route('Dashboard.vehicleMovement.index') }}"><i class="bi bi-circle"></i>
+                                    Show All</a></li>
+                            <li><a href="{{ route('Dashboard.vehicleMovement.create') }}"><i class="bi bi-circle"></i>
+                                    Create</a></li>
+                            <li><a href="{{ route('Dashboard.vehicleMovement.trash') }}"><i class="bi bi-circle"></i>
+                                    Trashed</a></li>
+                        </ul>
                     </li>
 
                 </ul>
             </li>
 
 
-  <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav10" data-bs-toggle="collapse"
-                    href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>user</span><i
-                        class="bi bi-chevron-down ms-auto"></i>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav10" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>user</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="components-nav10" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
@@ -453,6 +414,87 @@
 
                 </ul>
             </li>
+
+
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav13" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>parking</span><i
+                        class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav13" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('Dashboard.parking.index') }}">
+                            <i class="bi bi-circle"></i><span>show all parking</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('Dashboard.parking.create') }}">
+                            <i class="bi bi-circle"></i><span>create parking</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('Dashboard.parking.trash') }}">
+                            <i class="bi bi-circle"></i><span>trashed parkings</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li><!-- End Components Nav -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav17" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-gear"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav17" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                    <!-- role -->
+                    <li>
+                        <a class="nav-link collapsed" data-bs-target="#components-nav171" data-bs-toggle="collapse"
+                            href="#">
+                            <i class="bi bi-circle"></i><span>Role</span><i class="bi bi-chevron-down ms-auto"></i>
+                        </a>
+                        <ul id="components-nav171" class="nav-content collapse">
+                            <li><a href="{{ route('Dashboard.role.index') }}"><span>Show All Roles</span></a></li>
+                            <li><a href="{{ route('Dashboard.role.create') }}"><span>Create Role</span></a></li>
+                            <li><a href="{{ route('Dashboard.role.trash') }}"><span>Trashed Roles</span></a></li>
+                        </ul>
+                    </li>
+
+                    <!-- permission -->
+                    <li>
+                        <a class="nav-link collapsed" data-bs-target="#components-nav172" data-bs-toggle="collapse"
+                            href="#">
+                            <i class="bi bi-circle"></i><span>Permission</span><i
+                                class="bi bi-chevron-down ms-auto"></i>
+                        </a>
+                        <ul id="components-nav172" class="nav-content collapse">
+                            <li><a href="{{ route('Dashboard.permission.index') }}"><span>Show All
+                                        Permissions</span></a></li>
+                            <li><a href="{{ route('Dashboard.permission.create') }}"><span>Create Permission</span></a>
+                            </li>
+                            <li><a href="{{ route('Dashboard.permission.trash') }}"><span>Trashed Permissions</span></a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- user_role -->
+                    <li>
+                        <a class="nav-link collapsed" data-bs-target="#components-nav173" data-bs-toggle="collapse"
+                            href="#">
+                            <i class="bi bi-circle"></i><span>User Role</span><i class="bi bi-chevron-down ms-auto"></i>
+                        </a>
+                        <ul id="components-nav173" class="nav-content collapse">
+                            <li><a href="{{ route('Dashboard.user_role.index') }}"><span>Show All User Roles</span></a>
+                            </li>
+                            <li><a href="{{ route('Dashboard.user_role.create') }}"><span>Create User Role</span></a>
+                            </li>
+                            <li><a href="{{ route('Dashboard.user_role.trash') }}"><span>Trashed User Roles</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
 
         </ul>
 

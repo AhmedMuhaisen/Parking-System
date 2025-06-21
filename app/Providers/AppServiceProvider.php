@@ -170,4 +170,105 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('user.forceDelete', function ($user) {
             return (in_array('user.forceDelete', $user->role->permission->pluck('code')->toArray()));
         });
+
+
+   Gate::define('parking.index', function ($user) {
+            return (in_array('parking.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('parking.create', function ($user) {
+            return (in_array('parking.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('parking.update', function ($user) {
+            return (in_array('parking.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('parking.delete', function ($user) {
+            return (in_array('parking.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('parking.restore', function ($user) {
+            return (in_array('parking.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('parking.forceDelete', function ($user) {
+            return (in_array('parking.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+
+
+
+                Gate::define('role.index', function ($user) {
+            return (in_array('role.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('role.create', function ($user) {
+            return (in_array('role.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('role.update', function ($user) {
+            return (in_array('role.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('role.delete', function ($user) {
+            return (in_array('role.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('role.restore', function ($user) {
+            return (in_array('role.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('role.forceDelete', function ($user) {
+            return (in_array('role.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('permission.index', function ($user) {
+            return (in_array('permission.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('permission.create', function ($user) {
+            return (in_array('permission.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('permission.update', function ($user) {
+            return (in_array('permission.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('permission.delete', function ($user) {
+            return (in_array('permission.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('permission.restore', function ($user) {
+            return (in_array('permission.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('permission.forceDelete', function ($user) {
+            return (in_array('permission.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+
+               Gate::define('roleuser.index', function ($user) {
+            return (in_array('roleuser.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('roleuser.create', function ($user) {
+            return (in_array('roleuser.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('roleuser.update', function ($user) {
+            return (in_array('roleuser.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('roleuser.delete', function ($user) {
+            return (in_array('roleuser.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('roleuser.restore', function ($user) {
+            return (in_array('roleuser.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('roleuser.forceDelete', function ($user) {
+            return (in_array('roleuser.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
 }}

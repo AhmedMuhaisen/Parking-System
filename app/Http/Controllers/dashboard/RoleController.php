@@ -73,7 +73,7 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
-        Gate::authorize('role.Update');
+        Gate::authorize('role.update');
         $permission = Permission::get();
         $role = Role::find($id);
         $page = 'edit';
@@ -85,7 +85,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        Gate::authorize('role.Update');
+        Gate::authorize('role.update');
         $request->validate([
 
             'name' => 'required',

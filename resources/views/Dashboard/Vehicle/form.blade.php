@@ -4,7 +4,7 @@
 @section('content')
 
 <style>
-    #color{
+    #color {
         height: 40px;
     }
 </style>
@@ -53,20 +53,20 @@
                 <x-selectd type="text" value="{{ $vehicle->motor_type->id }}" :array="$motor_type" name="motor_type"
                     id="motor_type" title="motor type" />
 
-                    <div class="my-2">
-<label for="">Vehicle Onr</label>
+                <div class="my-2">
+                    <label for="">Vehicle Onr</label>
 
-                <select class="form-control mt-2" title="user" name="user" id="user" value="">
+                    <select class="form-control mt-2" title="user" name="user" id="user" value="">
 
-                    <option selected value="" style="color: gray">select
-                    </option>
-                    @foreach ($user as $item)
-                    <option value="{{ $item->id }}" @if(old('user',$item->id)==$vehicle->user->id) selected
-                        @endif>{{$item->first_name . ' ' .$item->second_name }}
-                    </option>
-                    @endforeach
-                </select>
-</div>
+                        <option selected value="" style="color: gray">select
+                        </option>
+                        @foreach ($user as $item)
+                        <option value="{{ $item->id }}" @if(old('user',$item->id)==$vehicle->user->id) selected
+                            @endif>{{$item->first_name . ' ' .$item->second_name }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
 
                 <x-inputd type="date" value="{{ $vehicle->date_start }}" name="date_start" id="date_start"
                     title="date of start" />
