@@ -13,7 +13,7 @@
     <div class="pagetitle">
         <div class="d-flex justify-content-between align-items-center my-3">
             <h1>Categories</h1>
-            <a href="{{ route('Dashboard.Category.create') }}" class="btn btn-primary" style="
+            <a href="{{ route('Dashboard.category.create') }}" class="btn btn-primary" style="
 ">add
                 new Category</a>
         </div>
@@ -115,7 +115,7 @@
                         </tr>
                     </thead>
                     <tbody id="tableContainer">
-                 @include('Dashboard.category.table', ['category' => $category, 'page' => $page])
+                 @include('Dashboard.Category.table', ['category' => $category, 'page' => $page])
                     </tbody>
                 </table>
 
