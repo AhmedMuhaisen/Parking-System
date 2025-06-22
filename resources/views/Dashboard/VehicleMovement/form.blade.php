@@ -35,7 +35,9 @@
                     <div class="my-2">
 <label for="">Vehicle Number</label>
 
-                <select class="form-control mt-2" title="vehicle_number" name="vehicle_number" id="vehicle_number" value="">
+                <select class="form-control mt-2   @error('vehicle_number')
+    is-invalid
+    @enderror" title="vehicle_number" name="vehicle_number" id="vehicle_number" value="">
 
                     <option selected value="" disabled hidden style="color: gray">select
                     </option>
@@ -44,7 +46,10 @@
                         @endif>{{$item->vehicle_number}}
                     </option>
                     @endforeach
-                </select>
+                </select>   @error('vehicle_number')
+            <p class="text-danger">{{ $message }}</p>
+        @enderror
+
 </div>
 
 
@@ -58,7 +63,9 @@
                     <label for="" class="col-sm-2 col-form-label">
                         Method Of Passing
                     </label>
-                    <select class="form-control"  title="method_passage" name="method_passage" id="method_passage" value="">
+                    <select class="form-control   @error('method_passage')
+    is-invalid
+    @enderror"  title="method_passage" name="method_passage" id="method_passage" value="">
                         <option selected disabled hidden value="" style="color: gray" >select
                         </option>
                         <option value="Manual" @if(old('method_passage',$vehicleMovement->method_passage)=='Manual') selected
@@ -68,13 +75,18 @@
                             @endif>Automatic
                         </option>
 
-                    </select>
+                    </select>   @error('method_passage')
+            <p class="text-danger">{{ $message }}</p>
+        @enderror
+
                 </div>
                 <div class="my-3">
                     <label for="" class="col-sm-2 col-form-label">
                          movement type
                      </label>
-                    <select class="form-control" title="type_movement" name="type_movement" id="type_movement" value="">
+                    <select class="form-control   @error('type_movement')
+    is-invalid
+    @enderror" title="type_movement" name="type_movement" id="type_movement" value="">
                         <option selected disabled hidden value="">select
                         </option>
                         <option value="Entry" @if(old('type_movement',$vehicleMovement->type_Movement)=='Entry') selected @endif>Entry
@@ -84,6 +96,9 @@
                         </option>
 
                     </select>
+   @error('type_movement')
+            <p class="text-danger">{{ $message }}</p>
+        @enderror
 
                 </div>
 

@@ -29,7 +29,9 @@
                     <label for="" class="col-sm-2 col-form-label">
                         work method
                     </label>
-                    <select class="form-control"  title="work_method" name="work_method" id="work_method" value="">
+                    <select class="form-control   @error('work_method')
+    is-invalid
+    @enderror"  title="work_method" name="work_method" id="work_method" value="">
                         <option selected value="" style="color: gray" >select
                         </option>
                         <option value="manual" @if(old('work_method',$category->work_method)=='manual') selected
@@ -40,12 +42,18 @@
                         </option>
 
                     </select>
+                       @error('work_method')
+            <p class="text-danger">{{ $message }}</p>
+        @enderror
+
                 </div>
                 <div class="my-3">
                     <label for="" class="col-sm-2 col-form-label">
                         status
                     </label>
-                    <select class="form-control" title="status" name="status" id="status" value="">
+                    <select class="form-control   @error('status')
+    is-invalid
+    @enderror" title="status" name="status" id="status" value="">
                         <option selected value="">select
                         </option>
                         <option value="active" @if(old('status',$category->status)=='active') selected @endif>active
@@ -55,6 +63,9 @@
                         </option>
 
                     </select>
+   @error('status')
+            <p class="text-danger">{{ $message }}</p>
+        @enderror
 
                 </div>
    <x-textarea value="{{ $category->description }}" title="Description" name="description"></x-textarea>

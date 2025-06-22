@@ -27,7 +27,9 @@
     <div class="my-2">
                     <label for="">parking Onr</label>
 
-                    <select class="form-control mt-2" title="user" name="user" id="user" value="">
+                    <select class="form-control mt-2    @error('user')
+    is-invalid
+    @enderror" title="user" name="user" id="user" value="">
 
                         <option selected value="" style="color: gray">select
                         </option>
@@ -36,7 +38,10 @@
                             @endif>{{$item->first_name . ' ' .$item->second_name }}
                         </option>
                         @endforeach
-                    </select>
+                    </select>    @error('user')
+            <p class="text-danger">{{ $message }}</p>
+        @enderror
+
                 </div>
 
       <x-inputd type="text" value="{{ $parking->max_buildings }}" name="max_buildings" id="max_buildings" title="max buildings" />

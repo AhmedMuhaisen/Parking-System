@@ -106,7 +106,7 @@ $result=$vehicles->get();
         'vehicle_number'=>['required','digits:6'],
         'color'=>['required','max:10'],
         'image'=>['required','image','mimes:jpeg,jpg,png,svg,webp|max:2048'],
-        'category'=>['required','exists:Categories,id'],
+        'category'=>['required','exists:categories,id'],
         'vehicle_type'=>['required','exists:vehicles_types,id'],
         'vehicle_brand'=>['required','exists:vehicles_brands,id'],
         'motor_type'=>['required','exists:motor_types,id'],
@@ -121,7 +121,7 @@ $result=$vehicles->get();
 
         Vehicle::create([
             'vehicle_number'=>$request->vehicle_number,
-            'color'=>$request->color,
+            'color_id'=>$request->color,
             'image'=>$image,
             'category_id'=>$request->category,
             'vehicles_type_id'=>$request->vehicle_type,
@@ -195,7 +195,7 @@ $result=$vehicles->get();
         'vehicle_number'=>['required','min:5','max:12'],
         'color'=>['required','max:10'],
         'image'=>['nullable','image','mimes:jpeg,jpg,png,svg,webp|max:2048'],
-        'category'=>['required','exists:Categories,id'],
+        'category'=>['required','exists:categories,id'],
         'vehicle_type'=>['required','exists:vehicles_types,id'],
         'vehicle_brand'=>['required','exists:vehicles_brands,id'],
         'motor_type'=>['required','exists:motor_types,id'],
@@ -216,7 +216,7 @@ if($request->image){
 
         $vehicle->update([
             'vehicle_number'=>$request->vehicle_number,
-            'color'=>$request->color,
+            'color_id'=>$request->color,
             'image'=>$image,
             'category_id'=>$request->category,
             'vehicles_type_id'=>$request->vehicle_type,

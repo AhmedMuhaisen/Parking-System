@@ -62,7 +62,9 @@
                     <label for="" class="col-sm-2 col-form-label">
                         type
                     </label>
-                    <select class="form-control" title="type" name="type" id="type" >
+                    <select class="form-control   @error('type')
+    is-invalid
+    @enderror" title="type" name="type" id="type" >
                         <option selected value="">select
                         </option>
                         <option value="admin" @if(old('type',$user->type)=='admin') selected @endif>admin
@@ -72,6 +74,9 @@
                         </option>
 
                     </select>
+   @error('type')
+            <p class="text-danger">{{ $message }}</p>
+        @enderror
 
                 </div>
 
@@ -81,7 +86,9 @@
                     <label for="" class="col-sm-2 col-form-label">
                         verified
                     </label>
-                    <select class="form-control" title="verified" name="verified" id="verified">
+                    <select class="form-control   @error('verified')
+    is-invalid
+    @enderror" title="verified" name="verified" id="verified">
                         <option selected value="">select
                         </option>
                         <option value="{{ Carbon\Carbon::today() }}" @if(old('verified',$user->email_verified_at)!=null) selected @endif> Activated
@@ -90,7 +97,10 @@
                             @endif>Deactivated
                         </option>
 
-                    </select>
+                    </select>   @error('verified')
+            <p class="text-danger">{{ $message }}</p>
+        @enderror
+
 
                 </div>
 
