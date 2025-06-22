@@ -1,4 +1,4 @@
-@extends('dashboard.user.form')
+@extends('Dashboard.user.form')
 
 @section('title_form', 'Create user')
 <!-- General Form Elements -->

@@ -6,17 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Vehicle extends Model
+class Vehicle extends Master
 {
-    use HasFactory, SoftDeletes;
-    protected $guarded = [];
-    // protected $casts = [
-    //     'date_End' => 'date', // or 'date'
-    //      'date_start' => 'date', // or 'date'
-    // ];
+
+
     function user()
     {
         return $this->belongsTo(User::class, 'user_id')->withDefault();
+    }
+
+
+      function color()
+    {
+        return $this->belongsTo(Color::class)->withDefault();
     }
     function building()
     {
@@ -47,9 +49,15 @@ class Vehicle extends Model
 
     public static function search($request)
     {
-        $vehicles = Vehicle::with(['category', 'motor_type', 'vehicle_type', 'vehicle_brand', 'user']);
+        $vehicles = Vehicle::with(['category','color', 'motor_type', 'vehicle_type', 'vehicle_brand', 'user']);
 
         // Filter by related Category
+
+        if ($request->filled('color')) {
+            $vehicles->whereHas('color', function ($q) use ($request) {
+                $q->where('id', $request->color);
+            });
+        }
         if ($request->filled('building')) {
             $vehicles->whereHas('user.building', function ($q) use ($request) {
                 $q->where('id', $request->building);
@@ -99,21 +107,17 @@ class Vehicle extends Model
                 $q->whereRaw("CONCAT(first_name, ' ', second_name) LIKE ?", ["%{$request->onr_name}%"]);
             });
         }
-        if ($request->filled('date_start')) {
-            search_date(
-                $request->input('date_start'),
-                'date_start',
-                $vehicles
-            );
+      if ($request->filled('date_start')) {
+            $vehicles->where('date_start', '>=', $request->date_end);
         }
 
         if ($request->filled('date_end')) {
-            $vehicles->where('date_End', 'like', '%' . $request->date_end . '%');
+            $vehicles->where('date_End', '>=', $request->date_end);
         }
 
         // Filter by Created At
         if ($request->filled('created_at')) {
-            $vehicles->where('created_at', 'like', '%' . $request->created_at . '%');
+            $vehicles->where('created_at', '>=', $request->created_at);
         }
 
         // Show trashed only if specified

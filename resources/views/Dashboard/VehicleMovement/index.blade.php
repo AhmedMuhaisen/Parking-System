@@ -150,7 +150,7 @@
                         </tr>
                     </thead>
                     <tbody id="tableContainer">
-                        @include('Dashboard.vehicleMovement.table', ['vehicleMovement' => $vehicleMovement, 'page' => $page])
+                        @include('Dashboard.VehicleMovement.table', ['vehicleMovement' => $vehicleMovement, 'page' => $page])
                     </tbody>
                 </table>
 

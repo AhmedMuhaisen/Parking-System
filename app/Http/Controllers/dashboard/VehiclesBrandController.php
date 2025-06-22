@@ -22,8 +22,8 @@ class VehiclesBrandController extends Controller
 
 
         $page = 'index';
-        $vehiclesBrand = vehiclesBrand::get();
-        return view('Dashboard.vehiclesBrand.index', compact('vehiclesBrand', 'page'));
+        $vehiclesBrand = VehiclesBrand::get();
+        return view('Dashboard.VehiclesBrand.index', compact('vehiclesBrand', 'page'));
     }
 
     public function search(Request $request)
@@ -31,7 +31,7 @@ class VehiclesBrandController extends Controller
         $page = $request->page;
         $vehiclesBrands = VehiclesBrand::search($request);
         $result = $vehiclesBrands->get();
-        $html = view('Dashboard.vehiclesBrand.table', [
+        $html = view('Dashboard.VehiclesBrand.table', [
             'vehiclesBrand' => $result,
             'page' => $page,
         ])->render();
@@ -45,7 +45,7 @@ $vehiclesBrands=VehiclesBrand::search($request);
 $result=$vehiclesBrands->get();
         $data = ['title' => 'My PDF Report', 'page' => 'index', 'vehiclesBrands' => $result];
 
-        $pdf = Pdf::loadView('Dashboard.vehiclesBrand.export-pdf', $data)->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('a4', 'landscape');
+        $pdf = Pdf::loadView('Dashboard.VehiclesBrand.export-pdf', $data)->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('a4', 'landscape');
 
         return $pdf->download('vehiclesBrand.pdf');  // download
         // return $pdf->stream('users.pdf'); // OR show in browser
@@ -65,7 +65,7 @@ $result=$vehiclesBrands->get();
         Gate::authorize('vehiclesBrand.create');
         $page = 'create';
         $folder = '';
-        $vehiclesBrand = new vehiclesBrand();
+        $vehiclesBrand = new VehiclesBrand();
         return view('Dashboard.VehiclesBrand.create', compact('page', 'vehiclesBrand', 'folder'));
     }
 
@@ -149,7 +149,7 @@ $result=$vehiclesBrands->get();
 
     public function delete(string $id)
     {
-        Gate::authorize('vehiclesBrand.forcedelete');
+        Gate::authorize('vehiclesBrand.forceDelete');
         VehiclesBrand::withTrashed()->find($id)->forceDelete();
 
         return redirect()->route('Dashboard.vehiclesBrand.index');

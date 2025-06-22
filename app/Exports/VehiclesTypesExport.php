@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\vehiclesType;
+use App\Models\VehiclesType;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as FacadesRequest;
@@ -15,7 +15,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
-class vehiclesTypesExport implements FromCollection, WithHeadings, WithEvents, WithCustomStartCell, WithMapping, WithColumnWidths
+class VehiclesTypesExport implements FromCollection, WithHeadings, WithEvents, WithCustomStartCell, WithMapping, WithColumnWidths
 {
 
     protected $request;
@@ -27,7 +27,7 @@ class vehiclesTypesExport implements FromCollection, WithHeadings, WithEvents, W
     }
     public function collection()
     {
-        $vehiclesTypes = vehiclesType::search($this->request);
+        $vehiclesTypes = VehiclesType::search($this->request);
 
         return $vehiclesTypes->get();
     }

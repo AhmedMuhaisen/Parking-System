@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Exports\usersExport;
+use App\Exports\UsersExport;
 use App\Http\Controllers\Controller;
 use App\Models\Building;
-use App\Models\Category;
-use App\Models\MotorType;
+
 use App\Models\Unit;
 use App\Models\User;
-use App\Models\usersBrand;
-use App\Models\usersType;
+
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,22 +27,22 @@ class userController extends Controller
 
 
         $page = 'index';
-        $user = user::get();
+        $user = User::get();
 
         $unit = Unit::get();
         $building = Building::get();
 
 
 
-        return view('Dashboard.user.index', compact('user', 'page', 'building', 'unit'));
+        return view('Dashboard.User.index', compact('user', 'page', 'building', 'unit'));
     }
 
     public function search(Request $request)
     {
         $page = $request->page;
-        $users = user::search($request);
+        $users = User::search($request);
         $result = $users->get();
-        $html = view('Dashboard.user.table', [
+        $html = view('Dashboard.User.table', [
             'user' => $result,
             'page' => $page,
         ])->render();
@@ -54,11 +52,11 @@ class userController extends Controller
 
     public function exportPDF(Request $request)
     {
-        $users = user::search($request);
+        $users = User::search($request);
         $result = $users->get();
         $data = ['title' => 'My PDF Report', 'page' => 'index', 'users' => $result];
 
-        $pdf = Pdf::loadView('Dashboard.user.export-pdf', $data)->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('tabloid', 'landscape');
+        $pdf = Pdf::loadView('Dashboard.User.export-pdf', $data)->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('tabloid', 'landscape');
 
         return $pdf->download('user.pdf');  // download
         // return $pdf->stream('users.pdf'); // OR show in browser
@@ -68,7 +66,7 @@ class userController extends Controller
 
     public function exportExcel(Request $request)
     {
-        return Excel::download(new usersExport($request), 'users.xlsx');
+        return Excel::download(new UsersExport($request), 'users.xlsx');
     }
     /**
      * Show the form for creating a new resource.
@@ -84,7 +82,7 @@ class userController extends Controller
         $page = 'create';
         $folder = 'users';
         $user = new User();
-        return view('Dashboard.user.create', compact('page', 'user', 'folder', 'building', 'unit'));
+        return view('Dashboard.User.create', compact('page', 'user', 'folder', 'building', 'unit'));
     }
 
     /**
@@ -123,7 +121,7 @@ class userController extends Controller
         $image = $image->storePublicly('user', 'new');
 
 
-        user::create([
+        User::create([
             'first_name' => $request->first_name,
             'second_name' => $request->second_name,
             'image' => $image,
@@ -142,7 +140,7 @@ class userController extends Controller
     public function restore(string $id)
     {
         Gate::authorize('user.restore');
-        user::withTrashed()->find($id)->restore();
+        User::withTrashed()->find($id)->restore();
         return redirect()->route('Dashboard.user.trash');
     }
 
@@ -151,7 +149,7 @@ class userController extends Controller
     {
         Gate::authorize('user.index');
 
-        $user = user::onlyTrashed()->get();
+        $user = User::onlyTrashed()->get();
 
 
         $unit = Unit::get();
@@ -159,7 +157,7 @@ class userController extends Controller
 
 
         $page = 'trash';
-        return view('Dashboard.user.index', compact('user', 'page',  'building', 'unit'));
+        return view('Dashboard.User.index', compact('user', 'page',  'building', 'unit'));
     }
     /**
      * Display the specified resource.
@@ -183,7 +181,7 @@ class userController extends Controller
 
 
         $folder = 'users';
-        return view('Dashboard.user.edit', compact('page', 'user', 'folder', 'building', 'unit'));
+        return view('Dashboard.User.edit', compact('page', 'user', 'folder', 'building', 'unit'));
     }
 
     /**
@@ -216,7 +214,7 @@ class userController extends Controller
             'type' => ['required', 'string'],
             'verified' => ['required', 'date'],
         ]);
-        $user = user::find($id);
+        $user = User::find($id);
 
         if ($request->image) {
             $image = $request->image;
@@ -247,14 +245,14 @@ class userController extends Controller
     public function destroy(string $id)
     {
         Gate::authorize('user.delete');
-        user::find($id)->delete();
+        User::find($id)->delete();
         return redirect()->route('Dashboard.user.index');
     }
 
     public function delete(string $id)
     {
-        Gate::authorize('user.forcedelete');
-        user::withTrashed()->find($id)->forceDelete();
+        Gate::authorize('user.forceDelete');
+        User::withTrashed()->find($id)->forceDelete();
 
         return redirect()->route('Dashboard.user.index');
     }

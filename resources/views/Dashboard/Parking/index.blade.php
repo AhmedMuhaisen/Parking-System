@@ -130,7 +130,7 @@
                         </tr>
                     </thead>
                     <tbody id="tableContainer">
-                        @include('Dashboard.parking.table', ['parking' => $parking, 'page' => $page])
+                        @include('Dashboard.Parking.table', ['parking' => $parking, 'page' => $page])
                     </tbody>
                 </table>
 

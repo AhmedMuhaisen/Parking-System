@@ -27,7 +27,7 @@ class ParkingsExport implements FromCollection, WithHeadings, WithEvents, WithCu
     }
     public function collection()
     {
-        $parkings = parking::search($this->request);
+        $parkings = Parking::search($this->request);
 
         return $parkings->get();
     }

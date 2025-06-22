@@ -3,10 +3,11 @@
                         <tr>
 
 
-                            <td width="200">{{ $item->name }}</td>
-                            <td width="200">{{ $item->work_method }}</td>
-                            <td width="200">{{ $item->status }}</td>
-                            <td width="200">{{$item->created_at->format('m-d-Y');}}</td>
+                            <td width="">{{ $item->name }}</td>
+                              <td width="200">{!! $item->description !!}</td>
+                            <td width="">{{ $item->work_method }}</td>
+                            <td width="">{{ $item->status }}</td>
+                            <td width="">{{$item->created_at->format('m-d-Y');}}</td>
 
 
 

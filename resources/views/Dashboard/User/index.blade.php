@@ -155,7 +155,7 @@
                         </tr>
                     </thead>
                     <tbody id="tableContainer">
-                        @include('Dashboard.user.table', ['user' => $user, 'page' => $page])
+                        @include('Dashboard.User.table', ['user' => $user, 'page' => $page])
                     </tbody>
                 </table>
 

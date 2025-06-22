@@ -3,11 +3,17 @@
 @extends('Dashboard.main')
 @section('content')
 <main id="main" class="main">
+<style>
+    th,td{
+        max-width: 200px;
+    }
+</style>
+
 
     <div class="pagetitle">
         <div class="d-flex justify-content-between align-items-center my-3">
             <h1>Categories</h1>
-            <a href="{{ route('Dashboard.category.create') }}" class="btn btn-primary" style="
+            <a href="{{ route('Dashboard.Category.create') }}" class="btn btn-primary" style="
 ">add
                 new Category</a>
         </div>
@@ -59,6 +65,8 @@
                         <tr>
 
                             <th scope="col">Name</th>
+                            <th scope="col" width="200">Description</th>
+
                             <th scope="col" width="200">work_method</th>
                             <th scope="col">status</th>
                             <th scope="col" width='100'>created_at</th>
@@ -70,6 +78,9 @@
 
                             <td scope="col">
                                 <x-input type="text" value="" name="name" id="name" title="search" />
+                            </td>
+                              <td scope="col">
+                                <x-input type="text" value="" name="description" id="description" title="search" />
                             </td>
                             <td scope="col" width="200">
                                <select class="form-control" title="search" name="work_method" id="work_method" value="">
@@ -137,6 +148,7 @@
     function datavalue(){
         return{
         name: $('#name').val(),
+          description: $('#description').val(),
         status: $('#status').val(),
         work_method: $('#work_method').val(),
         created_at: $('#created_at').val(),

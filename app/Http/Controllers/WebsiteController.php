@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\reset_passwordMail;
 use App\Mail\Send_messageMail;
 use App\Models\Building;
+use App\Models\Color;
 use App\Models\VehiclesBrand;
 use App\Models\Guest;
 use App\Models\MotorType;
@@ -44,10 +45,12 @@ class WebsiteController extends Controller
         $settings = Setting::first();
         $buildings = Building::get();
         $units = Unit::get();
+        $color = Color::get();
+
         $vehicles_type = VehiclesType::get();
         $motor_type = MotorType::get();
         $VehiclesBrand = VehiclesBrand::get();
-        return view('website.profile', compact('units', 'buildings', 'settings', 'vehicles_type', 'motor_type', 'VehiclesBrand'));
+        return view('website.profile', compact('units', 'buildings', 'settings', 'vehicles_type', 'motor_type','color', 'VehiclesBrand'));
     }
 
     function contact(Request $request)

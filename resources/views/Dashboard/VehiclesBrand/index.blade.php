@@ -84,7 +84,7 @@
                         </tr>
                     </thead>
                     <tbody id="tableContainer">
-                 @include('Dashboard.vehiclesBrand.table', ['vehiclesBrand' => $vehiclesBrand, 'page' => $page])
+                 @include('Dashboard.VehiclesBrand.table', ['vehiclesBrand' => $vehiclesBrand, 'page' => $page])
                     </tbody>
                 </table>
 

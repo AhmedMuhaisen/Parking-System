@@ -57,7 +57,7 @@
                     </select>
 
                 </div>
-
+   <x-textarea value="{{ $category->description }}" title="Description" name="description"></x-textarea>
 
 
 

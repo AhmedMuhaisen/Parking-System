@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Exports\parkingsExport;
+use App\Exports\ParkingsExport;
 use App\Http\Controllers\Controller;
-use App\Models\parking;
+use App\Models\Parking;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -27,15 +27,15 @@ class ParkingController extends Controller
             'buildings.users.vehicle',
             'buildings.unit',
         ])->get();
-        return view('Dashboard.parking.index', compact('parking', 'page'));
+        return view('Dashboard.Parking.index', compact('parking', 'page'));
     }
 
     public function search(Request $request)
     {
         $page = $request->page;
-        $parkings = parking::search($request);
+        $parkings = Parking::search($request);
         $result = $parkings->get();
-        $html = view('Dashboard.parking.table', [
+        $html = view('Dashboard.Parking.table', [
             'parking' => $result,
             'page' => $page,
         ])->render();
@@ -45,11 +45,11 @@ class ParkingController extends Controller
 
     public function exportPDF(Request $request)
     {
-        $parkings = parking::search($request);
+        $parkings = Parking::search($request);
         $result = $parkings->get();
         $data = ['title' => 'My PDF Report', 'page' => 'index', 'parkings' => $result];
 
-        $pdf = Pdf::loadView('Dashboard.parking.export-pdf', $data)->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('tabloid', 'landscape');
+        $pdf = Pdf::loadView('Dashboard.Parking.export-pdf', $data)->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('tabloid', 'landscape');
 
         return $pdf->download('parking.pdf');  // download
         // return $pdf->stream('users.pdf'); // OR show in browser
@@ -59,7 +59,7 @@ class ParkingController extends Controller
 
     public function exportExcel(Request $request)
     {
-        return Excel::download(new parkingsExport($request), 'parkings.xlsx');
+        return Excel::download(new ParkingsExport($request), 'parkings.xlsx');
     }
     /**
      * Show the form for creating a new resource.
@@ -70,8 +70,8 @@ class ParkingController extends Controller
         $page = 'create';
         $folder = '';
         $users = User::get();
-        $parking = new parking();
-        return view('Dashboard.parking.create', compact('page', 'parking', 'folder', 'users'));
+        $parking = new Parking();
+        return view('Dashboard.Parking.create', compact('page', 'parking', 'folder', 'users'));
     }
 
     /**
@@ -94,7 +94,7 @@ class ParkingController extends Controller
         ]);
         // $image = $request->image;
         // $image = $image->storePublicly('parking', 'new');
-        parking::create([
+        Parking::create([
             'name' => $request->name,
             'user_id' => $request->user,
             'max_buildings' => $request->max_buildings,
@@ -112,7 +112,7 @@ class ParkingController extends Controller
     public function restore(string $id)
     {
         Gate::authorize('parking.restore');
-        parking::withTrashed()->find($id)->restore();
+        Parking::withTrashed()->find($id)->restore();
         return redirect()->route('Dashboard.parking.trash');
     }
 
@@ -120,9 +120,9 @@ class ParkingController extends Controller
     public function trash(Request $request)
     {
         Gate::authorize('parking.index');
-        $parking = parking::onlyTrashed()->get();
+        $parking = Parking::onlyTrashed()->get();
         $page = 'trash';
-        return view('Dashboard.parking.index', compact('parking', 'page'));
+        return view('Dashboard.Parking.index', compact('parking', 'page'));
     }
     /**
      * Display the specified resource.
@@ -135,10 +135,10 @@ class ParkingController extends Controller
     {
         Gate::authorize('parking.update');
 
-        $parking = parking::find($id);
+        $parking = Parking::find($id);
         $page = 'edit';
           $users = User::get();
-        return view('Dashboard.parking.edit', compact('page', 'parking',  'users'));
+        return view('Dashboard.Parking.edit', compact('page', 'parking',  'users'));
     }
 
     /**
@@ -160,7 +160,7 @@ class ParkingController extends Controller
             'max_guests' => 'required | max:10',
         ]);
 
-        $parking = parking::find($id);
+        $parking = Parking::find($id);
 
         $parking->update([
              'name' => $request->name,
@@ -183,14 +183,14 @@ class ParkingController extends Controller
     public function destroy(string $id)
     {
         Gate::authorize('parking.delete');
-        parking::find($id)->delete();
+        Parking::find($id)->delete();
         return redirect()->route('Dashboard.parking.index');
     }
 
     public function delete(string $id)
     {
         Gate::authorize('parking.forceDelete');
-        parking::withTrashed()->find($id)->forceDelete();
+        Parking::withTrashed()->find($id)->forceDelete();
 
         return redirect()->route('Dashboard.parking.index');
     }

@@ -1,4 +1,4 @@
-@extends('dashboard.Parking.form')
+@extends('Dashboard.Parking.form')
 
 @section('title_form', 'Create Parking')
 <!-- General Form Elements -->

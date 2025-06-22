@@ -2,18 +2,11 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Exports\VehicleMovementsExport;
 use App\Exports\VehiclesMovementExport;
 use App\Http\Controllers\Controller;
-use App\Models\Building;
-use App\Models\Category;
 use App\Models\Gate as ModelsGate;
 use App\Models\Gates;
-use App\Models\MotorType;
-
-use App\Models\User;
 use App\Models\Vehicle;
-use App\Models\VehicleMovement;
 use App\Models\VehiclesMovement;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -30,7 +23,6 @@ class VehicleMovementController extends Controller
     public function index()
     {
         Gate::authorize('vehiclesMovement.index');
-
 
         $page = 'index';
         $vehicleMovement = VehiclesMovement::get();
@@ -190,7 +182,7 @@ $result=$vehicleMovements->get();
 
     public function delete(string $id)
     {
-        Gate::authorize('vehiclesMovement.forcedelete');
+        Gate::authorize('vehiclesMovement.forceDelete');
         VehiclesMovement::withTrashed()->find($id)->forceDelete();
 
         return redirect()->route('Dashboard.vehicleMovement.index');

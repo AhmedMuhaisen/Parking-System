@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\user;
+use App\Models\User;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as FacadesRequest;
@@ -16,7 +16,7 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
-class usersExport implements FromCollection, WithHeadings, WithEvents, WithCustomStartCell, WithMapping, WithColumnWidths
+class UsersExport implements FromCollection, WithHeadings, WithEvents, WithCustomStartCell, WithMapping, WithColumnWidths
 {
 
     protected $request;
@@ -28,7 +28,7 @@ class usersExport implements FromCollection, WithHeadings, WithEvents, WithCusto
     }
     public function collection()
     {
-        $users = user::search($this->request);
+        $users = User::search($this->request);
 
         return $users->get();
     }
@@ -53,7 +53,7 @@ class usersExport implements FromCollection, WithHeadings, WithEvents, WithCusto
     public function drawings()
     {
         $drawings = [];
-        $users = user::all();
+        $users = User::all();
 
         foreach ($users as $index => $user) {
             if ($user->image && file_exists(public_path($user->image))) {

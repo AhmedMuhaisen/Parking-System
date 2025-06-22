@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\permission;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -17,7 +17,7 @@ class PermissionController extends Controller
         Gate::authorize('permission.index');
         $page = 'index';
         $permission = Permission::get();
-        return view('Dashboard.permission.index', compact('permission', 'page'));
+        return view('Dashboard.Permission.index', compact('permission', 'page'));
     }
 
     /**
@@ -28,7 +28,7 @@ class PermissionController extends Controller
         Gate::authorize('permission.create');
         $page = 'create';
         $permission = new Permission();
-        return view('Dashboard.permission.create', compact('page', 'permission'));
+        return view('Dashboard.Permission.create', compact('page', 'permission'));
     }
 
     /**
@@ -61,7 +61,7 @@ class PermissionController extends Controller
         Gate::authorize('permission.index');
         $permission = Permission::onlyTrashed()->get();
         $page = 'trash';
-        return view('Dashboard.permission.index', compact('permission', 'page'));
+        return view('Dashboard.Permission.index', compact('permission', 'page'));
     }
     /**
      * Display the specified resource.
@@ -75,7 +75,7 @@ class PermissionController extends Controller
         Gate::authorize('permission.update');
         $permission = Permission::find($id);
         $page = 'edit';
-        return view('Dashboard.permission.edit', compact('permission', 'page'));
+        return view('Dashboard.Permission.edit', compact('permission', 'page'));
     }
 
     /**
@@ -107,7 +107,7 @@ class PermissionController extends Controller
 
     public function delete(string $id)
     {
-        Gate::authorize('permission.forcedelete');
+        Gate::authorize('permission.forceDelete');
         Permission::withTrashed()->find($id)->forceDelete();
 
         return redirect()->route('Dashboard.permission.index');

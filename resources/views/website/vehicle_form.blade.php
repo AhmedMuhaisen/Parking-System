@@ -57,11 +57,8 @@
                     value="{{ $vehicle->vehicle_brand->id ?? 'A' }}" :array="$VehiclesBrand">
                 </x-select>
             </div>
-            <div class="form-group">
-                <label>Color</label>
-                <input type="color" id="color{{ $vehicle->id ?? 'A' }}" name="color"
-                    value="{{ $vehicle->color  ?? 'A'}}" required style="height: 40px">
-            </div>
+             <x-select type="text" value="{{ $vehicle->color->id }}" :array="$color" name="color"
+                    id="color" title="color" />
             <div class="form-group">
                 <label>Date Of End</label>
                 <input type="date" id="date_end{{ $vehicle->id ?? 'A' }}" name="date_end"

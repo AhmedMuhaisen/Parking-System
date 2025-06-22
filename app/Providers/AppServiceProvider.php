@@ -198,6 +198,58 @@ class AppServiceProvider extends ServiceProvider
 
 
 
+   Gate::define('building.index', function ($user) {
+            return (in_array('building.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('building.create', function ($user) {
+            return (in_array('building.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('building.update', function ($user) {
+            return (in_array('building.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('building.delete', function ($user) {
+            return (in_array('building.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('building.restore', function ($user) {
+            return (in_array('building.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('building.forceDelete', function ($user) {
+            return (in_array('building.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+
+ Gate::define('unit.index', function ($user) {
+            return (in_array('unit.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('unit.create', function ($user) {
+            return (in_array('unit.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('unit.update', function ($user) {
+            return (in_array('unit.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('unit.delete', function ($user) {
+            return (in_array('unit.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('unit.restore', function ($user) {
+            return (in_array('unit.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('unit.forceDelete', function ($user) {
+            return (in_array('unit.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+
+
+
 
                 Gate::define('role.index', function ($user) {
             return (in_array('role.index', $user->role->permission->pluck('code')->toArray()));
@@ -270,5 +322,30 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('roleuser.forceDelete', function ($user) {
             return (in_array('roleuser.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+
+             Gate::define('color.index', function ($user) {
+            return (in_array('color.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('color.create', function ($user) {
+            return (in_array('color.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('color.update', function ($user) {
+            return (in_array('color.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('color.delete', function ($user) {
+            return (in_array('color.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('color.restore', function ($user) {
+            return (in_array('color.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('color.forceDelete', function ($user) {
+            return (in_array('color.forceDelete', $user->role->permission->pluck('code')->toArray()));
         });
 }}

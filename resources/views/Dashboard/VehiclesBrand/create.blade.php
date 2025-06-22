@@ -1,4 +1,4 @@
-@extends('dashboard.vehiclesBrand.form')
+@extends('Dashboard.VehiclesBrand.form')
 
 @section('title_form', 'Create Vehicles Brands')
 <!-- General Form Elements -->

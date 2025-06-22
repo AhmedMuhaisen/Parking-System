@@ -3,7 +3,7 @@
                         <tr>
 
                             <td width="200">{{ $item->vehicle_number }}</td>
-                            <td><input  type="color"  disabled name="" value="{{ $item->color }}" id=""></td>
+                            <td>{{ $item->color->name }}</td>
                             <td  ><img src="{{asset($item->image)}} " alt=""  style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;"></td>
                             <td>{{ $item->category->name }}</td>
                             <td>{{ $item->user->building->name }}</td>

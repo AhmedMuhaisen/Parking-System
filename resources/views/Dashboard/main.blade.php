@@ -419,8 +419,7 @@
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-nav13" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>parking</span><i
-                        class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-menu-button-wide"></i><span>parking</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="components-nav13" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
@@ -437,6 +436,61 @@
                     <li>
                         <a href="{{ route('Dashboard.parking.trash') }}">
                             <i class="bi bi-circle"></i><span>trashed parkings</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li><!-- End Components Nav -->
+
+
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav14" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>building</span><i
+                        class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav14" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('Dashboard.building.index') }}">
+                            <i class="bi bi-circle"></i><span>show all building</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('Dashboard.building.create') }}">
+                            <i class="bi bi-circle"></i><span>create building</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('Dashboard.building.trash') }}">
+                            <i class="bi bi-circle"></i><span>trashed buildings</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li><!-- End Components Nav -->
+
+
+               <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav15" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>unit</span><i
+                        class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav15" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('Dashboard.unit.index') }}">
+                            <i class="bi bi-circle"></i><span>show all unit</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('Dashboard.unit.create') }}">
+                            <i class="bi bi-circle"></i><span>create unit</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('Dashboard.unit.trash') }}">
+                            <i class="bi bi-circle"></i><span>trashed units</span>
                         </a>
                     </li>
 
@@ -492,6 +546,20 @@
                             </li>
                         </ul>
                     </li>
+
+ <li>
+                        <a class="nav-link collapsed" data-bs-target="#components-nav174" data-bs-toggle="collapse"
+                            href="#">
+                            <i class="bi bi-circle"></i><span>color</span><i class="bi bi-chevron-down ms-auto"></i>
+                        </a>
+                        <ul id="components-nav174" class="nav-content collapse">
+                            <li><a href="{{ route('Dashboard.color.index') }}"><span>Show All colors</span></a></li>
+                            <li><a href="{{ route('Dashboard.color.create') }}"><span>Create color</span></a></li>
+                            <li><a href="{{ route('Dashboard.color.trash') }}"><span>Trashed colors</span></a></li>
+                        </ul>
+                    </li>
+
+
                 </ul>
             </li>
 

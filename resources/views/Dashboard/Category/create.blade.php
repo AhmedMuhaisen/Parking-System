@@ -1,4 +1,4 @@
-@extends('dashboard.Category.form')
+@extends('Dashboard.Category.form')
 
 @section('title_form', 'Create Category')
 <!-- General Form Elements -->

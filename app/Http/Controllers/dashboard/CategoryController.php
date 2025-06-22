@@ -31,7 +31,7 @@ class CategoryController extends Controller
         $page = $request->page;
         $categories = Category::search($request);
         $result = $categories->get();
-        $html = view('Dashboard.category.table', [
+        $html = view('Dashboard.Category.table', [
             'category' => $result,
             'page' => $page,
         ])->render();
@@ -79,13 +79,17 @@ $result=$categories->get();
             'name' => 'required',
            'work_method'=>'required',
            'status'=>'required',
+           'description'=>'required',
+
         ]);
         // $image = $request->image;
         // $image = $image->storePublicly('category', 'new');
         Category::create([
            'name' => $request->name,
             'work_method' => $request->work_method,
-            'status' => $request->status
+            'status' => $request->status,
+            'description' => $request->description
+
         ]);
         return redirect()->route('Dashboard.category.index');
     }
@@ -131,6 +135,8 @@ $result=$categories->get();
             'name' => 'required',
            'work_method'=>'required',
            'status'=>'required',
+           'description'=>'required',
+
         ]);
 
         $category = Category::find($id);
@@ -138,7 +144,9 @@ $result=$categories->get();
         $category->update([
             'name' => $request->name,
             'work_method' => $request->work_method,
-            'status' => $request->status
+            'status' => $request->status,
+            'description' => $request->description,
+
         ]);
         return redirect()->route('Dashboard.category.index');
     }
@@ -155,7 +163,7 @@ $result=$categories->get();
 
     public function delete(string $id)
     {
-        Gate::authorize('category.forcedelete');
+        Gate::authorize('category.forceDelete');
         Category::withTrashed()->find($id)->forceDelete();
 
         return redirect()->route('Dashboard.category.index');

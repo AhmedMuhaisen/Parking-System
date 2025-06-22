@@ -50,7 +50,7 @@ class VehiclesMovement extends Model
     });
     }
    if ($request->filled('date')) {
-        $vehicles->where('date', 'like', '%' . $request->date . '%');
+        $vehicles->where('date', '>=',  $request->date );
     }
 
        if ($request->filled('time')) {

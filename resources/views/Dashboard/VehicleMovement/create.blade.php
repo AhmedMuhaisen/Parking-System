@@ -1,4 +1,4 @@
-@extends('dashboard.VehicleMovement.form')
+@extends('Dashboard.VehicleMovement.form')
 
 @section('title_form', 'Create VehicleMovement')
 <!-- General Form Elements -->

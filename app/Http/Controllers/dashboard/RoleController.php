@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
-use App\Models\role;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -18,7 +18,7 @@ class RoleController extends Controller
         Gate::authorize('role.index');
         $page = 'index';
         $role = Role::get();
-        return view('Dashboard.role.index', compact('role', 'page'));
+        return view('Dashboard.Role.index', compact('role', 'page'));
     }
 
     /**
@@ -30,7 +30,7 @@ class RoleController extends Controller
         $page = 'create';
         $permission = Permission::get();
         $role = new Role();
-        return view('Dashboard.role.create', compact('page', 'role', 'permission'));
+        return view('Dashboard.Role.create', compact('page', 'role', 'permission'));
     }
 
     /**
@@ -44,7 +44,7 @@ class RoleController extends Controller
             'name' => 'required',
         ]);
 
-        $role = role::create(['name' => $request->name]);
+        $role = Role::create(['name' => $request->name]);
         $role->permission()->sync($request->permissions);
         return redirect()->route('Dashboard.role.index');
     }
@@ -62,7 +62,7 @@ class RoleController extends Controller
         Gate::authorize('role.index');
         $role = Role::onlyTrashed()->get();
         $page = 'trash';
-        return view('Dashboard.role.index', compact('role', 'page'));
+        return view('Dashboard.Role.index', compact('role', 'page'));
     }
     /**
      * Display the specified resource.
@@ -77,7 +77,7 @@ class RoleController extends Controller
         $permission = Permission::get();
         $role = Role::find($id);
         $page = 'edit';
-        return view('Dashboard.role.edit', compact('role', 'page', 'permission'));
+        return view('Dashboard.Role.edit', compact('role', 'page', 'permission'));
     }
 
     /**
@@ -95,7 +95,7 @@ class RoleController extends Controller
             'name' => $request->name
         ]);
 
-        $role = role::find($id);
+        $role = Role::find($id);
         $role->permission()->sync($request->permissions);
         return redirect()->route('Dashboard.role.index');
     }
@@ -112,7 +112,7 @@ class RoleController extends Controller
 
     public function delete(string $id)
     {
-        Gate::authorize('role.forcedelete');
+        Gate::authorize('role.forceDelete');
         Role::withTrashed()->find($id)->forceDelete();
 
         return redirect()->route('Dashboard.role.index');

@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Dashboard\BuildingController;
 use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\Dashboard\ColorController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\ParkingController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\RoleController;
+use App\Http\Controllers\Dashboard\UnitController;
 use App\Http\Controllers\Dashboard\userController;
 use App\Http\Controllers\Dashboard\UserRoleController;
 use App\Http\Controllers\Dashboard\VehicleController;
@@ -200,6 +203,42 @@ Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth')->group(functi
 
 
 
+    Route::prefix('building')->name('building.')->group(function () {
+        Route::get('/', [BuildingController::class, 'index'])->name('index');
+
+        Route::get('search', [BuildingController::class, 'search'])->name('search');
+
+        Route::get('exportPDF', [BuildingController::class, 'exportPDF'])->name('exportPDF');
+
+            Route::get('exportExcel', [BuildingController::class, 'exportExcel'])->name('exportExcel');
+
+
+        Route::delete('forcedelete/{id}', [BuildingController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [BuildingController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [BuildingController::class, 'restore'])->name('restore');
+    });
+    Route::resource('building', BuildingController::class);
+
+
+
+
+
+    Route::prefix('unit')->name('unit.')->group(function () {
+        Route::get('/', [UnitController::class, 'index'])->name('index');
+
+        Route::get('search', [UnitController::class, 'search'])->name('search');
+
+        Route::get('exportPDF', [UnitController::class, 'exportPDF'])->name('exportPDF');
+
+            Route::get('exportExcel', [UnitController::class, 'exportExcel'])->name('exportExcel');
+
+
+        Route::delete('forcedelete/{id}', [UnitController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [UnitController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [UnitController::class, 'restore'])->name('restore');
+    });
+    Route::resource('unit', UnitController::class);
+
 
 
 
@@ -232,6 +271,15 @@ Route::prefix('permission')->name('permission.')->group(function () {
         Route::get('trash', [UserRoleController::class, 'trash'])->name('trash');
 
     });
+
+
+      Route::prefix('color')->name('color.')->group(function () {
+        Route::get('/', [ColorController::class, 'index'])->name('index');
+        Route::delete('forcedelete/{id}', [ColorController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [ColorController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [ColorController::class, 'restore'])->name('restore');
+    });
+    Route::resource('color', ColorController::class);
 
 });
 

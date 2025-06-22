@@ -34,11 +34,13 @@
                 <x-inputd type="text" value="{{ $vehicle->vehicle_number }}" name="vehicle_number" id="vehicle_number"
                     title="vehicle number" />
 
-                <x-inputd type="color" value="{{ $vehicle->color }}" name="color" id="color" title="color" />
 
                 <x-inputd value="{{ $vehicle->image }}" title="image" folder='vehicle' type="file" name="image">
                 </x-inputd>
 
+
+                <x-selectd type="text" value="{{ $vehicle->color->id }}" :array="$color" name="color"
+                    id="color" title="color" />
 
 
                 <x-selectd type="text" value="{{ $vehicle->category->id }}" :array="$category" name="category"

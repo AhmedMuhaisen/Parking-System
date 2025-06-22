@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Exports\VehiclesTypesExport;
 use App\Http\Controllers\Controller;
-use App\Models\vehiclesType;
+use App\Models\VehiclesType;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,9 +29,9 @@ class VehiclesTypeController extends Controller
     public function search(Request $request)
     {
         $page = $request->page;
-        $vehiclesTypes = vehiclesType::search($request);
+        $vehiclesTypes = VehiclesType::search($request);
         $result = $vehiclesTypes->get();
-        $html = view('Dashboard.vehiclesType.table', [
+        $html = view('Dashboard.VehiclesType.table', [
             'vehiclesType' => $result,
             'page' => $page,
         ])->render();
@@ -41,11 +41,11 @@ class VehiclesTypeController extends Controller
 
     public function exportPDF(Request $request)
     {
-$vehiclesTypes=vehiclesType::search($request);
+$vehiclesTypes=VehiclesType::search($request);
 $result=$vehiclesTypes->get();
         $data = ['title' => 'My PDF Report', 'page' => 'index', 'vehiclesTypes' => $result];
 
-        $pdf = Pdf::loadView('Dashboard.vehiclesType.export-pdf', $data)->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('a4', 'landscape');
+        $pdf = Pdf::loadView('Dashboard.VehiclesType.export-pdf', $data)->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('a4', 'landscape');
 
         return $pdf->download('vehiclesType.pdf');  // download
         // return $pdf->stream('users.pdf'); // OR show in browser
@@ -115,7 +115,7 @@ $result=$vehiclesTypes->get();
         $folder = 'vehiclesType';
         $vehiclesType = VehiclesType::find($id);
         $page = 'edit';
-        return view('Dashboard.vehiclesType.edit', compact('vehiclesType', 'page', 'folder'));
+        return view('Dashboard.VehiclesType.edit', compact('vehiclesType', 'page', 'folder'));
     }
 
     /**
@@ -149,7 +149,7 @@ $result=$vehiclesTypes->get();
 
     public function delete(string $id)
     {
-        Gate::authorize('vehiclesType.forcedelete');
+        Gate::authorize('vehiclesType.forceDelete');
         VehiclesType::withTrashed()->find($id)->forceDelete();
 
         return redirect()->route('Dashboard.vehiclesType.index');

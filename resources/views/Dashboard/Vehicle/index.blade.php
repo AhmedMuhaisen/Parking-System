@@ -88,12 +88,16 @@
 
                         <tr>
 
-                            <td scope="col" colspan="3" width='200'>
+                            <td scope="col" colspan="1" width='200'>
                                 <x-input type="text" value="" name="vehicle_number" id="vehicle_number"
                                     title="search" />
                             </td>
 
 
+                            <td scope="col" colspan="2" width='200'>
+                                <x-select type="text" value="" :array="$color" name="color" id="color"
+                                    title="search" />
+                            </td>
 
                             <td scope="col" width='200'>
                                 <x-select type="text" value="" :array="$category" name="category" id="category"
@@ -144,7 +148,7 @@
                         </tr>
                     </thead>
                     <tbody id="tableContainer">
-                        @include('Dashboard.vehicle.table', ['vehicle' => $vehicle, 'page' => $page])
+                        @include('Dashboard.Vehicle.table', ['vehicle' => $vehicle, 'page' => $page])
                     </tbody>
                 </table>
 

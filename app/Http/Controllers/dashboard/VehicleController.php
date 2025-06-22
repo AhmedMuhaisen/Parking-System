@@ -6,6 +6,7 @@ use App\Exports\VehiclesExport;
 use App\Http\Controllers\Controller;
 use App\Models\Building;
 use App\Models\Category;
+use App\Models\Color;
 use App\Models\MotorType;
 use App\Models\Unit;
 use App\Models\User;
@@ -31,6 +32,7 @@ class VehicleController extends Controller
         $page = 'index';
         $vehicle = Vehicle::get();
         $category = Category::get();
+          $color = Color::get();
         $vehicle_type = VehiclesType::get();
         $vehicle_brand = VehiclesBrand::get();
          $unit = Unit::get();
@@ -39,7 +41,7 @@ class VehicleController extends Controller
         $motor_type = MotorType::get();
 
 
-        return view('Dashboard.Vehicle.index', compact('vehicle', 'page','category'  ,'vehicle_type'   ,'vehicle_brand'  ,'motor_type','building','unit'   ));
+        return view('Dashboard.Vehicle.index', compact('vehicle', 'page','category'  ,'vehicle_type'   ,'vehicle_brand'  ,'motor_type','building','unit','color'   ));
     }
 
     public function search(Request $request)
@@ -84,12 +86,14 @@ $result=$vehicles->get();
         $vehicle_brand = VehiclesBrand::get();
          $unit = Unit::get();
         $building = Building::get();
+        $color = Color::get();
+
          $motor_type = MotorType::get();
          $user = User::get();
          $page = 'create';
         $folder = '';
         $vehicle = new Vehicle();
-        return view('Dashboard.Vehicle.create', compact('page', 'vehicle', 'folder','category'  ,'vehicle_type' ,'user'  ,'vehicle_brand'  ,'motor_type','building','unit' ));
+        return view('Dashboard.Vehicle.create', compact('page', 'vehicle', 'folder','category'  ,'vehicle_type' ,'user'  ,'vehicle_brand'  ,'motor_type','building','unit','color' ));
     }
 
     /**
@@ -145,6 +149,8 @@ $result=$vehicles->get();
         $vehicle = Vehicle::onlyTrashed()->get();
 
         $category = Category::get();
+        $color = Color::get();
+
         $vehicle_type = VehiclesType::get();
         $vehicle_brand = VehiclesBrand::get();
          $unit = Unit::get();
@@ -152,7 +158,7 @@ $result=$vehicles->get();
 
         $motor_type = MotorType::get();
         $page = 'trash';
-        return view('Dashboard.Vehicle.index', compact('vehicle', 'page','category'  ,'vehicle_type'   ,'vehicle_brand'  ,'motor_type','building','unit'));
+        return view('Dashboard.Vehicle.index', compact('vehicle', 'page','category'  ,'vehicle_type'   ,'vehicle_brand'  ,'motor_type','building','unit','color'));
     }
     /**
      * Display the specified resource.
@@ -169,12 +175,14 @@ $result=$vehicles->get();
         $vehicle_brand = VehiclesBrand::get();
          $unit = Unit::get();
         $building = Building::get();
+        $color = Color::get();
+
          $motor_type = MotorType::get();
          $user = User::get();
         $folder = 'vehicle';
         $vehicle = Vehicle::find($id);
         $page = 'edit';
-        return view('Dashboard.Vehicle.edit', compact('vehicle', 'page', 'folder','category'  ,'vehicle_type' ,'user'  ,'vehicle_brand'  ,'motor_type','building','unit'));
+        return view('Dashboard.Vehicle.edit', compact('vehicle', 'page', 'folder','category'  ,'vehicle_type' ,'user'  ,'vehicle_brand'  ,'motor_type','building','unit','color'));
     }
 
     /**
@@ -233,7 +241,7 @@ if($request->image){
 
     public function delete(string $id)
     {
-        Gate::authorize('vehicle.forcedelete');
+        Gate::authorize('vehicle.forceDelete');
         Vehicle::withTrashed()->find($id)->forceDelete();
 
         return redirect()->route('Dashboard.vehicle.index');

@@ -19,6 +19,10 @@ class Category extends Model
         $categories->where('name', 'like', '%' . $request->name . '%');
     }
 
+        if ($request->filled('description')) {
+        $categories->where('description', 'like', '%' . $request->name . '%');
+    }
+
     if ($request->filled('status')) {
         $categories->where('status', $request->status);
     }
