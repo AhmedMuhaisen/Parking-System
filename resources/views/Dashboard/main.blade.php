@@ -496,6 +496,34 @@
 
                 </ul>
             </li><!-- End Components Nav -->
+
+         <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav16" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>register_request</span><i
+                        class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav16" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('Dashboard.register_request.index') }}">
+                            <i class="bi bi-circle"></i><span>show all register_request</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('Dashboard.register_request.create') }}">
+                            <i class="bi bi-circle"></i><span>create register_request</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('Dashboard.register_request.trash') }}">
+                            <i class="bi bi-circle"></i><span>trashed register_requests</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li><!-- End Components Nav -->
+
+
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-nav17" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-gear"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>

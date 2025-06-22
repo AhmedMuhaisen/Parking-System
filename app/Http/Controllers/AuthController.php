@@ -7,9 +7,7 @@ use App\Models\Building;
 use App\Models\VehiclesBrand;
 use App\Models\Guest;
 use App\Models\MotorType;
-
-
-
+use App\Models\Register_request;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Vehicle;
@@ -21,6 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Validator;
 use PHPUnit\TextUI\XmlConfiguration\Logging\Logging;
@@ -97,7 +96,7 @@ class AuthController extends Controller
         Mail::to($request->email)->send(new reset_passwordMail($data));
 
 
-        $meassege = "success";
+        $meassege = "your rest_password request sended successfuly check your email to create new password";
         return redirect('login')->with('msg', $meassege);
     }
 
@@ -119,12 +118,28 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-         $meassege = "success";
+         $meassege = "rest password successfully";
         return redirect('login')->with('msg', $meassege);
     }
 
 
+function register_request() {
+  return view('auth.register_request');
 
+
+}
+
+function register_request_post(Request $request) {
+$request->validate([
+    'email'=>['required ',' email ','max:200',Rule::unique('users', 'email')]
+]);
+  Register_request::create([
+            'email' => $request->email,
+  ]);
+
+   $meassege = "register request submit successfully";
+        return redirect('login')->with('msg', $meassege);
+}
 
     function register()
     {

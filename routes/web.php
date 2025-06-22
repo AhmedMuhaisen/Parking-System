@@ -7,6 +7,7 @@ use App\Http\Controllers\Dashboard\ColorController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\ParkingController;
 use App\Http\Controllers\Dashboard\PermissionController;
+use App\Http\Controllers\Dashboard\Register_RequestController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UnitController;
 use App\Http\Controllers\Dashboard\userController;
@@ -22,6 +23,9 @@ Route::get('/', [WebsiteController::class, 'index']);
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'register_post'])->name('register');
 
+Route::get('/log_register_request', [AuthController::class, 'register_request'])->name('log_register_request');
+
+Route::post('/log_register_request', [AuthController::class, 'register_request_post'])->name('log_register_request_post');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'login_post'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -237,8 +241,22 @@ Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth')->group(functi
         Route::get('trash', [UnitController::class, 'trash'])->name('trash');
         Route::get('restore/{id}', [UnitController::class, 'restore'])->name('restore');
     });
+
     Route::resource('unit', UnitController::class);
 
+Route::prefix('register_request')->name('register_request.')->group(function () {
+        Route::get('/', [Register_RequestController::class, 'index'])->name('index');
+        Route::get('search', [Register_RequestController::class, 'search'])->name('search');
+        Route::get('exportPDF', [Register_RequestController::class, 'exportPDF'])->name('exportPDF');
+
+            Route::get('exportExcel', [Register_RequestController::class, 'exportExcel'])->name('exportExcel');
+        Route::delete('forcedelete/{id}', [Register_RequestController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [Register_RequestController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [Register_RequestController::class, 'restore'])->name('restore');
+
+             Route::get('accept/{id}', [Register_RequestController::class, 'accept'])->name('accept');
+    });
+    Route::resource('register_request', Register_RequestController::class);
 
 
 

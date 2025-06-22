@@ -45,7 +45,7 @@
                                 <a href="{{ route('reset_password') }}" class="text">forget password</a>
                             </div>
                             <div class="form-row form-row-2 ">
-                                <a href="{{ route('register') }}" class="text">i dont have account</a>
+                                <a href="{{ route('log_register_request') }}" class="text">i dont have account</a>
 
                             </div>
                         </div>
@@ -63,11 +63,11 @@
             </form>
         </div>
     </div>
+@if (session('msg') != null)
     <script>
-        @if (session('msg') == 'success')
-            alert('your rest_password request sended successfuly check your email to create new password');
-        @endif
+        alert("{{ session('msg') }}");
     </script>
+@endif
 
 </body>
 

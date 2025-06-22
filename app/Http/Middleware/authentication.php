@@ -18,7 +18,13 @@ class authentication
      */
     public function handle(Request $request, Closure $next): Response
     {
+
            if (Auth::user() == null) {
+          return redirect('/login');
+
+        }
+
+          if (Auth::user()->email_verified_at == null) {
           return redirect('/login');
         }
         return $next($request);
