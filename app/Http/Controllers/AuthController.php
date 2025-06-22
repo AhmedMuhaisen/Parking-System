@@ -109,11 +109,18 @@ class AuthController extends Controller
     public function create_new_password_post(Request $request, $id)
     {
         $request->validate([
-            'password' => ['required', 'confirmed'],
+           'password' => ['required',
+        'string',
+        'confirmed',
+        'min:8'
+    ],
         ]);
         User::find($id)->update([
             'password' => Hash::make($request->password),
         ]);
+
+         $meassege = "success";
+        return redirect('login')->with('msg', $meassege);
     }
 
 
