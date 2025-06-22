@@ -116,10 +116,19 @@
                                                                 <i class="bi bi-bootstrap"></i>
                                                             </div>
                                                             <h4>Color</h4>
-                                                            <p><input type="color" name="" id=""
-                                                                    value="{{ $vehicle->color }}" disabled></p>
+                                                            <p>{{ $vehicle->color->name }}</p>
                                                         </div>
                                                     </div>
+     <div class="col-md-4">
+                                                        <div class="benefit-card">
+                                                            <div class="benefit-icon">
+                                                                <i class="bi bi-clock"></i>
+                                                            </div>
+                                                            <h4>Date Of Start</h4>
+                                                            <p>{{ $vehicle->date_start }}</p>
+                                                        </div>
+                                                    </div>
+
                                                     <div class="col-md-4">
                                                         <div class="benefit-card">
                                                             <div class="benefit-icon">

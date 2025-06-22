@@ -112,7 +112,7 @@ class Vehicle extends Master
         }
 
         if ($request->filled('date_end')) {
-            $vehicles->where('date_End', '>=', $request->date_end);
+            $vehicles->where('date_End', '<=', $request->date_end);
         }
 
         // Filter by Created At

@@ -50,7 +50,7 @@ class WebsiteController extends Controller
         $vehicles_type = VehiclesType::get();
         $motor_type = MotorType::get();
         $VehiclesBrand = VehiclesBrand::get();
-        return view('website.profile', compact('units', 'buildings', 'settings', 'vehicles_type', 'motor_type','color', 'VehiclesBrand'));
+        return view('website.profile', compact('units', 'buildings', 'settings', 'vehicles_type', 'motor_type', 'color', 'VehiclesBrand'));
     }
 
     function contact(Request $request)
@@ -87,12 +87,13 @@ class WebsiteController extends Controller
     {
 
         $validator = FacadesValidator::make($request->all(), [
-             'vehicle_number' => 'required|string|max:255|digits:6',
+            'vehicle_number' => 'required|string|max:255|digits:6',
             'vehicle_type' => 'required|exists:vehicles_types,id',
             'motor_type' => 'required|exists:motor_types,id',
             'VehiclesBrand' => 'required|exists:vehicles_brands,id',
             'color' => 'required|string|max:255',
-            'date_end' => 'required|date|after:today',
+              'date_start' => 'required|date|after:today',
+            'date_end' => 'required|date|after:date_start',
             'image' => 'nullable|image|mimes:jpeg,jpg,png,svg,webp|max:2048',
         ]);
 
@@ -100,9 +101,9 @@ class WebsiteController extends Controller
         $data['vehicles_type_id'] = $data['vehicle_type'];
         $data['motor_type_id'] = $data['motor_type'];
         $data['vehicles_brand_id'] = $data['VehiclesBrand'];
-
+        $data['color_id'] = $data['color'];
         // Remove them from the array
-        unset($data['vehicle_type'], $data['motor_type'], $data['VehiclesBrand']);
+        unset($data['vehicle_type'], $data['motor_type'], $data['VehiclesBrand'],$data['color']);
 
         if ($validator->fails()) {
             return response()->json([
@@ -114,7 +115,7 @@ class WebsiteController extends Controller
         if (!$vehicle) {
             return response()->json(['error' => 'Vehicle not found'], 200);
         }
-   if ($request->image) {
+        if ($request->image) {
             $image = $request->image;
             $image = $image->storePublicly('vehicles', 'new');
         } else {
@@ -140,7 +141,10 @@ class WebsiteController extends Controller
             'motor_type' => 'required|exists:motor_types,id',
             'VehiclesBrand' => 'required|exists:vehicles_brands,id',
             'color' => 'required|string|max:255',
-            'date_end' => 'required|date|after:today',  'image' => 'required|image|mimes:jpeg,jpg,png,svg,webp|max:2048',
+
+            'date_start' => 'required|date|after:today',
+            'date_end' => 'required|date|after:date_start',
+            'image' => 'required|image|mimes:jpeg,jpg,png,svg,webp|max:2048',
 
         ]);
 
@@ -151,19 +155,20 @@ class WebsiteController extends Controller
                 'errors' => $validator->errors()
             ], 200); // Use 422 for validation errors
         }
-  $image = $request->image->storePublicly('vehicles', 'new');
+        $image = $request->image->storePublicly('vehicles', 'new');
 
 
         $data = $validator->validated();
-         $data['image'] = $image;
+        $data['image'] = $image;
         $data['vehicles_type_id'] = $data['vehicle_type'];
         $data['motor_type_id'] = $data['motor_type'];
         $data['vehicles_brand_id'] = $data['VehiclesBrand'];
+        $data['color_id'] = $data['color'];
 
 
-        unset($data['vehicle_type'], $data['motor_type'], $data['VehiclesBrand']);
+        unset($data['vehicle_type'], $data['motor_type'], $data['VehiclesBrand'],$data['color']);
 
- $data['category_id'] = 1;
+        $data['category_id'] = 1;
         $data['user_id'] = Auth::user()->id;
         Vehicle::Create($data);
         return response()->json([

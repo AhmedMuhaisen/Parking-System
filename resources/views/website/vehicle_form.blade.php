@@ -26,7 +26,7 @@
             </div>
             @endif
 
-            <div class="form-group w-100">
+            <div class="form-group">
 
                 <label>Update Image</label>
                 <input type="file" id="image" value="" name="image">
@@ -57,8 +57,17 @@
                     value="{{ $vehicle->vehicle_brand->id ?? 'A' }}" :array="$VehiclesBrand">
                 </x-select>
             </div>
-             <x-select type="text" value="{{ $vehicle->color->id }}" :array="$color" name="color"
-                    id="color" title="color" />
+              <div class="form-group">
+                <label>Color</label>
+                <x-select name='color' id="color{{ $vehicle->id ?? 'A' }}" title="Color"
+                    value="{{ $vehicle->color->id ?? 'A' }}" :array="$color">
+                </x-select>
+            </div>
+                     <div class="form-group">
+                <label>Date Of Start</label>
+                <input type="date" id="date_start{{ $vehicle->id ?? 'A' }}" name="date_start"
+                    value="{{ $vehicle->date_start  ?? 'A'}}" required>
+            </div>
             <div class="form-group">
                 <label>Date Of End</label>
                 <input type="date" id="date_end{{ $vehicle->id ?? 'A' }}" name="date_end"
