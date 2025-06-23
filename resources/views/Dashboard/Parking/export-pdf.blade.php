@@ -108,7 +108,7 @@ $settings=App\Models\Setting::first();
         </div>
     </div>
 
-    <h1>parkings Report</h1>
+    <h1>Parkings Report</h1>
 
     <table>
         <thead>

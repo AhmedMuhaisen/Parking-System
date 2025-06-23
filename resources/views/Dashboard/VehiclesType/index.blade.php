@@ -2,7 +2,7 @@
 
 @extends('Dashboard.main')
 @section('content')
-<main id="main" class="main">
+<main id="main" class="main position-absolute">
 
     <div class="pagetitle">
         <div class="d-flex justify-content-between align-items-center my-3">

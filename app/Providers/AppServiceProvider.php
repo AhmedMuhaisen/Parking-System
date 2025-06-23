@@ -247,6 +247,79 @@ class AppServiceProvider extends ServiceProvider
             return (in_array('unit.forceDelete', $user->role->permission->pluck('code')->toArray()));
         });
 
+ Gate::define('gate.index', function ($user) {
+            return (in_array('gate.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('gate.create', function ($user) {
+            return (in_array('gate.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('gate.update', function ($user) {
+            return (in_array('gate.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('gate.delete', function ($user) {
+            return (in_array('gate.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('gate.restore', function ($user) {
+            return (in_array('gate.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('gate.forceDelete', function ($user) {
+            return (in_array('gate.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+ Gate::define('spot.index', function ($user) {
+            return (in_array('spot.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('spot.create', function ($user) {
+            return (in_array('spot.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('spot.update', function ($user) {
+            return (in_array('spot.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('spot.delete', function ($user) {
+            return (in_array('spot.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('spot.restore', function ($user) {
+            return (in_array('spot.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('spot.forceDelete', function ($user) {
+            return (in_array('spot.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+
+         Gate::define('guest.index', function ($user) {
+            return (in_array('guest.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('guest.create', function ($user) {
+            return (in_array('guest.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('guest.update', function ($user) {
+            return (in_array('guest.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('guest.delete', function ($user) {
+            return (in_array('guest.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('guest.restore', function ($user) {
+            return (in_array('guest.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('guest.forceDelete', function ($user) {
+            return (in_array('guest.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
+
 
  Gate::define('register_request.index', function ($user) {
             return (in_array('register_request.index', $user->role->permission->pluck('code')->toArray()));

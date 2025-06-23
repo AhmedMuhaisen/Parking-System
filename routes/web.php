@@ -5,10 +5,13 @@ use App\Http\Controllers\Dashboard\BuildingController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\ColorController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\gateController;
+use App\Http\Controllers\Dashboard\GuestController;
 use App\Http\Controllers\Dashboard\ParkingController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\Register_RequestController;
 use App\Http\Controllers\Dashboard\RoleController;
+use App\Http\Controllers\Dashboard\SpotController;
 use App\Http\Controllers\Dashboard\UnitController;
 use App\Http\Controllers\Dashboard\userController;
 use App\Http\Controllers\Dashboard\UserRoleController;
@@ -243,6 +246,63 @@ Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth')->group(functi
     });
 
     Route::resource('unit', UnitController::class);
+
+ Route::prefix('gate')->name('gate.')->group(function () {
+        Route::get('/', [GateController::class, 'index'])->name('index');
+
+        Route::get('search', [GateController::class, 'search'])->name('search');
+
+        Route::get('exportPDF', [GateController::class, 'exportPDF'])->name('exportPDF');
+
+            Route::get('exportExcel', [GateController::class, 'exportExcel'])->name('exportExcel');
+
+
+        Route::delete('forcedelete/{id}', [GateController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [GateController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [GateController::class, 'restore'])->name('restore');
+    });
+    Route::resource('gate', GateController::class);
+
+
+
+
+    Route::prefix('spot')->name('spot.')->group(function () {
+        Route::get('/', [SpotController::class, 'index'])->name('index');
+
+        Route::get('search', [SpotController::class, 'search'])->name('search');
+
+        Route::get('exportPDF', [SpotController::class, 'exportPDF'])->name('exportPDF');
+
+            Route::get('exportExcel', [SpotController::class, 'exportExcel'])->name('exportExcel');
+
+
+        Route::delete('forcedelete/{id}', [SpotController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [SpotController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [SpotController::class, 'restore'])->name('restore');
+    });
+
+    Route::resource('spot', SpotController::class);
+
+
+Route::prefix('guest')->name('guest.')->group(function () {
+        Route::get('/', [GuestController::class, 'index'])->name('index');
+
+        Route::get('search', [GuestController::class, 'search'])->name('search');
+
+        Route::get('exportPDF', [GuestController::class, 'exportPDF'])->name('exportPDF');
+
+            Route::get('exportExcel', [GuestController::class, 'exportExcel'])->name('exportExcel');
+
+
+        Route::delete('forcedelete/{id}', [GuestController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [GuestController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [GuestController::class, 'restore'])->name('restore');
+    });
+
+    Route::resource('guest', GuestController::class);
+
+
+
 
 Route::prefix('register_request')->name('register_request.')->group(function () {
         Route::get('/', [Register_RequestController::class, 'index'])->name('index');

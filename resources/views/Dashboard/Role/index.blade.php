@@ -2,7 +2,7 @@
 
 @extends('Dashboard.main')
 @section('content')
-    <main id="main" class="main">
+    <main id="main" class="main position-absolute">
 
         <div class="pagetitle">
             <div class="d-flex justify-content-between align-items-center my-3">
@@ -71,8 +71,8 @@
                         <thead>
                             <tr>
 
-                                <th scope="col">Name</th>
-                                <th scope="col">Permissions Number</th>
+                                <th scope="col" width="600">Name</th>
+                                <th scope="col"  width="400">Permissions Number</th>
                                 <th scope="col" width="120">Action</th>
                             </tr>
                         </thead>

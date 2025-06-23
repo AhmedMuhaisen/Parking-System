@@ -1,14 +1,15 @@
 @php
 $settings=App\Models\Setting::first();
-    $companyName = $settings->website_name ?? 'Company Name';
-    $companyAddress = $settings->address ?? 'Company Address';
-    $companyPhone = $settings->website_phone ?? 'Phone Number';
-    $companyEmail = $settings->website_email ?? 'Email';
-    $companyLogo = public_path($settings->logo ?? 'assets/dashboard/img/city-square.jpg');
+$companyName = $settings->website_name ?? 'Company Name';
+$companyAddress = $settings->address ?? 'Company Address';
+$companyPhone = $settings->website_phone ?? 'Phone Number';
+$companyEmail = $settings->website_email ?? 'Email';
+$companyLogo = public_path($settings->logo ?? 'assets/dashboard/img/city-square.jpg');
 @endphp
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Export PDF</title>
@@ -64,7 +65,8 @@ $settings=App\Models\Setting::first();
             margin-bottom: 30px;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #bdc3c7;
             padding: 10px;
             text-align: center;
@@ -74,8 +76,12 @@ $settings=App\Models\Setting::first();
             background-color: #3498db;
             color: #fff;
             font-weight: bold;
+
         }
 
+        td{
+             min-width: 100px !important;
+        }
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
@@ -95,6 +101,7 @@ $settings=App\Models\Setting::first();
         }
     </style>
 </head>
+
 <body>
 
     <div class="header">
@@ -108,29 +115,46 @@ $settings=App\Models\Setting::first();
         </div>
     </div>
 
-    <h1>Vehicles Brands Report</h1>
+    <h1>Guests Report</h1>
 
     <table>
         <thead>
             <tr>
                 <th>#</th>
-                <th>Name</th>
-                <th>Number Of Vehicles</th>
+                <th scope="col" width="60">Number</th>
+                <th scope="col" width="60">Color</th>
+                <th scope="col" width="60">Image</th>
+                <th scope="col" width="60">Category</th>
+                <th scope="col" width="60">Type</th>
+                <th scope="col" width="60">Brand</th>
+                <th scope="col" width="60">Motor</th>
+                <th scope="col" width="60">Onr Name</th>
+                <th scope="col" width="60">Date Start</th>
+                <th scope="col" width="60">Date End</th>
                 <th>Created At</th>
             </tr>
         </thead>
         <tbody>
-            @forelse ($vehiclesBrands as $index => $item)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $item->name }}</td>
-                    <td>{{ $item->vehicles_count }}</td>
-                    <td>{{ $item->created_at->format('m-d-Y') }}</td>
-                </tr>
+            @forelse ($guests as $index => $item)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                      <td>{{ $item->guest_number }}</td>
+                            <td ><div style="width: 40px; height: 40px; background-color:{{ $item->color }} ; "></div> </td>
+                            <td ></td>
+                            <td>{{ $item->category->name }}</td>
+                            <td>{{ $item->guest_type->name }}</td>
+                            <td>{{ $item->guest_brand->name }}</td>
+                            <td>{{ $item->motor_type->name }}</td>
+                             <td>{{ $item->user->first_name .' '.$item->user->second_name }}</td>
+                            <td>{{ $item->date_start }}</td>
+                            <td>{{ $item->date_End }}</td>
+
+                            <td >{{$item->created_at->format('m-d-Y');}}</td>
+            </tr>
             @empty
-                <tr>
-                    <td colspan="5" class="no-data">No data available</td>
-                </tr>
+            <tr>
+                <td colspan="5" class="no-data">No data available</td>
+            </tr>
             @endforelse
         </tbody>
     </table>
@@ -140,4 +164,5 @@ $settings=App\Models\Setting::first();
     </div>
 
 </body>
+
 </html>

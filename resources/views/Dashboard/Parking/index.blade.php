@@ -25,7 +25,7 @@
         <div class="card">
             <div class="card-body right-thead">
                 <div class="d-flex justify-content-between align-items-center my-3">
-                    <h 5 class="card-title">show All Categoris</h>
+                    <h 5 class="card-title">show All Parkings</h>
                     @if ($page == 'index')
                     @can('parking.index')
                     <a href="{{ route('Dashboard.parking.trash') }}" class="btn btn-outline-danger" style="

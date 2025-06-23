@@ -111,7 +111,7 @@ $companyLogo = public_path($settings->logo ?? 'assets/dashboard/img/city-square.
         </div>
     </div>
 
-    <h1>buildings Report</h1>
+    <h1>Buildings Report</h1>
 
     <table>
         <thead>

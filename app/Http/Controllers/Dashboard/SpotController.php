@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Exports\UnitsExport;
+use App\Exports\SpotsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Building;
-use App\Models\Unit;
+use App\Models\Spot;
 use App\Models\Parking;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -14,34 +14,34 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 
-class UnitController extends Controller
+class SpotController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        Gate::authorize('unit.index');
+        Gate::authorize('spot.index');
 
 
         $page = 'index';
-        $unit = Unit::with([
+        $spot = Spot::with([
             'building.parking',
             'building',
         ])->get();
 $parkings=Parking::get();
 $buildings=Building::get();
 
-        return view('Dashboard.Unit.index', compact('unit', 'page','buildings','parkings'));
+        return view('Dashboard.Spot.index', compact('spot', 'page','buildings','parkings'));
     }
 
     public function search(Request $request)
     {
         $page = $request->page;
-        $units = Unit::search($request);
-        $result = $units->get();
-        $html = view('Dashboard.Unit.table', [
-            'unit' => $result,
+        $spots = Spot::search($request);
+        $result = $spots->get();
+        $html = view('Dashboard.Spot.table', [
+            'spot' => $result,
             'page' => $page,
         ])->render();
 
@@ -50,13 +50,13 @@ $buildings=Building::get();
 
     public function exportPDF(Request $request)
     {
-        $units = Unit::search($request);
-        $result = $units->get();
-        $data = ['title' => 'My PDF Report', 'page' => 'index', 'units' => $result];
+        $spots = Spot::search($request);
+        $result = $spots->get();
+        $data = ['title' => 'My PDF Report', 'page' => 'index', 'spots' => $result];
 
-        $pdf = Pdf::loadView('Dashboard.Unit.export-pdf', $data)->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('tabloid', 'landscape');
+        $pdf = Pdf::loadView('Dashboard.Spot.export-pdf', $data)->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('tabloid', 'landscape');
 
-        return $pdf->download('unit.pdf');  // download
+        return $pdf->download('spot.pdf');  // download
         // return $pdf->stream('users.pdf'); // OR show in browser
     }
 
@@ -65,22 +65,20 @@ $buildings=Building::get();
     public function exportExcel(Request $request)
     {
 
-        return Excel::download(new UnitsExport($request), 'units.xlsx');
+        return Excel::download(new SpotsExport($request), 'spots.xlsx');
     }
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        Gate::authorize('unit.create');
+        Gate::authorize('spot.create');
         $page = 'create';
         $folder = '';
         $parkings = Parking::get();
         $buildings = Building::get();
-
-        $users = User::get();
-        $unit = new unit();
-        return view('Dashboard.Unit.create', compact('page', 'unit', 'users', 'parkings' , 'buildings'));
+        $spot = new Spot();
+        return view('Dashboard.Spot.create', compact('page', 'spot', 'parkings' , 'buildings'));
     }
 
     /**
@@ -88,41 +86,41 @@ $buildings=Building::get();
      */
     public function store(Request $request)
     {
-        Gate::authorize('unit.create');
+        Gate::authorize('spot.create');
         $request->validate([
             'name' => 'required',
-            'user' => ['required','exists:users,id'],
+            'type' => ['required'],
             'parking' => ['required','exists:parkings,id'],
             'building' => ['required','exists:buildings,id'],
 
         ]);
         // $image = $request->image;
-        // $image = $image->storePublicly('unit', 'new');
-        Unit::create([
+        // $image = $image->storePublicly('spot', 'new');
+        Spot::create([
             'name' => $request->name,
-            'user_id' => $request->user,
+            'type' => $request->type,
             'building_id' => $request->building,
 
         ]);
-        return redirect()->route('Dashboard.unit.index');
+        return redirect()->route('Dashboard.spot.index');
     }
 
     public function restore(string $id)
     {
-        Gate::authorize('unit.restore');
-        Unit::withTrashed()->find($id)->restore();
-        return redirect()->route('Dashboard.unit.trash');
+        Gate::authorize('spot.restore');
+        Spot::withTrashed()->find($id)->restore();
+        return redirect()->route('Dashboard.spot.trash');
     }
 
 
     public function trash(Request $request)
     {
-        Gate::authorize('unit.index');
-        $unit = Unit::onlyTrashed()->get();
+        Gate::authorize('spot.index');
+        $spot = Spot::onlyTrashed()->get();
         $page = 'trash';
         $parkings=Parking::get();
 $buildings=Building::get();
-        return view('Dashboard.Unit.index', compact('unit', 'page','buildings','parkings'));
+        return view('Dashboard.Spot.index', compact('spot', 'page','buildings','parkings'));
     }
     /**
      * Display the specified resource.
@@ -133,15 +131,15 @@ $buildings=Building::get();
      */
     public function edit(string $id)
     {
-        Gate::authorize('unit.update');
+        Gate::authorize('spot.update');
 
-        $unit = Unit::find($id);
+        $spot = Spot::find($id);
         $page = 'edit';
 $parkings=Parking::get();
 $buildings=Building::get();
 
           $users = User::get();
-        return view('Dashboard.Unit.edit', compact('page', 'unit','parkings' ,'buildings' ,  'users'));
+        return view('Dashboard.Spot.edit', compact('page', 'spot','parkings' ,'buildings' ,  'users'));
     }
 
     /**
@@ -149,25 +147,25 @@ $buildings=Building::get();
      */
     public function update(Request $request, string $id)
     {
-        Gate::authorize('unit.update');
+        Gate::authorize('spot.update');
         $request->validate([
              'name' => 'required',
-             'user' => ['required','exists:users,id'],
+             'type' => ['required'],
             'building' => ['required','exists:buildings,id'],
 
              'parking' => ['required','exists:parkings,id'],
         ]);
 
-        $unit = Unit::find($id);
+        $spot = Spot::find($id);
 
-        $unit->update([
+        $spot->update([
        'name' => $request->name,
 
-       'user_id' => $request->user,
+       'type' => $request->type,
             'building_id' => $request->building,
 
         ]);
-        return redirect()->route('Dashboard.unit.index');
+        return redirect()->route('Dashboard.spot.index');
     }
 
     /**
@@ -175,16 +173,16 @@ $buildings=Building::get();
      */
     public function destroy(string $id)
     {
-        Gate::authorize('unit.delete');
-        Unit::find($id)->delete();
-        return redirect()->route('Dashboard.unit.index');
+        Gate::authorize('spot.delete');
+        Spot::find($id)->delete();
+        return redirect()->route('Dashboard.spot.index');
     }
 
     public function delete(string $id)
     {
-        Gate::authorize('unit.forceDelete');
-        Unit::withTrashed()->find($id)->forceDelete();
+        Gate::authorize('spot.forceDelete');
+        Spot::withTrashed()->find($id)->forceDelete();
 
-        return redirect()->route('Dashboard.unit.index');
+        return redirect()->route('Dashboard.spot.index');
     }
 }

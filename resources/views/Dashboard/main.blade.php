@@ -471,10 +471,9 @@
             </li><!-- End Components Nav -->
 
 
-               <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-nav15" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>unit</span><i
-                        class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-menu-button-wide"></i><span>unit</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="components-nav15" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
@@ -497,12 +496,90 @@
                 </ul>
             </li><!-- End Components Nav -->
 
-         <li class="nav-item">
+
+            <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-nav16" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>gate</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav16" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('Dashboard.gate.index') }}">
+                            <i class="bi bi-circle"></i><span>show all gate</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('Dashboard.gate.create') }}">
+                            <i class="bi bi-circle"></i><span>create gate</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('Dashboard.gate.trash') }}">
+                            <i class="bi bi-circle"></i><span>trashed G</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li><!-- End Components Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav18" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>spot</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav18" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('Dashboard.spot.index') }}">
+                            <i class="bi bi-circle"></i><span>show all Spots</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('Dashboard.spot.create') }}">
+                            <i class="bi bi-circle"></i><span>create Spot</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('Dashboard.spot.trash') }}">
+                            <i class="bi bi-circle"></i><span>trashed Spots</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li><!-- End Components Nav -->
+
+         <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav18" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>guest</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav18" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('Dashboard.guest.index') }}">
+                            <i class="bi bi-circle"></i><span>show all guests</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('Dashboard.guest.create') }}">
+                            <i class="bi bi-circle"></i><span>create guest</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('Dashboard.guest.trash') }}">
+                            <i class="bi bi-circle"></i><span>trashed guests</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li><!-- End Components Nav -->
+
+
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav17" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-menu-button-wide"></i><span>register_request</span><i
                         class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-nav16" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="components-nav17" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="{{ route('Dashboard.register_request.index') }}">
                             <i class="bi bi-circle"></i><span>show all register_request</span>
@@ -524,11 +601,14 @@
             </li><!-- End Components Nav -->
 
 
+
+
+
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav17" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" data-bs-target="#components-nav170" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-gear"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-nav17" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <ul id="components-nav170" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <!-- role -->
                     <li>
                         <a class="nav-link collapsed" data-bs-target="#components-nav171" data-bs-toggle="collapse"
@@ -575,7 +655,7 @@
                         </ul>
                     </li>
 
- <li>
+                    <li>
                         <a class="nav-link collapsed" data-bs-target="#components-nav174" data-bs-toggle="collapse"
                             href="#">
                             <i class="bi bi-circle"></i><span>color</span><i class="bi bi-chevron-down ms-auto"></i>

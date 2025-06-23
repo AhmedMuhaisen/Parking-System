@@ -111,28 +111,18 @@ $companyLogo = public_path($settings->logo ?? 'assets/dashboard/img/city-square.
         </div>
     </div>
 
-    <h1>units Report</h1>
+    <h1>Units Report</h1>
 
     <table>
         <thead>
             <tr>
                 <th>#</th>
                 <th scope="col">Name</th>
-                <th scope="col"> Address</th>
                 <th scope="col">Onr Name</th>
-
+         <th scope="col"> Building</th>
                 <th scope="col"> Parking</th>
 
-                <th scope="col"> # Units</th>
-                <th scope="col"> # Users</th>
-                <th scope="col"> # Vehicles</th>
-                <th scope="col"> # Spots</th>
-                <th scope="col"> # guests</th>
-                <th scope="col">Max Units</th>
-                <th scope="col">Max Users</th>
-                <th scope="col">Max Vehicles</th>
-                <th scope="col">Max Spots</th>
-                <th scope="col">Max guests</th>
+
             </tr>
         </thead>
         <tbody>
@@ -140,25 +130,11 @@ $companyLogo = public_path($settings->logo ?? 'assets/dashboard/img/city-square.
             <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $item->name }}</td>
-                <td>{{ $item->address }}</td>
-
                 <td>{{ $item->user->first_name . ' '.$item->user->second_name }}</td>
-                <td>{{ $item->parking->name}}</td>
-                <td>{{ $item->unit->count() }}</td>
+                <td>{{ $item->building->name}}</td>
 
-                <td>
-                    {{ $item->users->count()}}
-                </td>
-                <td>{{ $item->users->flatMap->vehicle->count() }}</td>
+                <td>{{ $item->building->parking->name}}</td>
 
-                <td>{{ $item->spot->count()}}</td>
-                <td>{{ $item->users->flatMap->guests->count() }}</td>
-
-                <td>{{ $item->max_units }}</td>
-                <td>{{ $item->max_users }}</td>
-                <td>{{ $item->max_vehicles }}</td>
-                <td>{{ $item->max_spots }}</td>
-                <td>{{ $item->max_guests }}</td>
             </tr>
             @empty
             <tr>

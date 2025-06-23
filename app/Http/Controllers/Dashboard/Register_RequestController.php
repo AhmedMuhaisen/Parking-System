@@ -6,7 +6,7 @@ use App\Exports\Register_RequestsExport;
 use App\Http\Controllers\Controller;
 use App\Mail\Register_RequestMail;
 use App\Models\Building;
-use App\Models\register_request;
+use App\Models\Register_Request;
 use App\Models\Parking;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 
 class Register_RequestController extends Controller
@@ -70,7 +71,7 @@ class Register_RequestController extends Controller
         $page = 'create';
         $folder = '';
 
-        $register_request = new register_request();
+        $register_request = new Register_Request();
         return view('Dashboard.Register_Request.create', compact('page', 'register_request'));
     }
 

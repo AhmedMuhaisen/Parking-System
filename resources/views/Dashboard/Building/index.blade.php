@@ -4,12 +4,12 @@
 @section('content')
 
 
-    <style>
-        table thead th,
-        select {
-            min-width: 140px;
-        }
-    </style>
+<style>
+    table thead th,
+    select {
+        min-width: 140px;
+    }
+</style>
 <main id="main" class="main position-absolute">
 
     <div class="pagetitle">
@@ -70,7 +70,7 @@
                             <th scope="col">Address</th>
 
                             <th scope="col" width="200">Onr Name</th>
-                               <th scope="col"> Parking</th>
+                            <th scope="col"> Parking</th>
                             <th scope="col"> # Units</th>
 
                             <th scope="col"> # Users</th>
@@ -96,35 +96,56 @@
                             <td scope="col">
                                 <x-input type="text" value="" name="name" id="name" title="search" />
                             </td>
-                               <td scope="col">
+                            <td scope="col">
                                 <x-input type="text" value="" name="address" id="address" title="search" />
                             </td>
                             <td scope="col">
                                 <x-input type="text" value="" name="user" id="user" title="search" />
                             </td>
-
-                                  <td scope="col">
-                                <x-input type="text" value="" name="parking" id="parking" title="search" />
+                            <td scope="col" width='200'>
+                                <x-select type="text" value="" :array="$parkings" name="parking" id="parking"
+                                    title="search" />
                             </td>
 
 
-                                <td scope="col"> <x-input type="text" value="" name="units_number" id="units_number" title="search" /></td>
 
-                                <td scope="col"> <x-input type="text" value="" name="users_number" id="users_number" title="search" /></td>
-                                <td scope="col"> <x-input type="text" value="" name="vehicles_number" id="vehicles_number"
-                                    title="search" /></td>
+                            <td scope="col">
+                                <x-input type="text" value="" name="units_number" id="units_number" title="search" />
+                            </td>
 
-                                <td scope="col"> <x-input type="text" value="" name="spots_number" id="spots_number" title="search" /></td>
-                                <td scope="col"> <x-input type="text" value="" name="guests_number" id="guests_number" title="search" /></td>
+                            <td scope="col">
+                                <x-input type="text" value="" name="users_number" id="users_number" title="search" />
+                            </td>
+                            <td scope="col">
+                                <x-input type="text" value="" name="vehicles_number" id="vehicles_number"
+                                    title="search" />
+                            </td>
+
+                            <td scope="col">
+                                <x-input type="text" value="" name="spots_number" id="spots_number" title="search" />
+                            </td>
+                            <td scope="col">
+                                <x-input type="text" value="" name="guests_number" id="guests_number" title="search" />
+                            </td>
 
 
-                                <td scope="col"> <x-input type="text" value="" name="max_units" id="max_units" title="search" /></td>
+                            <td scope="col">
+                                <x-input type="text" value="" name="max_units" id="max_units" title="search" />
+                            </td>
 
-                                <td scope="col"> <x-input type="text" value="" name="max_users" id="max_users" title="search" /></td>
-                                <td scope="col"> <x-input type="text" value="" name="max_vehicles" id="max_vehicles" title="search" /></td>
+                            <td scope="col">
+                                <x-input type="text" value="" name="max_users" id="max_users" title="search" />
+                            </td>
+                            <td scope="col">
+                                <x-input type="text" value="" name="max_vehicles" id="max_vehicles" title="search" />
+                            </td>
 
-                                <td scope="col"> <x-input type="text" value="" name="max_spots" id="max_spots" title="search" /></td>
-                                <td scope="col"> <x-input type="text" value="" name="max_guests" id="max_guests" title="search" /></td>
+                            <td scope="col">
+                                <x-input type="text" value="" name="max_spots" id="max_spots" title="search" />
+                            </td>
+                            <td scope="col">
+                                <x-input type="text" value="" name="max_guests" id="max_guests" title="search" />
+                            </td>
 
 
                             </td>

@@ -29,7 +29,10 @@ class UnitController extends Controller
             'building.parking',
             'building',
         ])->get();
-        return view('Dashboard.Unit.index', compact('unit', 'page'));
+$parkings=Parking::get();
+$buildings=Building::get();
+
+        return view('Dashboard.Unit.index', compact('unit', 'page','buildings','parkings'));
     }
 
     public function search(Request $request)
@@ -61,6 +64,7 @@ class UnitController extends Controller
 
     public function exportExcel(Request $request)
     {
+
         return Excel::download(new UnitsExport($request), 'units.xlsx');
     }
     /**
@@ -116,7 +120,9 @@ class UnitController extends Controller
         Gate::authorize('unit.index');
         $unit = Unit::onlyTrashed()->get();
         $page = 'trash';
-        return view('Dashboard.Unit.index', compact('unit', 'page'));
+        $parkings=Parking::get();
+$buildings=Building::get();
+        return view('Dashboard.Unit.index', compact('unit', 'page','buildings','parkings'));
     }
     /**
      * Display the specified resource.

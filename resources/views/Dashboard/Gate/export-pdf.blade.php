@@ -108,24 +108,37 @@ $settings=App\Models\Setting::first();
         </div>
     </div>
 
-    <h1>Vehicles Brands Report</h1>
+    <h1>Gates Report</h1>
 
     <table>
         <thead>
             <tr>
                 <th>#</th>
                 <th>Name</th>
-                <th>Number Of Vehicles</th>
+                <th>Address</th>
+                <th>Parking</th>
+
+                <th>Type</th>
+
+                <th>Open Method</th>
+                <th>Status</th>
                 <th>Created At</th>
             </tr>
         </thead>
         <tbody>
-            @forelse ($vehiclesBrands as $index => $item)
+            @forelse ($gates as $index => $gate)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $item->name }}</td>
-                    <td>{{ $item->vehicles_count }}</td>
-                    <td>{{ $item->created_at->format('m-d-Y') }}</td>
+                    <td>{{ $gate->name }}</td>
+
+                    <td>{{ $gate->address }}</td>
+                    <td>{{ $gate->parking->name }}</td>
+
+                    <td>{{ ucfirst($gate->type) }}</td>
+
+                    <td>{{ ucfirst($gate->open_method) }}</td>
+                    <td>{{ $gate->status }}</td>
+                    <td>{{ $gate->created_at->format('Y-m-d') }}</td>
                 </tr>
             @empty
                 <tr>

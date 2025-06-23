@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Unit;
+use App\Models\Spot;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as FacadesRequest;
@@ -15,7 +15,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
-class UnitsExport implements FromCollection, WithHeadings, WithEvents, WithCustomStartCell, WithMapping, WithColumnWidths
+class SpotsExport implements FromCollection, WithHeadings, WithEvents, WithCustomStartCell, WithMapping, WithColumnWidths
 {
 
     protected $request;
@@ -28,19 +28,19 @@ class UnitsExport implements FromCollection, WithHeadings, WithEvents, WithCusto
     public function collection()
     {
 
-        $units = Unit::search($this->request);
+        $spots = Spot::search($this->request);
 
-        return $units->get();
+        return $spots->get();
     }
 
-    public function map($unit): array
+    public function map($spot): array
     {
         return [
-            $unit->id,
-            $unit->name,
-            $unit->user->first_name . ' ' . $unit->user->second_name,
-            $unit->building->name,
-            $unit->building->parking->name,
+            $spot->id,
+            $spot->name,
+            $spot->type,
+            $spot->building->name,
+            $spot->building->parking->name,
 
 
         ];
@@ -62,7 +62,7 @@ class UnitsExport implements FromCollection, WithHeadings, WithEvents, WithCusto
 
     public function headings(): array
     {
-        return ['ID', 'Name', "Onr Name",'building', 'parking'];
+        return ['ID', 'Name', "Type",'Building', 'Parking'];
     }
 
 
@@ -91,14 +91,14 @@ class UnitsExport implements FromCollection, WithHeadings, WithEvents, WithCusto
                 $sheet->mergeCells('A3:F3');
                 $sheet->setCellValue('A3', $settings->website_phone ?? 'Phone Number');
                 $sheet->mergeCells('A4:F4');
-                $sheet->setCellValue('A4', 'units Report');
+                $sheet->setCellValue('A4', 'spots Report');
                 $sheet->getStyle('A4:F4')->getFont()->setBold(true);
                 // تنسيق العناوين والتوسيط
                 $sheet->getStyle('A1:F4')->getAlignment()->setHorizontal('center');
                 $sheet->getStyle('A5:F5')->getFont()->setBold(true);
                 $sheet->getStyle('A5:F5')->getFill()->setFillType('solid')->getStartColor()->setRGB('D9E1F2'); // أزرق فاتح
                 // تمييز الصفوف الفردية والزوجية
-                for ($row = 6; $row <= Unit::count() + 5; $row++) {
+                for ($row = 6; $row <= Spot::count() + 5; $row++) {
                     $fillColor = $row % 2 == 0 ? 'F2F2F2' : 'FFFFFF'; // رمادي فاتح للزوجي، أبيض للفردي
                     $sheet->getStyle("A{$row}:F{$row}")
                         ->getFill()

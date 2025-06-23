@@ -1,4 +1,4 @@
-@section('title', 'Show register_requests')
+@section('title', 'Show spots')
 
 @extends('Dashboard.main')
 @section('content')
@@ -14,10 +14,10 @@
 
     <div class="pagetitle">
         <div class="d-flex justify-content-between align-items-center my-3">
-            <h1>register_requests</h1>
-            <a href="{{ route('Dashboard.register_request.create') }}" class="btn btn-primary" style="
+            <h1>spots</h1>
+            <a href="{{ route('Dashboard.spot.create') }}" class="btn btn-primary" style="
 ">add
-                new register_request</a>
+                new spot</a>
         </div>
     </div><!-- End Page Title -->
 
@@ -25,19 +25,19 @@
         <div class="card">
             <div class="card-body right-thead">
                 <div class="d-flex justify-content-between align-items-center my-3">
-                    <h 5 class="card-title">show All register_requests</h>
+                    <h 5 class="card-title">show All spots</h>
                     @if ($page == 'index')
-                    @can('register_request.index')
-                    <a href="{{ route('Dashboard.register_request.trash') }}" class="btn btn-outline-danger" style="
+                    @can('spot.index')
+                    <a href="{{ route('Dashboard.spot.trash') }}" class="btn btn-outline-danger" style="
                                   ">
                         <i class="fas fa-trash"></i>
-                        Trashed register_requests</a>
+                        Trashed spots</a>
                     @endcan
                     @else
-                    @can('register_request.index')
-                    <a href="{{ route('Dashboard.register_request.index') }}" class="btn btn-outline-primary">
+                    @can('spot.index')
+                    <a href="{{ route('Dashboard.spot.index') }}" class="btn btn-outline-primary">
                         <i class="fas fa-tag"></i>
-                        All register_requests</a>
+                        All spots</a>
                     @endcan
                     @endif
 
@@ -66,20 +66,48 @@
                     <thead>
                         <tr>
 
-                            <th scope="col">Email</th>
-                            <th scope="col"> date</th>
+                            <th scope="col">Name</th>
+
+
+                            <th scope="col" width="200">Onr Name</th>
+                           <th scope="col"> Building</th>
+                            <th scope="col"> Parking</th>
                             <th scope="col" width="120">Action</th>
                         </tr>
                         <tr>
 
                             <td scope="col">
-                                <x-input type="text" value="" name="email" id="email" title="search" />
+                                <x-input type="text" value="" name="name" id="name" title="search" />
                             </td>
 
-     <td scope="col" width='100'>
-                                <x-input type="date" value="" title="search" name="created_at" id="created_at" />
+                              <td scope="col" width="200">
+                                <select class="form-control" title="search" name="type" id="type" value="">
+                                    <option selected value="">search
+                                    </option>
+                                    <option value="Handicap">Handicap
+                                    </option>
+                                     <option value="Visitor">Visitor
+                                    </option>
+                                    <option value="Regular">Regular
+                                    </option>
+
+                                </select>
                             </td>
 
+                                <td scope="col" width='200'>
+                                <x-select type="text" value="" :array="$buildings" name="building" id="building"
+                                    title="search" />
+                            </td>
+
+
+
+                                      <td scope="col" width='200'>
+                                <x-select type="text" value="" :array="$parkings" name="parking" id="parking"
+                                    title="search" />
+                            </td>
+
+
+                            </td>
 
                             <input type="hidden" name="page" id="page" value="{{ $page }}">
 
@@ -88,7 +116,7 @@
                         </tr>
                     </thead>
                     <tbody id="tableContainer">
-                        @include('Dashboard.Register_Request.table', ['register_request' => $register_request, 'page' => $page])
+                        @include('Dashboard.Spot.table', ['spot' => $spot, 'page' => $page])
                     </tbody>
                 </table>
 
@@ -120,8 +148,10 @@
 
     function datavalue(){
         return{
-        email: $('#email').val(),
-        created_at: $('#created_at').val(),
+        name: $('#name').val(),
+        type: $('#type').val(),
+        parking: $('#parking').val(),
+        building: $('#building').val(),
         page: $('#page').val()
     };
     }
@@ -129,14 +159,14 @@
 $('#printExcelReport').on('click', function () {
     let query = $.param(datavalue());
     // فتح رابط الطباعة مع تمرير الفلاتر
-    window.open("{{ route('Dashboard.register_request.exportExcel') }}?" + query, '_blank');
+    window.open("{{ route('Dashboard.spot.exportExcel') }}?" + query, '_blank');
 });
 
 
 $('#printPdfReport').on('click', function () {
     let query = $.param(datavalue());
     // فتح رابط الطباعة مع تمرير الفلاتر
-    window.open("{{ route('Dashboard.register_request.exportPDF') }}?" + query, '_blank');
+    window.open("{{ route('Dashboard.spot.exportPDF') }}?" + query, '_blank');
 });
 
 
@@ -148,7 +178,7 @@ $('#printPdfReport').on('click', function () {
         let data = datavalue()
 
         $.ajax({
-            url: "{{ route('Dashboard.register_request.search') }}",
+            url: "{{ route('Dashboard.spot.search') }}",
             type: "GET",
             data: data,
             success: function (response) {

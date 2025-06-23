@@ -1,21 +1,22 @@
-@section('title', 'Show Categories')
+@section('title', 'Show Gates')
 
 @extends('Dashboard.main')
 @section('content')
 <main id="main" class="main position-absolute">
-<style>
-    th,td{
-        max-width: 200px;
-    }
-</style>
+    <style>
+        th,
+        td {
+            max-width: 200px;
+        }
+    </style>
 
 
     <div class="pagetitle">
         <div class="d-flex justify-content-between align-items-center my-3">
-            <h1>Categories</h1>
-            <a href="{{ route('Dashboard.category.create') }}" class="btn btn-primary" style="
+            <h1>Gates</h1>
+            <a href="{{ route('Dashboard.gate.create') }}" class="btn btn-primary" style="
 ">add
-                new Category</a>
+                new gate</a>
         </div>
     </div><!-- End Page Title -->
 
@@ -23,19 +24,19 @@
         <div class="card">
             <div class="card-body right-thead">
                 <div class="d-flex justify-content-between align-items-center my-3">
-                    <h 5 class="card-title">show All Categoris</h>
+                    <h 5 class="card-title">show All Gates</h>
                     @if ($page == 'index')
-                    @can('category.index')
-                    <a href="{{ route('Dashboard.category.trash') }}" class="btn btn-outline-danger" style="
+                    @can('gate.index')
+                    <a href="{{ route('Dashboard.gate.trash') }}" class="btn btn-outline-danger" style="
                                   ">
                         <i class="fas fa-trash"></i>
-                        Trashed Categories</a>
+                        Trashed Gates</a>
                     @endcan
                     @else
-                    @can('category.index')
-                    <a href="{{ route('Dashboard.category.index') }}" class="btn btn-outline-primary">
+                    @can('gate.index')
+                    <a href="{{ route('Dashboard.gate.index') }}" class="btn btn-outline-primary">
                         <i class="fas fa-tag"></i>
-                        All Categories</a>
+                        All Gates</a>
                     @endcan
                     @endif
 
@@ -53,37 +54,59 @@
                         </label>
                     </div>
                     <div class="datatable-search">
-                        <a class="btn btn-dark" href=""  id="printExcelReport">Export Excel</a>
+                        <a class="btn btn-dark" href="" id="printExcelReport">Export Excel</a>
                         <a class="btn btn-danger" id="printPdfReport" href="">Export
                             Pdf</a>
                     </div>
                 </div>
 
                 <!-- Table with stripped rows -->
-   <table class="table table-striped">
+                <table class="table table-striped">
                     <thead>
                         <tr>
 
                             <th scope="col">Name</th>
-                            <th scope="col" width="200">Description</th>
+                            <th scope="col" width="200">Address</th>
+                            <th scope="col"> Parking</th>
+                            <th scope="col" width="200">type</th>
 
-                            <th scope="col" width="200">work_method</th>
+                            <th scope="col" width="200">open_method</th>
                             <th scope="col">status</th>
-                            <th scope="col" width='100'>created_at</th>
+
                             <th scope="col" width="120">Action</th>
                         </tr>
 
 
-                              <tr>
+                        <tr>
 
                             <td scope="col">
                                 <x-input type="text" value="" name="name" id="name" title="search" />
                             </td>
-                              <td scope="col">
-                                <x-input type="text" value="" name="description" id="description" title="search" />
+                            <td scope="col">
+                                <x-input type="text" value="" name="address" id="address" title="search" />
                             </td>
+
+                                     <td scope="col" width='200'>
+                                <x-select type="text" value="" :array="$parkings" name="parking" id="parking"
+                                    title="search" />
+                            </td>
+
+
                             <td scope="col" width="200">
-                               <select class="form-control" title="search" name="work_method" id="work_method" value="">
+                                <select class="form-control" title="search" name="type" id="type" value="">
+                                    <option selected value="">search
+                                    </option>
+                                    <option value="Entrance">Entrance
+                                    </option>
+                                    <option value="Exit">Exit
+                                    </option>
+
+                                </select>
+                            </td>
+
+                            <td scope="col" width="200">
+                                <select class="form-control" title="search" name="open_method" id="open_method"
+                                    value="">
                                     <option selected value="">search
                                     </option>
                                     <option value="manual">manual
@@ -105,9 +128,7 @@
                                 </select>
 
                             </td>
-                            <td scope="col" width='100'>
-                                <x-input type="date" value="" title="search" name="created_at" id="created_at" />
-                            </td>
+
                             <input type="hidden" name="page" id="page" value="{{ $page }}">
 
                             <td scope="col" width="120"><button class="btn btn-primary" id="searchBtn">Search</button>
@@ -115,7 +136,7 @@
                         </tr>
                     </thead>
                     <tbody id="tableContainer">
-                 @include('Dashboard.Category.table', ['category' => $category, 'page' => $page])
+                        @include('Dashboard.Gate.table', ['gate' => $gate, 'page' => $page])
                     </tbody>
                 </table>
 
@@ -148,10 +169,11 @@
     function datavalue(){
         return{
         name: $('#name').val(),
-          description: $('#description').val(),
+          address: $('#address').val(),
         status: $('#status').val(),
-        work_method: $('#work_method').val(),
-        created_at: $('#created_at').val(),
+        type: $('#type').val(),
+        parking: $('#parking').val(),
+        open_method: $('#open_method').val(),
         page: $('#page').val()
     };
     }
@@ -159,14 +181,14 @@
 $('#printExcelReport').on('click', function () {
     let query = $.param(datavalue());
     // فتح رابط الطباعة مع تمرير الفلاتر
-    window.open("{{ route('Dashboard.category.exportExcel') }}?" + query, '_blank');
+    window.open("{{ route('Dashboard.gate.exportExcel') }}?" + query, '_blank');
 });
 
 
 $('#printPdfReport').on('click', function () {
     let query = $.param(datavalue());
     // فتح رابط الطباعة مع تمرير الفلاتر
-    window.open("{{ route('Dashboard.category.exportPDF') }}?" + query, '_blank');
+    window.open("{{ route('Dashboard.gate.exportPDF') }}?" + query, '_blank');
 });
 
 
@@ -178,7 +200,7 @@ $('#printPdfReport').on('click', function () {
         let data = datavalue()
 
         $.ajax({
-            url: "{{ route('Dashboard.category.search') }}",
+            url: "{{ route('Dashboard.gate.search') }}",
             type: "GET",
             data: data,
             success: function (response) {

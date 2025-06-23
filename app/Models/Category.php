@@ -20,7 +20,7 @@ class Category extends Model
     }
 
         if ($request->filled('description')) {
-        $categories->where('description', 'like', '%' . $request->name . '%');
+        $categories->where('description', 'like', '%' . $request->description . '%');
     }
 
     if ($request->filled('status')) {

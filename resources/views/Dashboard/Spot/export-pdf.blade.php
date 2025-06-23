@@ -1,14 +1,15 @@
 @php
 $settings=App\Models\Setting::first();
-    $companyName = $settings->website_name ?? 'Company Name';
-    $companyAddress = $settings->address ?? 'Company Address';
-    $companyPhone = $settings->website_phone ?? 'Phone Number';
-    $companyEmail = $settings->website_email ?? 'Email';
-    $companyLogo = public_path($settings->logo ?? 'assets/dashboard/img/city-square.jpg');
+$companyName = $settings->website_name ?? 'Company Name';
+$companyAddress = $settings->address ?? 'Company Address';
+$companyPhone = $settings->website_phone ?? 'Phone Number';
+$companyEmail = $settings->website_email ?? 'Email';
+$companyLogo = public_path($settings->logo ?? 'assets/dashboard/img/city-square.jpg');
 @endphp
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Export PDF</title>
@@ -64,7 +65,8 @@ $settings=App\Models\Setting::first();
             margin-bottom: 30px;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #bdc3c7;
             padding: 10px;
             text-align: center;
@@ -95,6 +97,7 @@ $settings=App\Models\Setting::first();
         }
     </style>
 </head>
+
 <body>
 
     <div class="header">
@@ -104,33 +107,39 @@ $settings=App\Models\Setting::first();
             <p>Phone: {{ $companyPhone }} | Email: {{ $companyEmail }}</p>
         </div>
         <div class="logo">
-            <img src="{{ $companyLogo }}" alt="Company Logo" width="100">
+            <img src="{{ $companyLogo }}" alt="Company Logo">
         </div>
     </div>
 
-    <h1>Vehicles Brands Report</h1>
+    <h1>Spots Report</h1>
 
     <table>
         <thead>
             <tr>
                 <th>#</th>
-                <th>Name</th>
-                <th>Number Of Vehicles</th>
-                <th>Created At</th>
+                <th scope="col">Name</th>
+                <th scope="col">Type</th>
+         <th scope="col"> Building</th>
+                <th scope="col"> Parking</th>
+
+
             </tr>
         </thead>
         <tbody>
-            @forelse ($vehiclesBrands as $index => $item)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $item->name }}</td>
-                    <td>{{ $item->vehicles_count }}</td>
-                    <td>{{ $item->created_at->format('m-d-Y') }}</td>
-                </tr>
+            @forelse ($spots as $index => $item)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $item->name }}</td>
+                <td>{{ $item->type }}</td>
+                <td>{{ $item->building->name}}</td>
+
+                <td>{{ $item->building->parking->name}}</td>
+
+            </tr>
             @empty
-                <tr>
-                    <td colspan="5" class="no-data">No data available</td>
-                </tr>
+            <tr>
+                <td colspan="16" class="no-data">No data available</td>
+            </tr>
             @endforelse
         </tbody>
     </table>
@@ -140,4 +149,5 @@ $settings=App\Models\Setting::first();
     </div>
 
 </body>
+
 </html>

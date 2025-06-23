@@ -84,14 +84,18 @@
                                 <x-input type="text" value="" name="user" id="user" title="search" />
                             </td>
 
-                                 <td scope="col">
-                                <x-input type="text" value="" name="building" id="building" title="search" />
+                                <td scope="col" width='200'>
+                                <x-select type="text" value="" :array="$buildings" name="building" id="building"
+                                    title="search" />
                             </td>
 
 
-                                  <td scope="col">
-                                <x-input type="text" value="" name="parking" id="parking" title="search" />
+
+                                      <td scope="col" width='200'>
+                                <x-select type="text" value="" :array="$parkings" name="parking" id="parking"
+                                    title="search" />
                             </td>
+
 
                             </td>
 
