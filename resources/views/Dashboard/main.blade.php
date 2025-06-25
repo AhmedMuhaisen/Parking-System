@@ -586,7 +586,25 @@
 
                 </ul>
             </li><!-- End Components Nav -->
+     <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav19" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>message</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav19" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('Dashboard.message.index') }}">
+                            <i class="bi bi-circle"></i><span>show all messages</span>
+                        </a>
+                    </li>
 
+                    <li>
+                        <a href="{{ route('Dashboard.message.trash') }}">
+                            <i class="bi bi-circle"></i><span>trashed messages</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-nav20" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-menu-button-wide"></i><span>camera</span><i class="bi bi-chevron-down ms-auto"></i>

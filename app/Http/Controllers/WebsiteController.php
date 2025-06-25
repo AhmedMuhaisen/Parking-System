@@ -8,6 +8,7 @@ use App\Models\Building;
 use App\Models\Color;
 use App\Models\VehiclesBrand;
 use App\Models\Guest;
+use App\Models\Message;
 use App\Models\MotorType;
 use App\Models\ParkingWork;
 use App\Models\Setting;
@@ -76,7 +77,17 @@ class WebsiteController extends Controller
             'message' => $request->message,
         ];
 
-        Mail::to('ahmed@gmail.com')->send(new Send_messageMail($data));
+        Mail::to('ahmedmuhaisen6@gmail.com')->send(new Send_messageMail($data));
+
+        Message::create([
+            'email' => $request->email,
+            'subject' => $request->subject,
+            'message' => $request->message,
+        ]);
+
+
+
+
 
         // success response
         return response('OK', 200);

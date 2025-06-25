@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\gateController;
 use App\Http\Controllers\Dashboard\GuestController;
 use App\Http\Controllers\Dashboard\Login_AttemptController;
+use App\Http\Controllers\Dashboard\MessageController;
 use App\Http\Controllers\Dashboard\ParkingController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\Register_RequestController;
@@ -339,6 +340,22 @@ Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth')->group(functi
     });
 
     Route::resource('camera', CameraController::class);
+
+      Route::prefix('message')->name('message.')->group(function () {
+        Route::get('/', [MessageController::class, 'index'])->name('index');
+
+        Route::get('search', [MessageController::class, 'search'])->name('search');
+
+        Route::get('exportPDF', [MessageController::class, 'exportPDF'])->name('exportPDF');
+
+        Route::get('exportExcel', [MessageController::class, 'exportExcel'])->name('exportExcel');
+
+
+        Route::delete('forcedelete/{id}', [MessageController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [MessageController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [MessageController::class, 'restore'])->name('restore');
+    });
+
 
 
     Route::prefix('testimonial')->name('testimonial.')->group(function () {

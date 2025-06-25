@@ -370,6 +370,24 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
+
+        Gate::define('message.index', function ($user) {
+            return (in_array('message.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('message.delete', function ($user) {
+            return (in_array('message.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('message.restore', function ($user) {
+            return (in_array('message.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('message.forceDelete', function ($user) {
+            return (in_array('message.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+
         Gate::define('testimonial.index', function ($user) {
             return (in_array('testimonial.index', $user->role->permission->pluck('code')->toArray()));
         });

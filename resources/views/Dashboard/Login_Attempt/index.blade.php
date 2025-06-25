@@ -94,7 +94,7 @@
                         </tr>
                     </thead>
                     <tbody id="tableContainer">
-                        @include('Dashboard.login_attempt.table', ['login_attempt' => $login_attempt, 'page' => $page])
+                        @include('Dashboard.Login_Attempt.table', ['login_attempt' => $login_attempt, 'page' => $page])
                     </tbody>
                 </table>
 

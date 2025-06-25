@@ -1,4 +1,4 @@
-@section('title', 'Show testimonials')
+@section('title', 'Show messages')
 
 @extends('Dashboard.main')
 @section('content')
@@ -14,10 +14,7 @@
 
     <div class="pagetitle">
         <div class="d-flex justify-content-between align-items-center my-3">
-            <h1>testimonials</h1>
-            <a href="{{ route('Dashboard.testimonial.create') }}" class="btn btn-primary" style="
-">add
-                new testimonial</a>
+            <h1>messages</h1>
         </div>
     </div><!-- End Page Title -->
 
@@ -25,19 +22,19 @@
         <div class="card">
             <div class="card-body right-thead">
                 <div class="d-flex justify-content-between align-items-center my-3">
-                    <h 5 class="card-title">show All testimonials</h>
+                    <h 5 class="card-title">show All messages</h>
                     @if ($page == 'index')
-                    @can('testimonial.index')
-                    <a href="{{ route('Dashboard.testimonial.trash') }}" class="btn btn-outline-danger" style="
+                    @can('message.index')
+                    <a href="{{ route('Dashboard.message.trash') }}" class="btn btn-outline-danger" style="
                                   ">
                         <i class="fas fa-trash"></i>
-                        Trashed testimonials</a>
+                        Trashed messages</a>
                     @endcan
                     @else
-                    @can('testimonial.index')
-                    <a href="{{ route('Dashboard.testimonial.index') }}" class="btn btn-outline-primary">
+                    @can('message.index')
+                    <a href="{{ route('Dashboard.message.index') }}" class="btn btn-outline-primary">
                         <i class="fas fa-tag"></i>
-                        All testimonials</a>
+                        All messages</a>
                     @endcan
                     @endif
 
@@ -66,32 +63,31 @@
                     <thead>
                         <tr>
 
-                            <th scope="col">Rating</th>
-     <th scope="col"> Text</th>
-                            <th scope="col" width="200">User Name</th>
-                            <th scope="col"> Created at</th>
+                            <th scope="col" width='600'>Email</th>
+                           <th scope="col"> Subject</th>
+                            <th scope="col"> Message</th>
+                            <th>created_at</th>
                             <th scope="col" width="120">Action</th>
                         </tr>
                         <tr>
 
                             <td scope="col">
-                                <x-input type="text" value="" name="rating" id="rating" title="search" />
+                                <x-input type="text" value="" name="email" id="email" title="search" />
                             </td>
 
-                            <td scope="col">
-                                <x-input type="text" value="" name="text" id="text" title="search" />
+         <td scope="col">
+                                <x-input type="text" value="" name="subject" id="subject" title="search" />
                             </td>
-       <td scope="col">
-                                <x-input type="text" value="" name="user" id="user" title="search" />
+
+                                     <td scope="col">
+                                <x-input type="text" value="" name="message" id="message" title="search" />
                             </td>
 
 
-       <td scope="col">
+      <td scope="col">
                                 <x-input type="text" value="" name="created_at" id="created_at" title="search" />
                             </td>
 
-
-                            </td>
 
                             <input type="hidden" name="page" id="page" value="{{ $page }}">
 
@@ -100,7 +96,7 @@
                         </tr>
                     </thead>
                     <tbody id="tableContainer">
-                        @include('Dashboard.Testimonial.table', ['testimonial' => $testimonial, 'page' => $page])
+                        @include('Dashboard.Message.table', ['message' => $message, 'page' => $page])
                     </tbody>
                 </table>
 
@@ -132,10 +128,11 @@
 
     function datavalue(){
         return{
-        rating: $('#rating').val(),
-        text: $('#text').val(),
-        user: $('#user').val(),
+        email: $('#email').val(),
+        subject: $('#subject').val(),
+        message: $('#message').val(),
         created_at: $('#created_at').val(),
+
         page: $('#page').val()
     };
     }
@@ -143,14 +140,14 @@
 $('#printExcelReport').on('click', function () {
     let query = $.param(datavalue());
     // فتح رابط الطباعة مع تمرير الفلاتر
-    window.open("{{ route('Dashboard.testimonial.exportExcel') }}?" + query, '_blank');
+    window.open("{{ route('Dashboard.message.exportExcel') }}?" + query, '_blank');
 });
 
 
 $('#printPdfReport').on('click', function () {
     let query = $.param(datavalue());
     // فتح رابط الطباعة مع تمرير الفلاتر
-    window.open("{{ route('Dashboard.testimonial.exportPDF') }}?" + query, '_blank');
+    window.open("{{ route('Dashboard.message.exportPDF') }}?" + query, '_blank');
 });
 
 
@@ -162,7 +159,7 @@ $('#printPdfReport').on('click', function () {
         let data = datavalue()
 
         $.ajax({
-            url: "{{ route('Dashboard.testimonial.search') }}",
+            url: "{{ route('Dashboard.message.search') }}",
             type: "GET",
             data: data,
             success: function (response) {
