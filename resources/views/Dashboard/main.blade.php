@@ -386,6 +386,21 @@
                         </ul>
                     </li>
 
+
+                          <li>
+                        <a class="nav-link collapsed" data-bs-toggle="collapse" href="#login_attempts">
+                            <i class="bi bi-arrow-left-right"></i><span>Login Attempts</span><i
+                                class="bi bi-chevron-down ms-auto"></i>
+                        </a>
+                        <ul id="login_attempts" class="nav-content collapse">
+                            <li><a href="{{ route('Dashboard.login_attempt.index') }}"><i class="bi bi-circle"></i>
+                                    Show All</a></li>
+                            <li><a href="{{ route('Dashboard.login_attempt.create') }}"><i class="bi bi-circle"></i>
+                                    Create</a></li>
+                            <li><a href="{{ route('Dashboard.login_attempt.trash') }}"><i class="bi bi-circle"></i>
+                                    Trashed</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
 
@@ -547,11 +562,11 @@
                 </ul>
             </li><!-- End Components Nav -->
 
-         <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav18" data-bs-toggle="collapse" href="#">
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav19" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-menu-button-wide"></i><span>guest</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-nav18" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="components-nav19" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="{{ route('Dashboard.guest.index') }}">
                             <i class="bi bi-circle"></i><span>show all guests</span>
@@ -572,6 +587,56 @@
                 </ul>
             </li><!-- End Components Nav -->
 
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav20" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>camera</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav20" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('Dashboard.camera.index') }}">
+                            <i class="bi bi-circle"></i><span>show all cameras</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('Dashboard.camera.create') }}">
+                            <i class="bi bi-circle"></i><span>create camera</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('Dashboard.camera.trash') }}">
+                            <i class="bi bi-circle"></i><span>trashed cameras</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li><!-- End Components Nav -->
+
+
+                <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav21" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>testimonial</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav21" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('Dashboard.testimonial.index') }}">
+                            <i class="bi bi-circle"></i><span>show all testimonials</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('Dashboard.testimonial.create') }}">
+                            <i class="bi bi-circle"></i><span>create testimonial</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('Dashboard.testimonial.trash') }}">
+                            <i class="bi bi-circle"></i><span>trashed testimonials</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li><!-- End Components Nav -->
 
 
             <li class="nav-item">

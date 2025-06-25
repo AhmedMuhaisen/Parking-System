@@ -1,0 +1,47 @@
+@extends('Dashboard.main')
+
+@section('title', 'login_attempt')
+@section('content')
+
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <div class="d-flex justify-content-between align-items-center my-3">
+            <h1>login_attempts</h1>
+        </div>
+    </div><!-- End Page Title -->
+
+    <div class="col-lg-12">
+
+        <div class="card">
+            <div class="card-body create-login_attempt">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="card-title">@yield('title_form')</h5>
+                    <a class="role-back btn btn-primary w-20 h-75" href="{{ route('Dashboard.login_attempt.index') }}"> Rol
+                        Back</a>
+                </div>
+                <!-- General Form Elements -->
+                @yield('form')
+                <x-inputd value="{{ $login_attempt->vehicle_number }}" title="login_attempt vehicle_number" type="text" name="vehicle_number"></x-inputd>
+
+
+
+        <x-selectd type="text" value="{{ $login_attempt->gate->id }}" :array="$gates" name="gate"
+                    id="gate" title="gate" />
+
+
+                <button type="submit" class="btn btn-primary my-4 display-block w-100 mx-auto">Submit Form</button>
+                </form><!-- End General Form Elements -->
+
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+    </section>
+
+</main><!-- End #main -->
+
+@endsection

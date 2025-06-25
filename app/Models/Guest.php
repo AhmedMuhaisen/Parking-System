@@ -18,6 +18,7 @@ class Guest extends Model
 
     public static function search($request)
     {
+
         $guests = Guest::with(['user']);
 
         // Filter by related Category

@@ -139,7 +139,7 @@
                         </tr>
                     </thead>
                     <tbody id="tableContainer">
-                        @include('Dashboard.guest.table', ['guest' => $guest, 'page' => $page])
+                        @include('Dashboard.Guest.table', ['guest' => $guest, 'page' => $page])
                     </tbody>
                 </table>
 
@@ -171,18 +171,18 @@
 
     function datavalue(){
         return{
-        name: $('name').val(),
-        user: $('user').val(),
-         type: $('type').val(),
-          vehicle_number: $('vehicle_number').val(),
-        login_date: $('login_date').val(),
-        login_time: $('login_time').val(),
-        logout_date: $('logout_date').val(),
-        logout_time: $('logout_time').val(),
-        time_remaining: $('time_remaining').val(),
-       number_visits: $('number_visits').val(),
-      notes: $('notes').val(),
-        page: $('page').val()
+        name: $('#name').val(),
+        user: $('#user').val(),
+         type: $('#type').val(),
+          vehicle_number: $('#vehicle_number').val(),
+        login_date: $('#login_date').val(),
+        login_time: $('#login_time').val(),
+        logout_date: $('#logout_date').val(),
+        logout_time: $('#logout_time').val(),
+        time_remaining: $('#time_remaining').val(),
+       number_visits: $('#number_visits').val(),
+      notes: $('#notes').val(),
+        page: $('#page').val()
     };
     }
 

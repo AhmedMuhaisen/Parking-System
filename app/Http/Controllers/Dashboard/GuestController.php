@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Exports\GuestsExport;
 use App\Http\Controllers\Controller;
-use App\Models\Building;
-use App\Models\Unit;
+
 use App\Models\User;
-use App\Models\guest;
+use App\Models\Guest;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 use Illuminate\Http\Request;
@@ -36,6 +35,7 @@ class GuestController extends Controller
     public function search(Request $request)
     {
         $page = $request->page;
+
         $guests = Guest::search($request);
         $result = $guests->get();
         $html = view('Dashboard.Guest.table', [

@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-       Gate::define('category.index', function ($user) {
+        Gate::define('category.index', function ($user) {
             return (in_array('category.index', $user->role->permission->pluck('code')->toArray()));
         });
 
@@ -47,7 +47,7 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-          Gate::define('vehiclesType.index', function ($user) {
+        Gate::define('vehiclesType.index', function ($user) {
             return (in_array('vehiclesType.index', $user->role->permission->pluck('code')->toArray()));
         });
 
@@ -73,7 +73,7 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-             Gate::define('vehiclesBrand.index', function ($user) {
+        Gate::define('vehiclesBrand.index', function ($user) {
             return (in_array('vehiclesBrand.index', $user->role->permission->pluck('code')->toArray()));
         });
 
@@ -97,7 +97,7 @@ class AppServiceProvider extends ServiceProvider
             return (in_array('vehiclesBrand.forceDelete', $user->role->permission->pluck('code')->toArray()));
         });
 
-         Gate::define('vehicle.index', function ($user) {
+        Gate::define('vehicle.index', function ($user) {
             return (in_array('vehicle.index', $user->role->permission->pluck('code')->toArray()));
         });
 
@@ -122,7 +122,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
-                     Gate::define('vehiclesMovement.index', function ($user) {
+        Gate::define('vehiclesMovement.index', function ($user) {
             return (in_array('vehiclesMovement.index', $user->role->permission->pluck('code')->toArray()));
         });
 
@@ -147,7 +147,31 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
-             Gate::define('user.index', function ($user) {
+        Gate::define('login_attempt.index', function ($user) {
+            return (in_array('login_attempt.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('login_attempt.create', function ($user) {
+            return (in_array('login_attempt.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('login_attempt.update', function ($user) {
+            return (in_array('login_attempt.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('login_attempt.delete', function ($user) {
+            return (in_array('login_attempt.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('login_attempt.restore', function ($user) {
+            return (in_array('login_attempt.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('login_attempt.forceDelete', function ($user) {
+            return (in_array('login_attempt.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('user.index', function ($user) {
             return (in_array('user.index', $user->role->permission->pluck('code')->toArray()));
         });
 
@@ -172,7 +196,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
-   Gate::define('parking.index', function ($user) {
+        Gate::define('parking.index', function ($user) {
             return (in_array('parking.index', $user->role->permission->pluck('code')->toArray()));
         });
 
@@ -198,7 +222,7 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-   Gate::define('building.index', function ($user) {
+        Gate::define('building.index', function ($user) {
             return (in_array('building.index', $user->role->permission->pluck('code')->toArray()));
         });
 
@@ -223,7 +247,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
- Gate::define('unit.index', function ($user) {
+        Gate::define('unit.index', function ($user) {
             return (in_array('unit.index', $user->role->permission->pluck('code')->toArray()));
         });
 
@@ -247,7 +271,7 @@ class AppServiceProvider extends ServiceProvider
             return (in_array('unit.forceDelete', $user->role->permission->pluck('code')->toArray()));
         });
 
- Gate::define('gate.index', function ($user) {
+        Gate::define('gate.index', function ($user) {
             return (in_array('gate.index', $user->role->permission->pluck('code')->toArray()));
         });
 
@@ -271,7 +295,7 @@ class AppServiceProvider extends ServiceProvider
             return (in_array('gate.forceDelete', $user->role->permission->pluck('code')->toArray()));
         });
 
- Gate::define('spot.index', function ($user) {
+        Gate::define('spot.index', function ($user) {
             return (in_array('spot.index', $user->role->permission->pluck('code')->toArray()));
         });
 
@@ -296,7 +320,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
-         Gate::define('guest.index', function ($user) {
+        Gate::define('guest.index', function ($user) {
             return (in_array('guest.index', $user->role->permission->pluck('code')->toArray()));
         });
 
@@ -321,7 +345,57 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
- Gate::define('register_request.index', function ($user) {
+        Gate::define('camera.index', function ($user) {
+            return (in_array('camera.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('camera.create', function ($user) {
+            return (in_array('camera.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('camera.update', function ($user) {
+            return (in_array('camera.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('camera.delete', function ($user) {
+            return (in_array('camera.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('camera.restore', function ($user) {
+            return (in_array('camera.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('camera.forceDelete', function ($user) {
+            return (in_array('camera.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+
+        Gate::define('testimonial.index', function ($user) {
+            return (in_array('testimonial.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('testimonial.create', function ($user) {
+            return (in_array('testimonial.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('testimonial.update', function ($user) {
+            return (in_array('testimonial.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('testimonial.delete', function ($user) {
+            return (in_array('testimonial.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('testimonial.restore', function ($user) {
+            return (in_array('testimonial.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('testimonial.forceDelete', function ($user) {
+            return (in_array('testimonial.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+
+        Gate::define('register_request.index', function ($user) {
             return (in_array('register_request.index', $user->role->permission->pluck('code')->toArray()));
         });
 
@@ -348,7 +422,7 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-                Gate::define('role.index', function ($user) {
+        Gate::define('role.index', function ($user) {
             return (in_array('role.index', $user->role->permission->pluck('code')->toArray()));
         });
 
@@ -397,7 +471,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
-               Gate::define('roleuser.index', function ($user) {
+        Gate::define('roleuser.index', function ($user) {
             return (in_array('roleuser.index', $user->role->permission->pluck('code')->toArray()));
         });
 
@@ -422,7 +496,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
-             Gate::define('color.index', function ($user) {
+        Gate::define('color.index', function ($user) {
             return (in_array('color.index', $user->role->permission->pluck('code')->toArray()));
         });
 
@@ -445,4 +519,5 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('color.forceDelete', function ($user) {
             return (in_array('color.forceDelete', $user->role->permission->pluck('code')->toArray()));
         });
-}}
+    }
+}
