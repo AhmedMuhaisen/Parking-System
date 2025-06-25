@@ -117,9 +117,10 @@ $companyLogo = public_path($settings->logo ?? 'assets/dashboard/img/city-square.
         <thead>
             <tr>
                 <th>#</th>
-                <th scope="col">Name</th>
-         <th scope="col"> Gate</th>
-                <th scope="col"> Parking</th>
+            <th scope="col" width='600'>Email</th>
+                           <th scope="col"> Subject</th>
+                            <th scope="col"> Message</th>
+                            <th>created_at</th>
 
 
             </tr>
@@ -128,10 +129,12 @@ $companyLogo = public_path($settings->logo ?? 'assets/dashboard/img/city-square.
             @forelse ($messages as $index => $item)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ $item->name }}</td>
-                <td>{{ $item->gate->name}}</td>
+              <td width="200">{{ $item->email }}</td>
 
-                <td>{{ $item->gate->parking->name}}</td>
+    <td width="200">{{ $item->subject}}</td>
+
+    <td width="200">{{ $item->message}}</td>
+  <td width="200">{{ $item->created_at}}</td>
 
             </tr>
             @empty

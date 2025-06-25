@@ -13,31 +13,31 @@ class Message extends Model
 
  public static function search($request)
     {
-        $cameras = Camera::query();
+        $message = Message::query();
 
         // Filter by related Category
 
 
         if ($request->filled('email')) {
-            $cameras->where('email', 'like', '%' . $request->email . '%');
+            $message->where('email', 'like', '%' . $request->email . '%');
         }
      if ($request->filled('subject')) {
-            $cameras->where('subject', 'like', '%' . $request->subject . '%');
+            $message->where('subject', 'like', '%' . $request->subject . '%');
         }
             if ($request->filled('message')) {
-            $cameras->where('message', 'like', '%' . $request->message . '%');
+            $message->where('message', 'like', '%' . $request->message . '%');
         }
            if ($request->filled('created_at')) {
-            $cameras->where('created_at', 'like', '%' . $request->created_at . '%');
+            $message->where('created_at', 'like', '%' . $request->created_at . '%');
         }
 
 
 
         // Show trashed only if specified
         if ($request->page == 'trash') {
-            $cameras = $cameras->onlyTrashed();
+            $message = $message->onlyTrashed();
         }
-        return $cameras;
+        return $message;
     }
 
 }

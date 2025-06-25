@@ -350,6 +350,7 @@ Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth')->group(functi
 
         Route::get('exportExcel', [MessageController::class, 'exportExcel'])->name('exportExcel');
 
+            Route::delete('destroy/{id}', [MessageController::class, 'destroy'])->name('destroy');
 
         Route::delete('forcedelete/{id}', [MessageController::class, 'delete'])->name('forcedelete');
         Route::get('trash', [MessageController::class, 'trash'])->name('trash');
