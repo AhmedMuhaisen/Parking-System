@@ -413,6 +413,31 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
+               Gate::define('notification_rule.index', function ($user) {
+            return (in_array('notification_rule.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('notification_rule.create', function ($user) {
+            return (in_array('notification_rule.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('notification_rule.update', function ($user) {
+            return (in_array('notification_rule.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('notification_rule.delete', function ($user) {
+            return (in_array('notification_rule.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('notification_rule.restore', function ($user) {
+            return (in_array('notification_rule.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('notification_rule.forceDelete', function ($user) {
+            return (in_array('notification_rule.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+
         Gate::define('register_request.index', function ($user) {
             return (in_array('register_request.index', $user->role->permission->pluck('code')->toArray()));
         });

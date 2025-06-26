@@ -2,17 +2,14 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class Notification_Rule extends Model
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable ,SoftDeletes;
+    use HasFactory,  SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -20,55 +17,37 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $guarded = [];
-    // protected $fillable = [
-    //     'name',
-    //     'email',
-    //     'password',
-    // ];
+    protected $table ='notification_rules';
+// function building()
+//     {
+//         return $this->belongsTo(Building::class)->withDefault();
+//     }
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+//     function unit()
+//     {
+//         return $this->belongsTo(Unit::class)->withDefault();
+//     }
 
-    function building()
-    {
-        return $this->belongsTo(Building::class)->withDefault();
-    }
+//     function role()
+//     {
+//         return $this->belongsTo(Role::class)->withDefault();
+//     }
 
-    function unit()
-    {
-        return $this->belongsTo(Unit::class)->withDefault();
-    }
+//     function vehicle()
+//     {
+//         return $this->hasMany(Vehicle::class);
+//     }
 
-    function role()
-    {
-        return $this->belongsTo(Role::class)->withDefault();
-    }
+//     function guests()
+//     {
+//         return $this->hasMany(Guest::class);
+//     }
 
-    function vehicle()
-    {
-        return $this->hasMany(Vehicle::class);
-    }
+//     function testimonials()
+//     {
+//         return $this->hasMany(Testimonial::class);
+//     }
 
-    function guests()
-    {
-        return $this->hasMany(Guest::class);
-    }
-
-    function testimonials()
-    {
-        return $this->hasMany(Testimonial::class);
-    }
-public function systemNotifications()
-{
-    return $this->hasMany(SystemNotification::class);
-}
 
     public static function search($request)
     {
@@ -128,22 +107,5 @@ if ($request->filled('vehicles_count')) {
             $users = $users->onlyTrashed();
         }
         return $users;
-    }
-
-
-
-
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
     }
 }

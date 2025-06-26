@@ -605,6 +605,9 @@
 
                 </ul>
             </li>
+
+
+
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-nav20" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-menu-button-wide"></i><span>camera</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -655,6 +658,33 @@
 
                 </ul>
             </li><!-- End Components Nav -->
+
+
+          <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav23" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>notification_rule</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav23" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('Dashboard.notification_rule.index') }}">
+                            <i class="bi bi-circle"></i><span>show all notification_rules</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('Dashboard.notification_rule.create') }}">
+                            <i class="bi bi-circle"></i><span>create notification_rule</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('Dashboard.notification_rule.trash') }}">
+                            <i class="bi bi-circle"></i><span>trashed notification_rules</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li><!-- End Components Nav -->
+
 
 
             <li class="nav-item">

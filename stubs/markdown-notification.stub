@@ -4,15 +4,15 @@ namespace {{ namespace }};
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
+use Illuminate\notification_ruless\Messages\MailMessage;
+use Illuminate\notification_ruless\notification_rules;
 
-class {{ class }} extends Notification
+class {{ class }} extends notification_rules
 {
     use Queueable;
 
     /**
-     * Create a new notification instance.
+     * Create a new notification_rules instance.
      */
     public function __construct()
     {
@@ -20,7 +20,7 @@ class {{ class }} extends Notification
     }
 
     /**
-     * Get the notification's delivery channels.
+     * Get the notification_rules's delivery channels.
      *
      * @return array<int, string>
      */
@@ -30,7 +30,7 @@ class {{ class }} extends Notification
     }
 
     /**
-     * Get the mail representation of the notification.
+     * Get the mail representation of the notification_rules.
      */
     public function toMail(object $notifiable): MailMessage
     {
@@ -38,7 +38,7 @@ class {{ class }} extends Notification
     }
 
     /**
-     * Get the array representation of the notification.
+     * Get the array representation of the notification_rules.
      *
      * @return array<string, mixed>
      */

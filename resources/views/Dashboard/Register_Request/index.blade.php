@@ -66,8 +66,8 @@
                     <thead>
                         <tr>
 
-                            <th scope="col">Email</th>
-                            <th scope="col"> date</th>
+                            <th scope="col" width="600">Email</th>
+                            <th scope="col" width="300"> date</th>
                             <th scope="col" width="120">Action</th>
                         </tr>
                         <tr>

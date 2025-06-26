@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Register_Request extends Model
 {    use HasFactory ,SoftDeletes;
 protected $guarded = [];
-
+protected $table ='register_requests';
 }

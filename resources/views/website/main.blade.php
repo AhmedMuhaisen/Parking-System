@@ -66,6 +66,10 @@
                     @if (Auth::user())
                         <li><a href="{{ route('website.profile') }}">profile</a></li>
                     @endif
+
+                             @if (Auth::user()->type =='admin')
+                        <li><a href="{{ route('Dashboard.') }}">Dashboard</a></li>
+                    @endif
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>

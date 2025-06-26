@@ -10,6 +10,7 @@ use App\Http\Controllers\Dashboard\gateController;
 use App\Http\Controllers\Dashboard\GuestController;
 use App\Http\Controllers\Dashboard\Login_AttemptController;
 use App\Http\Controllers\Dashboard\MessageController;
+use App\Http\Controllers\Dashboard\Notification_RuleController;
 use App\Http\Controllers\Dashboard\ParkingController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\Register_RequestController;
@@ -70,7 +71,7 @@ Route::prefix('website')->name('website.')->middleware('auth')->group(function (
 
 
 
-Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth')->group(function () {
+Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth','admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('');
 
     Route::delete('contact/destroy/{id}', [DashboardController::class, 'destroy'])->name('contact.destroy');
@@ -357,6 +358,21 @@ Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth')->group(functi
         Route::get('restore/{id}', [MessageController::class, 'restore'])->name('restore');
     });
 
+   Route::prefix('notification_rule')->name('notification_rule.')->group(function () {
+        Route::get('/', [Notification_RuleController::class, 'index'])->name('index');
+
+        Route::get('search', [Notification_RuleController::class, 'search'])->name('search');
+
+        Route::get('exportPDF', [Notification_RuleController::class, 'exportPDF'])->name('exportPDF');
+
+        Route::get('exportExcel', [Notification_RuleController::class, 'exportExcel'])->name('exportExcel');
+
+
+        Route::delete('forcedelete/{id}', [Notification_RuleController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [Notification_RuleController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [Notification_RuleController::class, 'restore'])->name('restore');
+    });
+    Route::resource('notification_rule', Notification_RuleController::class);
 
 
     Route::prefix('testimonial')->name('testimonial.')->group(function () {

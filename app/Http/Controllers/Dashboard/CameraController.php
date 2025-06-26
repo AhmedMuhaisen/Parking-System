@@ -8,6 +8,7 @@ use App\Models\Gate as GateModel;
 use App\Models\Camera;
 use App\Models\Parking;
 use App\Models\User;
+use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -84,7 +85,7 @@ $gates=GateModel::get();
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request ,NotificationService $notifier)
     {
         Gate::authorize('camera.create');
         $request->validate([
@@ -94,11 +95,13 @@ $gates=GateModel::get();
         ]);
         // $image = $request->image;
         // $image = $image->storePublicly('camera', 'new');
-        Camera::create([
+        $camera=Camera::create([
             'name' => $request->name,
             'gate_id' => $request->gate,
 
         ]);
+
+      $notifier->trigger('camera', 'create', $camera);
         return redirect()->route('Dashboard.camera.index');
     }
 
