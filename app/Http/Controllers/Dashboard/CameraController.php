@@ -105,10 +105,10 @@ $gates=GateModel::get();
         return redirect()->route('Dashboard.camera.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id,NotificationService $notifier)
     {
         Gate::authorize('camera.restore');
-        Camera::withTrashed()->find($id)->restore();
+        $camera=Camera::withTrashed()->find($id)->restore();  $notifier->trigger('camera', 'restore', $camera);
         return redirect()->route('Dashboard.camera.trash');
     }
 
@@ -145,7 +145,7 @@ $gates=GateModel::get();
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id,NotificationService $notifier)
     {
         Gate::authorize('camera.update');
         $request->validate([
@@ -156,7 +156,7 @@ $gates=GateModel::get();
              'parking' => ['required','exists:parkings,id'],
         ]);
 
-        $camera = Camera::find($id);
+        $camera= Camera::find($id);
 
         $camera->update([
        'name' => $request->name,
@@ -164,25 +164,25 @@ $gates=GateModel::get();
        'user_id' => $request->user,
             'gate_id' => $request->gate,
 
-        ]);
+        ]);  $notifier->trigger('camera', 'edit', $camera);
         return redirect()->route('Dashboard.camera.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,NotificationService $notifier)
     {
         Gate::authorize('camera.delete');
-        Camera::find($id)->delete();
+        $camera=Camera::find($id)->delete();  $notifier->trigger('camera', 'delete', $camera);
         return redirect()->route('Dashboard.camera.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id,NotificationService $notifier)
     {
         Gate::authorize('camera.forceDelete');
-        Camera::withTrashed()->find($id)->forceDelete();
-
+       $camera= Camera::withTrashed()->find($id)->forceDelete();
+  $notifier->trigger('camera', 'forceDelete', $camera);
         return redirect()->route('Dashboard.camera.index');
     }
 }

@@ -75,10 +75,10 @@
 
                     <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                         <i class="bi bi-bell"></i>
-                        <span class="badge bg-primary badge-number">4</span>
+                        <span class="badge bg-primary badge-number" id="notification-count">4</span>
                     </a><!-- End Notification Icon -->
 
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications" id="dropdown-notification">
                         <li class="dropdown-header">
                             You have 4 new notifications
                             <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
@@ -819,6 +819,27 @@
     <!-- Template Main JS File -->
     <script src="{{ asset('assets/Dashboard/js/main.js') }}"></script>
     @yield('script')
+    <script>
+        Echo.channel('user.' + USER_ID)
+    .listen('NewSystemNotification', (e) => {
+        // أضف الإشعار في القائمة فورًا
+        const notifDropdown = document.getElementById("dropdown-notification");
+        const notifCount = document.getElementById("notification-count");
+
+        notifCount.innerText = parseInt(notifCount.innerText) + 1;
+
+        notifDropdown.innerHTML = `
+            <li class="notification-item">
+                <i class="bi bi-info-circle text-primary"></i>
+                <div>
+
+                    <p>${e.message}</p>
+                    <p>${e.created_at}</p>
+                </div>
+            </li>
+        ` + notifDropdown.innerHTML;
+    });
+    </script>
 </body>
 
 </html>

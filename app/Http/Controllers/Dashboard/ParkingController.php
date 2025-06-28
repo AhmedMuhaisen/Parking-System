@@ -6,6 +6,7 @@ use App\Exports\ParkingsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Parking;
 use App\Models\User;
+use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -77,7 +78,7 @@ class ParkingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,NotificationService $notifier)
     {
         Gate::authorize('parking.create');
         $request->validate([
@@ -94,7 +95,7 @@ class ParkingController extends Controller
         ]);
         // $image = $request->image;
         // $image = $image->storePublicly('parking', 'new');
-        Parking::create([
+       $parking= Parking::create([
             'name' => $request->name,
             'user_id' => $request->user,
             'max_buildings' => $request->max_buildings,
@@ -105,14 +106,14 @@ class ParkingController extends Controller
             'max_cameras' => $request->max_cameras,
             'max_spots' => $request->max_spots,
             'max_guests' => $request->max_guests,
-        ]);
+        ]);$notifier->trigger('parking', 'create', $parking);
         return redirect()->route('Dashboard.parking.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id,NotificationService $notifier)
     {
         Gate::authorize('parking.restore');
-        Parking::withTrashed()->find($id)->restore();
+         $parking=Parking::withTrashed()->find($id)->restore();$notifier->trigger('parking', 'restore', $parking);
         return redirect()->route('Dashboard.parking.trash');
     }
 
@@ -144,7 +145,7 @@ class ParkingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id,NotificationService $notifier)
     {
         Gate::authorize('parking.update');
         $request->validate([
@@ -160,7 +161,7 @@ class ParkingController extends Controller
             'max_guests' => 'required | max:10',
         ]);
 
-        $parking = Parking::find($id);
+       $parking= Parking::find($id);
 
         $parking->update([
              'name' => $request->name,
@@ -173,25 +174,25 @@ class ParkingController extends Controller
             'max_cameras' => $request->max_cameras,
             'max_spots' => $request->max_spots,
             'max_guests' => $request->max_guests,
-        ]);
+        ]);$notifier->trigger('parking', 'edit', $parking);
         return redirect()->route('Dashboard.parking.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,NotificationService $notifier)
     {
         Gate::authorize('parking.delete');
-        Parking::find($id)->delete();
+       $parking= Parking::find($id)->delete(); $notifier->trigger('parking', 'delete', $parking);
         return redirect()->route('Dashboard.parking.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id,NotificationService $notifier)
     {
         Gate::authorize('parking.forceDelete');
-        Parking::withTrashed()->find($id)->forceDelete();
-
+       $parking= Parking::withTrashed()->find($id)->forceDelete();
+$notifier->trigger('parking', 'softDelete', $parking);
         return redirect()->route('Dashboard.parking.index');
     }
 }

@@ -9,6 +9,7 @@ use App\Models\Building;
 use App\Models\Register_Request;
 use App\Models\Parking;
 use App\Models\User;
+use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -78,7 +79,7 @@ class Register_RequestController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,NotificationService $notifier)
     {
         Gate::authorize('register_request.create');
         $request->validate([
@@ -86,17 +87,17 @@ class Register_RequestController extends Controller
         ]);
         // $image = $request->image;
         // $image = $image->storePublicly('register_request', 'new');
-        Register_Request::create([
+         $register_request=Register_Request::create([
             'email' => $request->email,
 
-        ]);
+        ]); $notifier->trigger('register_request', 'create', $register_request);
         return redirect()->route('Dashboard.register_request.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id,NotificationService $notifier)
     {
         Gate::authorize('register_request.restore');
-        Register_Request::withTrashed()->find($id)->restore();
+        $register_request=Register_Request::withTrashed()->find($id)->restore();$notifier->trigger('register_request', 'restore', $register_request);
         return redirect()->route('Dashboard.register_request.trash');
     }
 
@@ -115,13 +116,13 @@ class Register_RequestController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function accept(string $id)
+    public function accept(string $id,NotificationService $notifier)
     {
         Gate::authorize('register_request.accept');
        $register=Register_Request::find($id);
         Mail::to($register->email)->send(new Register_RequestMail($register));
         $register->forceDelete();
-
+$notifier->trigger('register_request', 'accept', $register);
         return redirect()->route('Dashboard.register_request.index');
     }
 
@@ -154,18 +155,18 @@ class Register_RequestController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,NotificationService $notifier)
     {
         Gate::authorize('register_request.delete');
-        Register_Request::find($id)->delete();
+         $register_request=Register_Request::find($id)->delete();$notifier->trigger('register_request', 'delete', $register_request);
         return redirect()->route('Dashboard.register_request.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id,NotificationService $notifier)
     {
         Gate::authorize('register_request.forceDelete');
-        Register_Request::withTrashed()->find($id)->forceDelete();
-
+         $register_request=Register_Request::withTrashed()->find($id)->forceDelete();
+$notifier->trigger('register_request', 'forceDelete', $register_request);
         return redirect()->route('Dashboard.register_request.index');
     }
 }

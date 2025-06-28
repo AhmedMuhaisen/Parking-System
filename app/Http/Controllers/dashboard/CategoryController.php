@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Exports\CategoriesExport;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -72,7 +73,7 @@ $result=$categories->get();
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request ,NotificationService $notifier)
     {
         Gate::authorize('category.create');
       $request->validate([
@@ -84,20 +85,22 @@ $result=$categories->get();
         ]);
         // $image = $request->image;
         // $image = $image->storePublicly('category', 'new');
-        Category::create([
+          $category= Category::create([
            'name' => $request->name,
             'work_method' => $request->work_method,
             'status' => $request->status,
             'description' => $request->description
 
         ]);
+
+         $notifier->trigger('category', 'create', $category);
         return redirect()->route('Dashboard.category.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id ,NotificationService $notifier)
     {
         Gate::authorize('category.restore');
-        Category::withTrashed()->find($id)->restore();
+        $category=  Category::withTrashed()->find($id)->restore();  $notifier->trigger('category', 'restore', $category);
         return redirect()->route('Dashboard.category.trash');
     }
 
@@ -128,7 +131,7 @@ $result=$categories->get();
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id ,NotificationService $notifier)
     {
         Gate::authorize('category.update');
         $request->validate([
@@ -146,26 +149,27 @@ $result=$categories->get();
             'work_method' => $request->work_method,
             'status' => $request->status,
             'description' => $request->description,
-
         ]);
+        $notifier->trigger('category', 'edit', $category);
         return redirect()->route('Dashboard.category.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id ,NotificationService $notifier)
     {
         Gate::authorize('category.delete');
-        Category::find($id)->delete();
+         $category=Category::find($id)->delete();
+         $notifier->trigger('category', 'delete', $category);
         return redirect()->route('Dashboard.category.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id ,NotificationService $notifier)
     {
         Gate::authorize('category.forceDelete');
-        Category::withTrashed()->find($id)->forceDelete();
-
+         $category=Category::withTrashed()->find($id)->forceDelete();
+$notifier->trigger('category', 'softDelete', $category);
         return redirect()->route('Dashboard.category.index');
     }
 }

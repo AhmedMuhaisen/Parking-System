@@ -8,6 +8,7 @@ use App\Models\Gate as ModelsGate;
 use App\Models\Gates;
 use App\Models\Vehicle;
 use App\Models\VehiclesMovement;
+use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,7 +70,7 @@ $result=$vehicleMovements->get();
     public function create()
     {
         Gate::authorize('vehiclesMovement.create');
-        $gate = Gates::get();
+        $gate = ModelsGate::get();
          $vehicles = Vehicle::get();
          $page = 'create';
         $folder = '';
@@ -80,7 +81,7 @@ $result=$vehicleMovements->get();
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,NotificationService $notifier)
     {
         Gate::authorize('vehiclesMovement.create');
        $request->validate([
@@ -92,21 +93,21 @@ $result=$vehicleMovements->get();
         'time'=>'required|max:40',
         ]);
 
-        VehiclesMovement::Create([
+        $vehicleMovement=VehiclesMovement::Create([
             'vehicle_id'=>$request->vehicle_number,
         'gate_id'=>$request->gate,
         'method_passage'=>$request->method_passage,
         'type_movement'=>$request->type_movement,
         'date'=>$request->date,
         'time'=>$request->time,
-        ]);
+        ]);$notifier->trigger('vehicleMovement', 'create', $vehicleMovement);
         return redirect()->route('Dashboard.vehicleMovement.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id,NotificationService $notifier)
     {
         Gate::authorize('vehiclesMovement.restore');
-        VehiclesMovement::withTrashed()->find($id)->restore();
+         $vehicleMovement=VehiclesMovement::withTrashed()->find($id)->restore();$notifier->trigger('vehicleMovement', 'restore', $vehicleMovement);
         return redirect()->route('Dashboard.vehicleMovement.trash');
     }
 
@@ -133,7 +134,7 @@ $result=$vehicleMovements->get();
     {
         Gate::authorize('vehiclesMovement.update');
 
-  $gate = Gates::get();
+  $gate = ModelsGate::get();
          $vehicles = Vehicle::get();
         $vehicleMovement = VehiclesMovement::find($id);
         $page = 'edit';
@@ -145,7 +146,7 @@ $result=$vehicleMovements->get();
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id,NotificationService $notifier)
     {
         Gate::authorize('vehiclesMovement.update');
             $request->validate([
@@ -157,7 +158,7 @@ $result=$vehicleMovements->get();
         'time'=>'required|max:40',
         ]);
 
-           $vehicleMovement = VehiclesMovement::find($id);
+          $vehicleMovement= VehiclesMovement::find($id);
 
         $vehicleMovement->update([
                 'vehicle_id'=>$request->vehicle_number,
@@ -166,25 +167,25 @@ $result=$vehicleMovements->get();
         'type_movement'=>$request->type_movement,
         'date'=>$request->date,
         'time'=>$request->time,
-        ]);
+        ]);$notifier->trigger('vehicleMovement', 'edit', $vehicleMovement);
         return redirect()->route('Dashboard.vehicleMovement.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,NotificationService $notifier)
     {
         Gate::authorize('vehiclesMovement.delete');
-        VehiclesMovement::find($id)->delete();
+       $vehicleMovement= VehiclesMovement::find($id)->delete(); $notifier->trigger('vehicleMovement', 'delete', $vehicleMovement);
         return redirect()->route('Dashboard.vehicleMovement.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id,NotificationService $notifier)
     {
         Gate::authorize('vehiclesMovement.forceDelete');
-        VehiclesMovement::withTrashed()->find($id)->forceDelete();
-
+        $vehicleMovement=VehiclesMovement::withTrashed()->find($id)->forceDelete();
+$notifier->trigger('vehicleMovement', 'softDelete', $vehicleMovement);
         return redirect()->route('Dashboard.vehicleMovement.index');
     }
 }

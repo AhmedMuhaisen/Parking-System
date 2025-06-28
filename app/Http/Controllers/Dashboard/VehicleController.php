@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Vehicle;
 use App\Models\VehiclesBrand;
 use App\Models\VehiclesType;
+use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -99,7 +100,7 @@ $result=$vehicles->get();
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,NotificationService $notifier)
     {
         Gate::authorize('vehicle.create');
       $request->validate([
@@ -119,7 +120,7 @@ $result=$vehicles->get();
             $image = $image->storePublicly('vehicle', 'new');
 
 
-        Vehicle::create([
+        $vehicle=Vehicle::create([
             'vehicle_number'=>$request->vehicle_number,
             'color_id'=>$request->color,
             'image'=>$image,
@@ -130,14 +131,14 @@ $result=$vehicles->get();
             'user_id'=>$request->user,
             'date_start'=>$request->date_start,
             'date_End'=>$request->date_end,
-        ]);
+        ]);$notifier->trigger('vehicle', 'create', $vehicle);
         return redirect()->route('Dashboard.vehicle.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id,NotificationService $notifier)
     {
         Gate::authorize('vehicle.restore');
-        Vehicle::withTrashed()->find($id)->restore();
+         $vehicle=Vehicle::withTrashed()->find($id)->restore();$notifier->trigger('vehicle', 'restore', $vehicle);
         return redirect()->route('Dashboard.vehicle.trash');
     }
 
@@ -188,7 +189,7 @@ $result=$vehicles->get();
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id,NotificationService $notifier)
     {
         Gate::authorize('vehicle.update');
               $request->validate([
@@ -203,7 +204,7 @@ $result=$vehicles->get();
         'date_start'=>'required|date|after_or_equal:today',
         'date_end'=>'required|date|max:40|after_or_equal:date_start',
         ]);
-           $vehicle = Vehicle::find($id);
+            $vehicle= Vehicle::find($id);
 
 if($request->image){
    $image = $request->image;
@@ -225,25 +226,25 @@ if($request->image){
             'user_id'=>$request->user,
             'date_start'=>$request->date_start,
             'date_End'=>$request->date_end,
-        ]);
+        ]);$notifier->trigger('vehicle', 'edit', $vehicle);
         return redirect()->route('Dashboard.vehicle.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,NotificationService $notifier)
     {
         Gate::authorize('vehicle.delete');
-        Vehicle::find($id)->delete();
+         $vehicle=Vehicle::find($id)->delete();$notifier->trigger('vehicle', 'delete', $vehicle);
         return redirect()->route('Dashboard.vehicle.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id,NotificationService $notifier)
     {
         Gate::authorize('vehicle.forceDelete');
-        Vehicle::withTrashed()->find($id)->forceDelete();
-
+        $vehicle=Vehicle::withTrashed()->find($id)->forceDelete();
+$notifier->trigger('vehicle', 'softDelete', $vehicle);
         return redirect()->route('Dashboard.vehicle.index');
     }
 }

@@ -7,6 +7,7 @@ use App\Exports\GatesExport;
 use App\Http\Controllers\Controller;
 use App\Models\Gate as GateModel;
 use App\Models\Parking;
+use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -75,7 +76,7 @@ $result=$gates->get();
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,NotificationService $notifier)
     {
         Gate::authorize('gate.create');
       $request->validate([
@@ -91,7 +92,7 @@ $result=$gates->get();
         ]);
         // $image = $request->image;
         // $image = $image->storePublicly('gate', 'new');
-        GateModel::create([
+       $gate= GateModel::create([
            'name' => $request->name,
            'address' => $request->address,
             'open_method' => $request->open_method,
@@ -100,14 +101,14 @@ $result=$gates->get();
             'status' => $request->status,
 
 
-        ]);
+        ]);$notifier->trigger('gate', 'create', $gate);
         return redirect()->route('Dashboard.gate.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id,NotificationService $notifier)
     {
         Gate::authorize('gate.restore');
-        GateModel::withTrashed()->find($id)->restore();
+         $gate=GateModel::withTrashed()->find($id)->restore();$notifier->trigger('gate', 'restore', $gate);
         return redirect()->route('Dashboard.gate.trash');
     }
 
@@ -140,7 +141,7 @@ $result=$gates->get();
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id,NotificationService $notifier)
     {
         Gate::authorize('gate.update');
         $request->validate([
@@ -154,7 +155,7 @@ $result=$gates->get();
 
         ]);
 
-        $gate = GateModel::find($id);
+        $gate= GateModel::find($id);
 
         $gate->update([
             'name' => $request->name,
@@ -165,25 +166,25 @@ $result=$gates->get();
             'status' => $request->status,
 
 
-        ]);
+        ]);$notifier->trigger('gate', 'edit', $gate);
         return redirect()->route('Dashboard.gate.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,NotificationService $notifier)
     {
         Gate::authorize('gate.delete');
-        GateModel::find($id)->delete();
+        $gate=GateModel::find($id)->delete(); $notifier->trigger('gate', 'delete', $gate);
         return redirect()->route('Dashboard.gate.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id,NotificationService $notifier)
     {
         Gate::authorize('gate.forceDelete');
-        GateModel::withTrashed()->find($id)->forceDelete();
-
+        $gate=GateModel::withTrashed()->find($id)->forceDelete();
+$notifier->trigger('gate', 'softDelete', $gate);
         return redirect()->route('Dashboard.gate.index');
     }
 }

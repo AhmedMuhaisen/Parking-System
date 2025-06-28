@@ -8,7 +8,7 @@ use App\Models\Building;
 
 use App\Models\Unit;
 use App\Models\User;
-
+use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -88,7 +88,7 @@ class userController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,NotificationService $notifier)
     {
         Gate::authorize('user.create');
 
@@ -121,7 +121,7 @@ class userController extends Controller
         $image = $image->storePublicly('user', 'new');
 
 
-        User::create([
+        $user=User::create([
             'first_name' => $request->first_name,
             'second_name' => $request->second_name,
             'image' => $image,
@@ -133,14 +133,14 @@ class userController extends Controller
             'date_birth' => $request->date_birth,
             'email_verified_at' => $request->verified,
 
-        ]);
+        ]);$notifier->trigger('user', 'create', $user);
         return redirect()->route('Dashboard.user.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id,NotificationService $notifier)
     {
         Gate::authorize('user.restore');
-        User::withTrashed()->find($id)->restore();
+        $user= User::withTrashed()->find($id)->restore();$notifier->trigger('user', 'restore', $user);
         return redirect()->route('Dashboard.user.trash');
     }
 
@@ -187,7 +187,7 @@ class userController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id,NotificationService $notifier)
     {
         Gate::authorize('user.update');
         $request->validate([
@@ -214,7 +214,7 @@ class userController extends Controller
             'type' => ['required', 'string'],
             'verified' => ['required', 'date'],
         ]);
-        $user = User::find($id);
+        $user= User::find($id);
 
         if ($request->image) {
             $image = $request->image;
@@ -235,25 +235,25 @@ class userController extends Controller
             'date_birth' => $request->date_birth,
             'email_verified_at' => $request->verified,
 
-        ]);
+        ]);$notifier->trigger('user', 'edit', $user);
         return redirect()->route('Dashboard.user.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,NotificationService $notifier)
     {
         Gate::authorize('user.delete');
-        User::find($id)->delete();
+       $user= User::find($id)->delete(); $notifier->trigger('user', 'delete', $user);
         return redirect()->route('Dashboard.user.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id,NotificationService $notifier)
     {
         Gate::authorize('user.forceDelete');
-        User::withTrashed()->find($id)->forceDelete();
-
+        $user=User::withTrashed()->find($id)->forceDelete();
+$notifier->trigger('user', 'softDelete', $user);
         return redirect()->route('Dashboard.user.index');
     }
 }

@@ -10,6 +10,7 @@ use App\Models\Notification_Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Http;
+use NewSystemNotification;
 
 class NotificationService
 {
@@ -64,9 +65,9 @@ class NotificationService
             match ($channel) {
                 'email' => Mail::to($user->email)->send(new SendNotificationMail($notification, $user)),
                 'sms'   => $this->sendSms($user->phone, $notification->message),
-                'system'=> $user->systemNotifications()->create([
-                                'message' => $notification->message,
-                                'notification_id' => $notification->id,
+                'system'=> $userNotif=$user->systemNotifications()->create([
+                 'message' => $notification->message,
+                'notification_id' => $notification->id,
                             ]),
             };
         }
@@ -75,6 +76,7 @@ class NotificationService
             'status' => true,
             'sent_at' => now(),
         ]);
+        event(new NewSystemNotification($userNotif, $user->id));
     }
 
     protected function sendSms(string $phone, string $message): void

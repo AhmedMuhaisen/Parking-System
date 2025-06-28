@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Exports\VehiclesBrandsExport;
 use App\Http\Controllers\Controller;
 use App\Models\VehiclesBrand;
+use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -72,7 +73,7 @@ $result=$vehiclesBrands->get();
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,NotificationService $notifier)
     {
         Gate::authorize('vehiclesBrand.create');
       $request->validate([
@@ -80,17 +81,17 @@ $result=$vehiclesBrands->get();
          ]);
         // $image = $request->image;
         // $image = $image->storePublicly('vehiclesBrand', 'new');
-        VehiclesBrand::create([
+        $vehiclesBrand=VehiclesBrand::create([
            'name' => $request->name,
 
-        ]);
+        ]);$notifier->trigger('vehiclesBrand', 'create', $vehiclesBrand);
         return redirect()->route('Dashboard.vehiclesBrand.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id,NotificationService $notifier)
     {
         Gate::authorize('vehiclesBrand.restore');
-        VehiclesBrand::withTrashed()->find($id)->restore();
+        $vehiclesBrand= VehiclesBrand::withTrashed()->find($id)->restore();$notifier->trigger('vehiclesBrand', 'restore', $vehiclesBrand);
         return redirect()->route('Dashboard.vehiclesBrand.trash');
     }
 
@@ -121,37 +122,37 @@ $result=$vehiclesBrands->get();
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id,NotificationService $notifier)
     {
         Gate::authorize('vehiclesBrand.update');
         $request->validate([
             'name' => 'required',
            ]);
 
-        $vehiclesBrand = VehiclesBrand::find($id);
+        $vehiclesBrand= VehiclesBrand::find($id);
 
         $vehiclesBrand->update([
             'name' => $request->name,
 
-        ]);
+        ]);$notifier->trigger('vehiclesBrand', 'edit', $vehiclesBrand);
         return redirect()->route('Dashboard.vehiclesBrand.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,NotificationService $notifier)
     {
         Gate::authorize('vehiclesBrand.delete');
-        VehiclesBrand::find($id)->delete();
+        $vehiclesBrand=VehiclesBrand::find($id)->delete(); $notifier->trigger('vehiclesBrand', 'delete', $vehiclesBrand);
         return redirect()->route('Dashboard.vehiclesBrand.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id,NotificationService $notifier)
     {
         Gate::authorize('vehiclesBrand.forceDelete');
-        VehiclesBrand::withTrashed()->find($id)->forceDelete();
-
+        $vehiclesBrand=VehiclesBrand::withTrashed()->find($id)->forceDelete();
+$notifier->trigger('vehiclesBrand', 'softDelete', $vehiclesBrand);
         return redirect()->route('Dashboard.vehiclesBrand.index');
     }
 }

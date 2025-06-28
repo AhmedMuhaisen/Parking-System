@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -34,24 +35,24 @@ class PermissionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,NotificationService $notifier)
     {
         Gate::authorize('permission.create');
         $request->validate([
             'code' => 'required',
             'description' => 'required',
         ]);
-        Permission::create([
+        $permission=Permission::create([
             'code' => $request->code,
             'description' => $request->description
-        ]);
+        ]);$notifier->trigger('permission', 'create', $permission);
         return redirect()->route('Dashboard.permission.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id,NotificationService $notifier)
     {
         Gate::authorize('permission.restore');
-        Permission::withTrashed()->find($id)->restore();
+        $permission= Permission::withTrashed()->find($id)->restore();$notifier->trigger('permission', 'restore', $permission);
         return redirect()->route('Dashboard.permission.trash');
     }
 
@@ -81,35 +82,35 @@ class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id,NotificationService $notifier)
     {
         Gate::authorize('permission.update');
         $request->validate([
             'code' => 'required',
             'description' => 'required',
         ]);
-        Permission::find($id)->update([
+        $permission=Permission::find($id)->update([
             'code' => $request->code,
             'description' => $request->description
-        ]);
+        ]);$notifier->trigger('permission', 'edit', $permission);
         return redirect()->route('Dashboard.permission.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,NotificationService $notifier)
     {
         Gate::authorize('permission.delete');
-        Permission::find($id)->delete();
+       $permission= Permission::find($id)->delete(); $notifier->trigger('permission', 'delete', $permission);
         return redirect()->route('Dashboard.permission.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id,NotificationService $notifier)
     {
         Gate::authorize('permission.forceDelete');
-        Permission::withTrashed()->find($id)->forceDelete();
-
+        $permission=Permission::withTrashed()->find($id)->forceDelete();
+$notifier->trigger('permission', 'softDelete', $permission);
         return redirect()->route('Dashboard.permission.index');
     }
 }

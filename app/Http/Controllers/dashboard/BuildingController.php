@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Building;
 use App\Models\Parking;
 use App\Models\User;
+use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -74,13 +75,15 @@ class BuildingController extends Controller
 
         $users = User::get();
         $building = new building();
+
+
         return view('Dashboard.Building.create', compact('page', 'building', 'folder', 'users', 'parkings'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request , NotificationService $notifier)
     {
         Gate::authorize('building.create');
         $request->validate([
@@ -96,7 +99,7 @@ class BuildingController extends Controller
         ]);
         // $image = $request->image;
         // $image = $image->storePublicly('building', 'new');
-        Building::create([
+       $building= Building::create([
             'name' => $request->name,
             'address' => $request->address,
             'user_id' => $request->user,
@@ -107,13 +110,15 @@ class BuildingController extends Controller
             'max_spots' => $request->max_spots,
             'max_guests' => $request->max_guests,
         ]);
+              $notifier->trigger('building', 'create', $building);
         return redirect()->route('Dashboard.building.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id , NotificationService $notifier)
     {
         Gate::authorize('building.restore');
-        Building::withTrashed()->find($id)->restore();
+       $building= Building::withTrashed()->find($id)->restore();
+             $notifier->trigger('building', 'restore', $building);
         return redirect()->route('Dashboard.building.trash');
     }
 
@@ -146,7 +151,7 @@ $parkings=Parking::get();
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id , NotificationService $notifier)
     {
         Gate::authorize('building.update');
         $request->validate([
@@ -161,7 +166,7 @@ $parkings=Parking::get();
             'max_guests' => 'required | max:10',
         ]);
 
-        $building = Building::find($id);
+       $building = Building::find($id);
 
         $building->update([
        'name' => $request->name,
@@ -175,24 +180,26 @@ $parkings=Parking::get();
             'max_spots' => $request->max_spots,
             'max_guests' => $request->max_guests,
         ]);
+               $notifier->trigger('building', 'edit', $building);
         return redirect()->route('Dashboard.building.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id , NotificationService $notifier)
     {
         Gate::authorize('building.delete');
-        Building::find($id)->delete();
+      $building=  Building::find($id)->delete();
+            $notifier->trigger('building', 'delete', $building);
         return redirect()->route('Dashboard.building.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id , NotificationService $notifier)
     {
         Gate::authorize('building.forceDelete');
-        Building::withTrashed()->find($id)->forceDelete();
-
+       $building= Building::withTrashed()->find($id)->forceDelete();
+      $notifier->trigger('building', 'softDelete', $building);
         return redirect()->route('Dashboard.building.index');
     }
 }

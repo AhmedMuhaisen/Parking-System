@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -36,7 +37,7 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,NotificationService $notifier)
     {
         Gate::authorize('role.create');
         $request->validate([
@@ -44,15 +45,15 @@ class RoleController extends Controller
             'name' => 'required',
         ]);
 
-        $role = Role::create(['name' => $request->name]);
-        $role->permission()->sync($request->permissions);
+        $role=$role = Role::create(['name' => $request->name]);
+        $role->permission()->sync($request->permissions);$notifier->trigger('role', 'create', $role);
         return redirect()->route('Dashboard.role.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id,NotificationService $notifier)
     {
         Gate::authorize('role.restore');
-        Role::withTrashed()->find($id)->restore();
+        $role= Role::withTrashed()->find($id)->restore();$notifier->trigger('role', 'restore', $role);
         return redirect()->route('Dashboard.role.trash');
     }
 
@@ -83,38 +84,38 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id,NotificationService $notifier)
     {
         Gate::authorize('role.update');
         $request->validate([
 
             'name' => 'required',
         ]);
-        Role::find($id)->update([
+        $role=Role::find($id)->update([
 
             'name' => $request->name
         ]);
 
         $role = Role::find($id);
-        $role->permission()->sync($request->permissions);
+        $role->permission()->sync($request->permissions);$notifier->trigger('role', 'edit', $role);
         return redirect()->route('Dashboard.role.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,NotificationService $notifier)
     {
         Gate::authorize('role.delete');
-        Role::find($id)->delete();
+        $role=Role::find($id)->delete(); $notifier->trigger('role', 'delete', $role);
         return redirect()->route('Dashboard.role.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id,NotificationService $notifier)
     {
         Gate::authorize('role.forceDelete');
-        Role::withTrashed()->find($id)->forceDelete();
-
+        $role=Role::withTrashed()->find($id)->forceDelete();
+$notifier->trigger('role', 'softDelete', $role);
         return redirect()->route('Dashboard.role.index');
     }
 }

@@ -8,6 +8,7 @@ use App\Models\Gate as GateModel;
 use App\Models\Login_Attempt;
 use App\Models\Parking;
 use App\Models\User;
+use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -77,7 +78,7 @@ class Login_AttemptController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,NotificationService $notifier)
     {
         Gate::authorize('login_attempt.create');
         $request->validate([
@@ -85,18 +86,18 @@ class Login_AttemptController extends Controller
             'gate' => ['required', 'exists:gates,id'],
 
         ]);
-        Login_Attempt::create([
+        $login_attempt=Login_Attempt::create([
             'vehicle_number' => $request->vehicle_number,
             'gate_id' => $request->gate,
 
-        ]);
+        ]);$notifier->trigger('login_attempt', 'create', $login_attempt);
         return redirect()->route('Dashboard.login_attempt.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id,NotificationService $notifier)
     {
         Gate::authorize('login_attempt.restore');
-        Login_Attempt::withTrashed()->find($id)->restore();
+         $login_attempt=Login_Attempt::withTrashed()->find($id)->restore();$notifier->trigger('login_attempt', 'restore', $login_attempt);
         return redirect()->route('Dashboard.login_attempt.trash');
     }
 
@@ -131,7 +132,7 @@ class Login_AttemptController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id,NotificationService $notifier)
     {
         Gate::authorize('login_attempt.update');
         $request->validate([
@@ -139,30 +140,30 @@ class Login_AttemptController extends Controller
             'gate' => ['required', 'exists:gates,id'],
         ]);
 
-        $login_attempt = Login_Attempt::find($id);
+       $login_attempt= Login_Attempt::find($id);
 
         $login_attempt->update([
              'vehicle_number' => $request->vehicle_number,
             'gate_id' => $request->gate,
-        ]);
+        ]);$notifier->trigger('login_attempt', 'edit', $login_attempt);
         return redirect()->route('Dashboard.login_attempt.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,NotificationService $notifier)
     {
         Gate::authorize('login_attempt.delete');
-        Login_Attempt::find($id)->delete();
+        $login_attempt=Login_Attempt::find($id)->delete(); $notifier->trigger('login_attempt', 'delete', $login_attempt);
         return redirect()->route('Dashboard.login_attempt.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id,NotificationService $notifier)
     {
         Gate::authorize('login_attempt.forceDelete');
-        Login_Attempt::withTrashed()->find($id)->forceDelete();
-
+        $login_attempt=Login_Attempt::withTrashed()->find($id)->forceDelete();
+$notifier->trigger('login_attempt', 'softDelete', $login_attempt);
         return redirect()->route('Dashboard.login_attempt.index');
     }
 }

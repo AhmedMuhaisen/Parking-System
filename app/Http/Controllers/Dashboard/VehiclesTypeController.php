@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Exports\VehiclesTypesExport;
 use App\Http\Controllers\Controller;
 use App\Models\VehiclesType;
+use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,7 +49,7 @@ $result=$vehiclesTypes->get();
         $pdf = Pdf::loadView('Dashboard.VehiclesType.export-pdf', $data)->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->setPaper('a4', 'landscape');
 
         return $pdf->download('vehiclesType.pdf');  // download
-        // return $pdf->stream('users.pdf'); // OR show in browser
+        // return $pdf->stream('vehiclesTypes.pdf'); // OR show in browser
     }
 
 
@@ -72,7 +73,7 @@ $result=$vehiclesTypes->get();
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,NotificationService $notifier)
     {
         Gate::authorize('vehiclesType.create');
       $request->validate([
@@ -80,17 +81,17 @@ $result=$vehiclesTypes->get();
          ]);
         // $image = $request->image;
         // $image = $image->storePublicly('vehiclesType', 'new');
-        VehiclesType::create([
+        $vehiclesType=VehiclesType::create([
            'name' => $request->name,
 
-        ]);
+        ]);$notifier->trigger('vehiclesType', 'create', $vehiclesType);
         return redirect()->route('Dashboard.vehiclesType.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id,NotificationService $notifier)
     {
         Gate::authorize('vehiclesType.restore');
-        VehiclesType::withTrashed()->find($id)->restore();
+         $vehiclesType=VehiclesType::withTrashed()->find($id)->restore();$notifier->trigger('vehiclesType', 'restore', $vehiclesType);
         return redirect()->route('Dashboard.vehiclesType.trash');
     }
 
@@ -121,37 +122,37 @@ $result=$vehiclesTypes->get();
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id,NotificationService $notifier)
     {
         Gate::authorize('vehiclesType.update');
         $request->validate([
             'name' => 'required',
            ]);
 
-        $vehiclesType = VehiclesType::find($id);
+         $vehiclesType= VehiclesType::find($id);
 
         $vehiclesType->update([
             'name' => $request->name,
 
-        ]);
+        ]);$notifier->trigger('vehiclesType', 'edit', $vehiclesType);
         return redirect()->route('Dashboard.vehiclesType.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,NotificationService $notifier)
     {
         Gate::authorize('vehiclesType.delete');
-        VehiclesType::find($id)->delete();
+         $vehiclesType=VehiclesType::find($id)->delete();$notifier->trigger('vehiclesType', 'delete', $vehiclesType);
         return redirect()->route('Dashboard.vehiclesType.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id,NotificationService $notifier)
     {
         Gate::authorize('vehiclesType.forceDelete');
-        VehiclesType::withTrashed()->find($id)->forceDelete();
-
+        $vehiclesType=VehiclesType::withTrashed()->find($id)->forceDelete();
+$notifier->trigger('vehiclesType', 'softDelete', $vehiclesType);
         return redirect()->route('Dashboard.vehiclesType.index');
     }
 }

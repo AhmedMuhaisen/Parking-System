@@ -8,6 +8,7 @@ use App\Models\Building;
 use App\Models\Testimonial;
 use App\Models\Parking;
 use App\Models\User;
+use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -77,7 +78,7 @@ class TestimonialController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,NotificationService $notifier)
     {
         Gate::authorize('testimonial.create');
         $request->validate([
@@ -87,18 +88,18 @@ class TestimonialController extends Controller
         ]);
         // $image = $request->image;
         // $image = $image->storePublicly('testimonial', 'new');
-        Testimonial::create([
+        $testimonial=Testimonial::create([
             'rating' => $request->rating,
             'text' => $request->text,
             'user_id' => $request->user,
-        ]);
+        ]);$notifier->trigger('testimonial', 'create', $testimonial);
         return redirect()->route('Dashboard.testimonial.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id,NotificationService $notifier)
     {
         Gate::authorize('testimonial.restore');
-        Testimonial::withTrashed()->find($id)->restore();
+        $testimonial= Testimonial::withTrashed()->find($id)->restore();$notifier->trigger('testimonial', 'restore', $testimonial);
         return redirect()->route('Dashboard.testimonial.trash');
     }
 
@@ -132,7 +133,7 @@ class TestimonialController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id,NotificationService $notifier)
     {
         Gate::authorize('testimonial.update');
         $request->validate([
@@ -141,32 +142,32 @@ class TestimonialController extends Controller
     'user'=> 'required|exists:users,id',
         ]);
 
-        $testimonial = Testimonial::find($id);
+        $testimonial= Testimonial::find($id);
 
         $testimonial->update([
            'rating' => $request->rating,
             'text' => $request->text,
             'user_id' => $request->user,
 
-        ]);
+        ]);$notifier->trigger('testimonial', 'edit', $testimonial);
         return redirect()->route('Dashboard.testimonial.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,NotificationService $notifier)
     {
         Gate::authorize('testimonial.delete');
-        Testimonial::find($id)->delete();
+        $testimonial=Testimonial::find($id)->delete(); $notifier->trigger('testimonial', 'delete', $testimonial);
         return redirect()->route('Dashboard.testimonial.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id,NotificationService $notifier)
     {
         Gate::authorize('testimonial.forceDelete');
-        Testimonial::withTrashed()->find($id)->forceDelete();
-
+       $testimonial= Testimonial::withTrashed()->find($id)->forceDelete();
+$notifier->trigger('testimonial', 'softDelete', $testimonial);
         return redirect()->route('Dashboard.testimonial.index');
     }
 }

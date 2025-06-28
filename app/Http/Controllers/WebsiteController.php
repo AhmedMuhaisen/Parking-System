@@ -17,6 +17,7 @@ use App\Models\Unit;
 use App\Models\User;
 use App\Models\Vehicle;
 use App\Models\VehiclesType;
+use App\Services\NotificationService;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -94,7 +95,7 @@ class WebsiteController extends Controller
     }
 
 
-    function edit_vehicle_post(Request $request, $id)
+    function edit_vehicle_post(Request $request, $id, NotificationService $notifier)
     {
 
         $validator = FacadesValidator::make($request->all(), [
@@ -103,7 +104,7 @@ class WebsiteController extends Controller
             'motor_type' => 'required|exists:motor_types,id',
             'VehiclesBrand' => 'required|exists:vehicles_brands,id',
             'color' => 'required|string|max:255',
-              'date_start' => 'required|date|after:today',
+            'date_start' => 'required|date|after:today',
             'date_end' => 'required|date|after:date_start',
             'image' => 'nullable|image|mimes:jpeg,jpg,png,svg,webp|max:2048',
         ]);
@@ -114,7 +115,7 @@ class WebsiteController extends Controller
         $data['vehicles_brand_id'] = $data['VehiclesBrand'];
         $data['color_id'] = $data['color'];
         // Remove them from the array
-        unset($data['vehicle_type'], $data['motor_type'], $data['VehiclesBrand'],$data['color']);
+        unset($data['vehicle_type'], $data['motor_type'], $data['VehiclesBrand'], $data['color']);
 
         if ($validator->fails()) {
             return response()->json([
@@ -122,7 +123,7 @@ class WebsiteController extends Controller
             ], 200); // Use 422 for validation errors
         }
 
-        $vehicle = Vehicle::find($id);
+        $vehicle =  Vehicle::find($id);
         if (!$vehicle) {
             return response()->json(['error' => 'Vehicle not found'], 200);
         }
@@ -136,14 +137,14 @@ class WebsiteController extends Controller
 
         $vehicle->update($data);
 
-
+        $notifier->trigger('vehicle', 'edit', $vehicle);
         return response()->json([
             'message' => 'Vehicle updated successfully',
             'status' => 200
         ]);
     }
 
-    function add_vehicle_post(Request $request)
+    function add_vehicle_post(Request $request, NotificationService $notifier)
     {
 
         $validator = FacadesValidator::make($request->all(), [
@@ -177,25 +178,26 @@ class WebsiteController extends Controller
         $data['color_id'] = $data['color'];
 
 
-        unset($data['vehicle_type'], $data['motor_type'], $data['VehiclesBrand'],$data['color']);
+        unset($data['vehicle_type'], $data['motor_type'], $data['VehiclesBrand'], $data['color']);
 
         $data['category_id'] = 1;
         $data['user_id'] = Auth::user()->id;
-        Vehicle::Create($data);
+        $vehicle = Vehicle::Create($data);
+        $notifier->trigger('vehicle', 'crete', $vehicle);
         return response()->json([
             'message' => 'Vehicle Add successfully',
             'status' => 200
         ]);
     }
-    function delete_vehicle(Request $request, $id)
+    function delete_vehicle(Request $request, $id, NotificationService $notifier)
     {
 
-        Vehicle::find($id)->delete();
-
+        $vehicle = Vehicle::find($id)->delete();
+        $notifier->trigger('vehicle', 'delete', $vehicle);
         return redirect()->route('website.profile')->with('msg', 'Vehicle Deleted successfully');
     }
 
-    function edit_guest_post(Request $request, $id)
+    function edit_guest_post(Request $request, $id, NotificationService $notifier)
     {
 
         $validator = FacadesValidator::make($request->all(), [
@@ -219,7 +221,7 @@ class WebsiteController extends Controller
         }
 
         $guest->update($validator->validated());
-
+        $notifier->trigger('guest', 'edit', $guest);
         return response()->json([
             'message' => 'guest updated successfully',
             'status' => 200
@@ -228,7 +230,7 @@ class WebsiteController extends Controller
 
 
 
-    function add_guest_post(Request $request)
+    function add_guest_post(Request $request, NotificationService $notifier)
     {
 
         $validator = FacadesValidator::make($request->all(), [
@@ -250,8 +252,8 @@ class WebsiteController extends Controller
         $data = $validator->validated();
 
         $data['user_id'] = Auth::user()->id;
-        Guest::create($data);
-
+        $guest = Guest::create($data);
+        $notifier->trigger('guest', 'crete', $guest);
         return response()->json([
             'message' => 'guest Add successfully',
             'status' => 200
@@ -261,17 +263,17 @@ class WebsiteController extends Controller
 
 
 
-    function delete_guest(Request $request, $id)
+    function delete_guest(Request $request, $id, NotificationService $notifier)
     {
 
-        Guest::find($id)->delete();
-
+        $guest = Guest::find($id)->delete();
+        $notifier->trigger('guest', 'delete', $guest);
         return redirect()->route('website.profile')->with('msg', 'guest Deleted successfully');
     }
 
 
 
-    function edit_testimonial_post(Request $request, $id)
+    function edit_testimonial_post(Request $request, $id, NotificationService $notifier)
     {
 
         $validator = FacadesValidator::make($request->all(), [
@@ -291,14 +293,14 @@ class WebsiteController extends Controller
         }
 
         $testimonial->update($validator->validated());
-
+        $notifier->trigger('testimonial', 'edit', $testimonial);
         return response()->json([
             'message' => 'testimonial updated successfully',
             'status' => 200
         ]);
     }
 
-    function add_testimonial_post(Request $request)
+    function add_testimonial_post(Request $request, NotificationService $notifier)
     {
 
         $validator = FacadesValidator::make($request->all(), [
@@ -316,8 +318,8 @@ class WebsiteController extends Controller
 
         $data['user_id'] = Auth::user()->id;
 
-        Testimonial::create($data);
-
+        $testimonial = Testimonial::create($data);
+        $notifier->trigger('testimonial', 'crete', $testimonial);
         return response()->json([
             'message' => 'testimonial Add successfully',
             'status' => 200
@@ -326,17 +328,17 @@ class WebsiteController extends Controller
 
 
 
-    function delete_testimonial(Request $request, $id)
+    function delete_testimonial(Request $request, $id, NotificationService $notifier)
     {
 
-        Testimonial::find($id)->delete();
-
+        $testimonial = Testimonial::find($id)->delete();
+        $notifier->trigger('testimonial', 'delete', $testimonial);
         return redirect()->route('website.profile')->with('msg', 'testimonial Deleted successfully');
     }
 
 
 
-    function edit_personal_post(Request $request, $id)
+    function edit_personal_post(Request $request, $id, NotificationService $notifier)
     {
         $validator = FacadesValidator::make($request->all(), [
             'first_name' => 'required|string|max:255',
@@ -378,8 +380,8 @@ class WebsiteController extends Controller
         $data['image'] = $image;
 
 
-        Auth::user()->update($data);
-
+        $user = Auth::user()->update($data);
+        $notifier->trigger('user', 'edit', $user);
         return response()->json([
             'message' => 'Vehicle updated successfully',
             'status' => 200

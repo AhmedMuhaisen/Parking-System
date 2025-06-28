@@ -8,6 +8,7 @@ use App\Models\Building;
 use App\Models\Unit;
 use App\Models\Parking;
 use App\Models\User;
+use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -86,7 +87,7 @@ $buildings=Building::get();
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,NotificationService $notifier)
     {
         Gate::authorize('unit.create');
         $request->validate([
@@ -98,19 +99,19 @@ $buildings=Building::get();
         ]);
         // $image = $request->image;
         // $image = $image->storePublicly('unit', 'new');
-        Unit::create([
+       $unit= Unit::create([
             'name' => $request->name,
             'user_id' => $request->user,
             'building_id' => $request->building,
 
-        ]);
+        ]);$notifier->trigger('unit', 'create', $unit);
         return redirect()->route('Dashboard.unit.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id,NotificationService $notifier)
     {
         Gate::authorize('unit.restore');
-        Unit::withTrashed()->find($id)->restore();
+        $unit= Unit::withTrashed()->find($id)->restore();$notifier->trigger('unit', 'restore', $unit);
         return redirect()->route('Dashboard.unit.trash');
     }
 
@@ -147,7 +148,7 @@ $buildings=Building::get();
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id,NotificationService $notifier)
     {
         Gate::authorize('unit.update');
         $request->validate([
@@ -158,7 +159,7 @@ $buildings=Building::get();
              'parking' => ['required','exists:parkings,id'],
         ]);
 
-        $unit = Unit::find($id);
+       $unit= Unit::find($id);
 
         $unit->update([
        'name' => $request->name,
@@ -166,25 +167,25 @@ $buildings=Building::get();
        'user_id' => $request->user,
             'building_id' => $request->building,
 
-        ]);
+        ]);$notifier->trigger('unit', 'edit', $unit);
         return redirect()->route('Dashboard.unit.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,NotificationService $notifier)
     {
         Gate::authorize('unit.delete');
-        Unit::find($id)->delete();
+        $unit=Unit::find($id)->delete(); $notifier->trigger('unit', 'delete', $unit);
         return redirect()->route('Dashboard.unit.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id,NotificationService $notifier)
     {
         Gate::authorize('unit.forceDelete');
-        Unit::withTrashed()->find($id)->forceDelete();
-
+        $unit=Unit::withTrashed()->find($id)->forceDelete();
+$notifier->trigger('unit', 'softDelete', $unit);
         return redirect()->route('Dashboard.unit.index');
     }
 }

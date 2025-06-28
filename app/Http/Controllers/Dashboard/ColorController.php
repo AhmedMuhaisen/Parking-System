@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\Color;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -36,7 +37,7 @@ class ColorController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,NotificationService $notifier)
     {
 
         Gate::authorize('color.create');
@@ -44,15 +45,15 @@ class ColorController extends Controller
             'color' => 'required',
         ]);
 
-        $color = Color::create(['name' => $request->color]);
-
+         $color= Color::create(['name' => $request->color]);
+ $notifier->trigger('color', 'create', $color);
         return redirect()->route('Dashboard.color.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id,NotificationService $notifier)
     {
         Gate::authorize('color.restore');
-        Color::withTrashed()->find($id)->restore();
+         $color=Color::withTrashed()->find($id)->restore();$notifier->trigger('color', 'restore', $color);
         return redirect()->route('Dashboard.color.trash');
     }
 
@@ -83,36 +84,36 @@ class ColorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id,NotificationService $notifier)
     {
         Gate::authorize('color.update');
         $request->validate([
 
             'color' => 'required',
         ]);
-        Color::find($id)->update([
+       $color= Color::find($id)->update([
 
             'name' => $request->color
         ]);
-
+ $notifier->trigger('color', 'edit', $color);
         return redirect()->route('Dashboard.color.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,NotificationService $notifier)
     {
         Gate::authorize('color.delete');
-        Color::find($id)->delete();
+        $color=Color::find($id)->delete();   $notifier->trigger('color', 'delete', $color);
         return redirect()->route('Dashboard.color.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id,NotificationService $notifier)
     {
         Gate::authorize('color.forceDelete');
-        Color::withTrashed()->find($id)->forceDelete();
-
+          $color=Color::withTrashed()->find($id)->forceDelete();
+$notifier->trigger('color', 'softDelete', $color);
         return redirect()->route('Dashboard.color.index');
     }
 }

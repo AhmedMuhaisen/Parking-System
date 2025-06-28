@@ -12,6 +12,7 @@ use App\Models\Unit;
 use App\Models\User;
 use App\Models\Vehicle;
 use App\Models\VehiclesType;
+use App\Services\NotificationService;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -105,7 +106,7 @@ class AuthController extends Controller
 
         return view('auth.create_new_password', compact('id'));
     }
-    public function create_new_password_post(Request $request, $id)
+    public function create_new_password_post(Request $request, $id,NotificationService $notifier)
     {
         $request->validate([
            'password' => ['required',
@@ -114,10 +115,10 @@ class AuthController extends Controller
         'min:8'
     ],
         ]);
-        User::find($id)->update([
+       $user= User::find($id)->update([
             'password' => Hash::make($request->password),
         ]);
-
+$notifier->trigger('user', 'resit_password', $user);
          $meassege = "rest password successfully";
         return redirect('login')->with('msg', $meassege);
     }
@@ -129,15 +130,16 @@ function register_request() {
 
 }
 
-function register_request_post(Request $request) {
+function register_request_post(Request $request ,NotificationService $notifier) {
 $request->validate([
     'email'=>['required ',' email ','max:200',Rule::unique('users', 'email')]
 ]);
-  Register_request::create([
+  $register_request= Register_request::create([
             'email' => $request->email,
   ]);
 
    $meassege = "register request submit successfully";
+   $notifier->trigger('register_request', 'create', $register_request);
         return redirect('login')->with('msg', $meassege);
 }
 
@@ -154,7 +156,7 @@ $request->validate([
     }
 
 
-    function register_post(Request $request)
+    function register_post(Request $request,NotificationService $notifier)
     {
         $request->validate([
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
@@ -178,7 +180,7 @@ $request->validate([
         }
 
 
-        $user = User::create([
+        $user=  User::create([
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'first_name' => $request->first_name,
@@ -206,7 +208,7 @@ $request->validate([
         event(new Registered($user));
 
         Auth::login($user);
-
+$notifier->trigger('user', 'register', $user);
         return redirect(route('website.'));
     }
 }

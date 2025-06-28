@@ -8,6 +8,7 @@ use App\Models\Building;
 use App\Models\Spot;
 use App\Models\Parking;
 use App\Models\User;
+use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -84,7 +85,7 @@ $buildings=Building::get();
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,NotificationService $notifier)
     {
         Gate::authorize('spot.create');
         $request->validate([
@@ -96,19 +97,19 @@ $buildings=Building::get();
         ]);
         // $image = $request->image;
         // $image = $image->storePublicly('spot', 'new');
-        Spot::create([
+        $spot=Spot::create([
             'name' => $request->name,
             'type' => $request->type,
             'building_id' => $request->building,
 
-        ]);
+        ]);$notifier->trigger('spot', 'create', $spot);
         return redirect()->route('Dashboard.spot.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id,NotificationService $notifier)
     {
         Gate::authorize('spot.restore');
-        Spot::withTrashed()->find($id)->restore();
+        $spot= Spot::withTrashed()->find($id)->restore();$notifier->trigger('spot', 'restore', $spot);
         return redirect()->route('Dashboard.spot.trash');
     }
 
@@ -145,7 +146,7 @@ $buildings=Building::get();
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id,NotificationService $notifier)
     {
         Gate::authorize('spot.update');
         $request->validate([
@@ -156,7 +157,7 @@ $buildings=Building::get();
              'parking' => ['required','exists:parkings,id'],
         ]);
 
-        $spot = Spot::find($id);
+        $spot= Spot::find($id);
 
         $spot->update([
        'name' => $request->name,
@@ -164,25 +165,25 @@ $buildings=Building::get();
        'type' => $request->type,
             'building_id' => $request->building,
 
-        ]);
+        ]);$notifier->trigger('spot', 'edit', $spot);
         return redirect()->route('Dashboard.spot.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,NotificationService $notifier)
     {
         Gate::authorize('spot.delete');
-        Spot::find($id)->delete();
+        $spot=Spot::find($id)->delete(); $notifier->trigger('spot', 'delete', $spot);
         return redirect()->route('Dashboard.spot.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id,NotificationService $notifier)
     {
         Gate::authorize('spot.forceDelete');
-        Spot::withTrashed()->find($id)->forceDelete();
-
+       $spot= Spot::withTrashed()->find($id)->forceDelete();
+$notifier->trigger('spot', 'softDelete', $spot);
         return redirect()->route('Dashboard.spot.index');
     }
 }

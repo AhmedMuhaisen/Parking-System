@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\User;
 use App\Models\Guest;
+use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 use Illuminate\Http\Request;
@@ -79,7 +80,7 @@ $result=$guests->get();
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,NotificationService $notifier)
     {
         Gate::authorize('guest.create');
 
@@ -95,7 +96,7 @@ $result=$guests->get();
         ]);
 
 
-Guest::create([
+$guest=Guest::create([
 'name'=>$request->name,
 'user_id'=>$request->user,
 'type'=>$request->type,
@@ -107,14 +108,14 @@ Guest::create([
 'logout_date'=>$request->logout_date,
 
 ]);
-
+$notifier->trigger('guest', 'create', $guest);
         return redirect()->route('Dashboard.guest.index');
     }
 
-    public function restore(string $id)
+    public function restore(string $id,NotificationService $notifier)
     {
         Gate::authorize('guest.restore');
-        Guest::withTrashed()->find($id)->restore();
+         $guest=Guest::withTrashed()->find($id)->restore();$notifier->trigger('guest', 'restore', $guest);
         return redirect()->route('Dashboard.guest.trash');
     }
 
@@ -150,7 +151,7 @@ Guest::create([
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id,NotificationService $notifier)
     {
         Gate::authorize('guest.update');
 
@@ -166,7 +167,7 @@ Guest::create([
         ]);
 
 
-           $guest = Guest::find($id);
+           $guest= Guest::find($id);
 
         $guest->update([
 'name'=>$request->name,
@@ -179,25 +180,25 @@ Guest::create([
 'login_date'=>$request->login_date,
 'logout_date'=>$request->logout_date,
 
-]);
+]);$notifier->trigger('guest', 'edit', $guest);
         return redirect()->route('Dashboard.guest.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id,NotificationService $notifier)
     {
         Gate::authorize('guest.delete');
-        Guest::find($id)->delete();
+        $guest=Guest::find($id)->delete(); $notifier->trigger('guest', 'delete', $guest);
         return redirect()->route('Dashboard.guest.index');
     }
 
-    public function delete(string $id)
+    public function delete(string $id,NotificationService $notifier)
     {
         Gate::authorize('guest.forceDelete');
-        Guest::withTrashed()->find($id)->forceDelete();
-
+        $guest=Guest::withTrashed()->find($id)->forceDelete();
+$notifier->trigger('guest', 'softDelete', $guest);
         return redirect()->route('Dashboard.guest.index');
     }
 }
