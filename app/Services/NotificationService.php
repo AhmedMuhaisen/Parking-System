@@ -20,25 +20,37 @@ class NotificationService
             ->where('event_type', $eventType)
             ->get();
 
+
         foreach ($rules as $rule) {
+            $additional=json_decode($rule->additional);
+            $createdBy = $additional['created_by'] ?? null;
+            $createdAt = $additional['created_at'] ?? null;
+
+              $message=$eventType .' '.$entityType.' '.$entity->id .''.$rule->message;
+              if($createdBy){
+                $message .=' by '.$createdBy;
+              }
+                if($createdAt){
+                $message .=' at '.$createdAt->format('m-d-y');
+              }
+
             $notification = Notification::create([
-                'entity_type' => $entityType,
-                'entity_id' => $entity->id,
-                'event_type' => $eventType,
-                'message' => $rule->message,
-                'created_by' => Auth::user()->id ?? 1,
+                'message' => $message,
                 'target_audience' => $rule->target_audience,
                 'user_id' => $rule->user_id ?? null,
-            ]);
+                'actions'=>$rule->actions ?? null    ]);
+
+            $onr = $rule->onr && method_exists($entity, 'user') ? ($entity->user() ?? null) : false;
+
 
             foreach (json_decode($rule->channels ?? '[]') as $channel) {
                 $notification->channels()->create(['channel' => $channel]);
-                $this->dispatch($channel, $notification);
+                $this->dispatch($channel, $notification,$onr);
             }
         }
     }
 
-    protected function dispatch(string $channel, Notification $notification): void
+    protected function dispatch(string $channel, Notification $notification,$onr): void
     {
         $users = User::query();
 
@@ -58,9 +70,10 @@ class NotificationService
                 // no filters
                 break;
         }
-
-        $recipients = $users->get();
-
+ $recipients = $users->get();
+        if($onr){
+             $recipients->push($onr);
+        }
         foreach ($recipients as $user) {
             match ($channel) {
                 'email' => Mail::to($user->email)->send(new SendNotificationMail($notification, $user)),
@@ -68,6 +81,7 @@ class NotificationService
                 'system'=> $userNotif=$user->systemNotifications()->create([
                  'message' => $notification->message,
                 'notification_id' => $notification->id,
+                'actions'=>$notification->actions
                             ]),
             };
         }
@@ -76,7 +90,7 @@ class NotificationService
             'status' => true,
             'sent_at' => now(),
         ]);
-        event(new NewSystemNotification($userNotif, $user->id));
+        // event(new NewSystemNotification($userNotif, $user->id));
     }
 
     protected function sendSms(string $phone, string $message): void

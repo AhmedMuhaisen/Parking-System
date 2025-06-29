@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Exports\MessagesExport;
 use App\Http\Controllers\Controller;
+use App\Mail\Send_messageMail;
 use App\Models\Gate as GateModel;
 use App\Models\Message;
 use App\Models\Parking;
@@ -12,6 +13,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
 class MessageController extends Controller
@@ -65,37 +68,51 @@ class MessageController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    // public function create()
-    // {
-    //     Gate::authorize('message.create');
-    //     $page = 'create';
-    //     $folder = '';
-    //     $parkings = Parking::get();
-    //     $gates = GateModel::get();
-    //     $message = new message();
-    //     return view('Dashboard.Message.create', compact('page', 'message', 'parkings' , 'gates'));
-    // }
+    public function create()
+    {
+        Gate::authorize('message.create');
+        $page = 'create';
+        $users=User::get();
+        $message = new message();
+        return view('Dashboard.Message.create', compact('page', 'message','users'));
+    }
 
     /**
      * Store a newly created resource in storage.
      */
-    // public function store(Request $request)
-    // {
-    //     Gate::authorize('message.create');
-    //     $request->validate([
-    //         'name' => 'required',
-    //         'gate' => ['required','exists:gates,id'],
+    public function store(Request $request)
+    {
+        Gate::authorize('message.create');
+          $rules = [
+        'send_type' => 'required|in:user,email',
+        'subject' => 'required|string|max:255',
+        'message' => 'required|string',
+    ];
 
-    //     ]);
-    //     // $image = $request->image;
-    //     // $image = $image->storePublicly('message', 'new');
-    //     Message::create([
-    //         'name' => $request->name,
-    //         'gate_id' => $request->gate,
+    // Conditional validation
+    if ($request->send_type === 'email') {
+        $rules['email'] = 'required|email';
+        $email=$request->email;
+    } elseif ($request->send_type === 'user') {
+        $rules['user_id'] = 'required|exists:users,id';
+        $email=$request->user_id;
+    }
+        $data = [
+            'email' => $email,
+            'subject' => $request->subject,
+            'message' => $request->message,
+        ];
 
-    //     ]);
-    //     return redirect()->route('Dashboard.message.index');
-    // }
+        Mail::to($request->email)->send(new Send_messageMail($data));
+
+        Message::create([
+            'email' => $email,
+            'type' => 'Incoming',
+            'subject' => $request->subject,
+            'message' => $request->message,
+        ]);
+        return redirect()->route('Dashboard.message.index');
+    }
 
     public function restore(string $id)
     {
@@ -120,44 +137,44 @@ class MessageController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-//     public function edit(string $id)
-//     {
-//         Gate::authorize('message.update');
-
-//         $message = Message::find($id);
-//         $page = 'edit';
-// $parkings=Parking::get();
-// $gates=GateModel::get();
-
-
-//         return view('Dashboard.Message.edit', compact('page', 'message','parkings' ,'gates'));
-//     }
+    public function edit(string $id)
+    {
+        Gate::authorize('message.reply');
+       $page = 'edit';
+        $users=User::get();
+        $message = Message::find($id);
+        return view('Dashboard.Message.edit', compact('page', 'message','users'));
+    }
 
     /**
      * Update the specified resource in storage.
      */
-    // public function update(Request $request, string $id)
-    // {
-    //     Gate::authorize('message.update');
-    //     $request->validate([
-    //          'name' => 'required',
-    //          'user' => ['required','exists:users,id'],
-    //         'gate' => ['required','exists:gates,id'],
+    public function update(Request $request, string $id)
+    {
+        Gate::authorize('message.reply');
+        $request->validate([
+        'email' => 'required',
+        'subject' => 'required|string|max:255',
+        'message' => 'required|string',
+        ]);
 
-    //          'parking' => ['required','exists:parkings,id'],
-    //     ]);
 
-    //     $message = Message::find($id);
+  $data = [
+            'email' => $request->email,
+            'subject' => $request->subject,
+            'message' => $request->message,
+        ];
 
-    //     $message->update([
-    //    'name' => $request->name,
+        Mail::to('ahmedmuhisan6@gmail.com')->send(new Send_messageMail($data));
 
-    //    'user_id' => $request->user,
-    //         'gate_id' => $request->gate,
-
-    //     ]);
-    //     return redirect()->route('Dashboard.message.index');
-    // }
+        Message::create([
+            'email' => $request->email,
+            'type' => 'outgoing',
+            'subject' => $request->subject,
+            'message' => $request->message,
+        ]);
+        return redirect()->route('Dashboard.message.index');
+    }
 
     /**
      * Remove the specified resource from storage.

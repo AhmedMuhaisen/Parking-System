@@ -1,23 +1,21 @@
-@section('title', 'Show messages')
+@section('title', 'Show parking_works')
 
 @extends('Dashboard.main')
 @section('content')
-
-
-    <style>
-        table thead th,
-        select {
-            min-width: 140px;
-        }
-    </style>
 <main id="main" class="main position-absolute">
+<style>
+    th,td{
+        max-width: 200px;
+    }
+</style>
+
 
     <div class="pagetitle">
         <div class="d-flex justify-content-between align-items-center my-3">
-            <h1>messages</h1>
-               <a href="{{ route('Dashboard.message.create') }}" class="btn btn-primary" style="
+            <h1>parking_works</h1>
+            <a href="{{ route('Dashboard.parking_work.create') }}" class="btn btn-primary" style="
 ">add
-                new message</a>
+                new parking_work</a>
         </div>
     </div><!-- End Page Title -->
 
@@ -25,19 +23,19 @@
         <div class="card">
             <div class="card-body right-thead">
                 <div class="d-flex justify-content-between align-items-center my-3">
-                    <h 5 class="card-title">show All messages</h>
+                    <h 5 class="card-title">show All Parking Works</h>
                     @if ($page == 'index')
-                    @can('message.index')
-                    <a href="{{ route('Dashboard.message.trash') }}" class="btn btn-outline-danger" style="
+                    @can('parking_work.index')
+                    <a href="{{ route('Dashboard.parking_work.trash') }}" class="btn btn-outline-danger" style="
                                   ">
                         <i class="fas fa-trash"></i>
-                        Trashed messages</a>
+                        Trashed parking_works</a>
                     @endcan
                     @else
-                    @can('message.index')
-                    <a href="{{ route('Dashboard.message.index') }}" class="btn btn-outline-primary">
+                    @can('parking_work.index')
+                    <a href="{{ route('Dashboard.parking_work.index') }}" class="btn btn-outline-primary">
                         <i class="fas fa-tag"></i>
-                        All messages</a>
+                        All parking_works</a>
                     @endcan
                     @endif
 
@@ -55,46 +53,40 @@
                         </label>
                     </div>
                     <div class="datatable-search">
-                        <a class="btn btn-dark" href="" id="printExcelReport">Export Excel</a>
+                        <a class="btn btn-dark" href=""  id="printExcelReport">Export Excel</a>
                         <a class="btn btn-danger" id="printPdfReport" href="">Export
                             Pdf</a>
                     </div>
                 </div>
 
                 <!-- Table with stripped rows -->
-                <table class="table table-striped">
+   <table class="table table-striped">
                     <thead>
                         <tr>
 
-                            <th scope="col" width='600'>Email</th>
-                            <th scope="col" width='600'>Type</th>
-                           <th scope="col"> Subject</th>
-                            <th scope="col"> Message</th>
-                            <th>created_at</th>
+                            <th scope="col">icon</th>
+                                <th scope="col">title</th>
+                            <th scope="col" width="200">content</th>
+    <th scope="col">step</th>
+
                             <th scope="col" width="120">Action</th>
                         </tr>
-                        <tr>
-   <td scope="col">
-                                <x-input type="text" value="" name="type" id="type" title="search" />
-                            </td>
-
-                            <td scope="col">
-                                <x-input type="text" value="" name="email" id="email" title="search" />
-                            </td>
-
-         <td scope="col">
-                                <x-input type="text" value="" name="subject" id="subject" title="search" />
-                            </td>
-
-                                     <td scope="col">
-                                <x-input type="text" value="" name="message" id="message" title="search" />
-                            </td>
 
 
+                              <tr>
       <td scope="col">
-                                <x-input type="text" value="" name="created_at" id="created_at" title="search" />
+                                <x-input type="text" value="" name="icon" id="icon" title="search" />
+                            </td>
+                            <td scope="col">
+                                <x-input type="text" value="" name="title" id="title" title="search" />
                             </td>
 
+                                <td scope="col">
+                                <x-input type="text" value="" name="content" id="content" title="search" />
+                            </td>
+                              <td scope="col">
+                                <x-input type="text" value="" name="step" id="step" title="search" />
+                            </td>
 
                             <input type="hidden" name="page" id="page" value="{{ $page }}">
 
@@ -103,7 +95,7 @@
                         </tr>
                     </thead>
                     <tbody id="tableContainer">
-                        @include('Dashboard.Message.table', ['message' => $message, 'page' => $page])
+                 @include('Dashboard.Parking_Work.table', ['parking_work' => $parking_work, 'page' => $page])
                     </tbody>
                 </table>
 
@@ -135,12 +127,10 @@
 
     function datavalue(){
         return{
-        email: $('#email').val(),
-           type: $('#type').val(),
-        subject: $('#subject').val(),
-        message: $('#message').val(),
-        created_at: $('#created_at').val(),
-
+        icon: $('#icon').val(),
+          title: $('#title').val(),
+        content: $('#content').val(),
+        step: $('#step').val(),
         page: $('#page').val()
     };
     }
@@ -148,14 +138,14 @@
 $('#printExcelReport').on('click', function () {
     let query = $.param(datavalue());
     // فتح رابط الطباعة مع تمرير الفلاتر
-    window.open("{{ route('Dashboard.message.exportExcel') }}?" + query, '_blank');
+    window.open("{{ route('Dashboard.parking_work.exportExcel') }}?" + query, '_blank');
 });
 
 
 $('#printPdfReport').on('click', function () {
     let query = $.param(datavalue());
     // فتح رابط الطباعة مع تمرير الفلاتر
-    window.open("{{ route('Dashboard.message.exportPDF') }}?" + query, '_blank');
+    window.open("{{ route('Dashboard.parking_work.exportPDF') }}?" + query, '_blank');
 });
 
 
@@ -167,7 +157,7 @@ $('#printPdfReport').on('click', function () {
         let data = datavalue()
 
         $.ajax({
-            url: "{{ route('Dashboard.message.search') }}",
+            url: "{{ route('Dashboard.parking_work.search') }}",
             type: "GET",
             data: data,
             success: function (response) {

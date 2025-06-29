@@ -3,20 +3,20 @@
 <main class="main">
 
     <!-- Hero Section -->
-    <section id="hero" class="hero section">
+    <section id="hero" class="hero section" style="background-image:url({{ asset($settings->header_background) }}) ">
         <div class="container">
             <div class="row mt-5">
                 <div class="w-50 col-lg-7 content-col" data-aos="fade-up">
                     <div class="content">
 
                         <div class="main-heading">
-                            <h1>{{ $settings->Header_title }}</h1>
+                            <h1>{{ $settings->header_title }}</h1>
                         </div>
 
                         <div class="divider"></div>
 
                         <div class="description">
-                            <p>{{ $settings->Header_subtitle }}</p>
+                            <p>{{ $settings->header_subtitle }}</p>
                         </div>
 
                         <div class="cta-button">
@@ -31,7 +31,7 @@
                 <div class="w-50 col-lg-5" data-aos="zoom-out">
                     <div class="visual-content">
                         <div class="fluid-shape">
-                            <img src="{{ asset($settings->Header_image ) }}" alt="Abstract Fluid Shape"
+                            <img src="{{ asset($settings->header_image ) }}" alt="Abstract Fluid Shape"
                                 class="fluid-img">
                         </div>
 
@@ -66,7 +66,7 @@
             <div class="row gx-5 align-items-center">
                 <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
                     <div class="about-image position-relative">
-                        <div class="image" style="background-image: url({{ asset( $settings->About_image ) }})">
+                        <div class="image" style="background-image: url({{ asset( $settings->about_image ) }})">
 
                         </div>
                         <div class="experience-badge">
@@ -78,9 +78,9 @@
 
                 <div class="col-lg-6 mt-4 mt-lg-0" data-aos="fade-left" data-aos-delay="300">
                     <div class="about-content">
-                        <h2>{{ $settings->About_title }}</h2>
+                        <h2>{{ $settings->about_title }}</h2>
                         <p class="lead">
-                            {{ $settings->About_content }}
+                            {!! $settings->about_content !!}
                         </p>
 
 
@@ -93,7 +93,7 @@
 
         </div>
 
-    </section><!-- /About Section -->
+    </section><!-- /about Section -->
 
     <!-- Call To Action Section -->
     <section id="Advantages" class="call-to-action section">
@@ -104,11 +104,11 @@
 
                 <div class="content-left flex-grow-1" data-aos="fade-right" data-aos-delay="200">
                     <span class="badge text-uppercase mb-2">Don't Miss!</span>
-                    <h2>{{ $settings->Advantage_title }}</h2>
-                    <p class="my-4">{{ $settings->Advantage_text }}</p>
+                    <h2>{{ $settings->advantage_title }}</h2>
+                    <p class="my-4">{!! $settings->advantage_text !!}</p>
 
                     <div class="features d-flex flex-wrap gap-3 mb-4">
-                        @foreach (json_decode($settings->Advantages)->advantage as $advantage)
+                        @foreach (json_decode($settings->advantages) as $advantage)
                         <div class="feature-item">
                             <i class="bi bi-check-circle-fill"></i>
                             <span>{{ $advantage }}</span>
@@ -126,7 +126,7 @@
                 </div>
 
                 <div class="content-right position-relative" data-aos="fade-left" data-aos-delay="300">
-                    <img src="{{ asset($settings->Advantage_image) }}" alt="Digital Platform"
+                    <img src="{{ asset($settings->advantage_image) }}" alt="Digital Platform"
                         class="img-fluid rounded-4">
                     <div class="floating-card">
                         <div class="card-icon">
@@ -171,7 +171,7 @@
                         <div class="step-info">
                             <span class="step-number">Step{{ $work->step }}</span>
                             <h3>{{ $work->title }}</h3>
-                            <p>{{ $work->content }}</p>
+                            <p>{!! $work->content !!}</p>
                         </div>
                     </div>
                 </div><!-- End Step Item -->

@@ -121,7 +121,7 @@
                 <div class="col-lg-2 col-6 footer-links">
                     <h4>Why should you register on our platform?</h4>
                     <ul>
-                        @foreach (json_decode($settings->Advantages)->advantage as $advantage)
+                        @foreach (json_decode($settings->advantages, true) as $advantage)
                             <li>{{ $advantage }}</li>
                         @endforeach
 

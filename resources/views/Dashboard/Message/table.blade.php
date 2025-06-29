@@ -2,10 +2,9 @@
 <tr>
 
     <td width="200">{{ $item->email }}</td>
-
+    <td width="200">{{ $item->type }}</td>
     <td width="200">{{ $item->subject}}</td>
-
-    <td width="200">{{ $item->message}}</td>
+    <td width="200">{!! $item->message!!}</td>
   <td width="200">{{ $item->created_at}}</td>
 
 
@@ -21,15 +20,15 @@
     </td> --}}
 
     <td>
-        <div class="d-flex">
-         @if ($page=='trash' )    <a href="{{ route('Dashboard.message.restore', $item->id) }}">
+         <div class="d-flex">
+                                    <a href=@if ($page=='trash'
+                                        ) "{{ route('Dashboard.message.restore', $item->id) }}"
+                                        @else "{{ route('Dashboard.message.edit', $item->id) }}" @endif>
 
-               <i class=" fa fa-store " style="background: #4154f1;
+                                        <i class="@if ($page == 'trash') fa fa-store @else fa fa-reply @endif" style="background: #4154f1;
                                                             padding: 9px 10px;
                                                             color: white;
                                                             border-radius: 8px;"></i></a>
-                                                             @endif
-
             <form
                 action="@if ($page == 'trash') {{ route('Dashboard.message.forcedelete', $item->id) }}@else{{ route('Dashboard.message.destroy', $item->id) }} @endif"
                 method="post">

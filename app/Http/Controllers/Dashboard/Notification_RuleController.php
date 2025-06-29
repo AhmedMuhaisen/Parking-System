@@ -82,7 +82,7 @@ class notification_ruleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request,NotificationService $notifier)
+    public function store(Request $request, NotificationService $notifier)
     {
         Gate::authorize('notification_rule.create');
 
@@ -92,6 +92,7 @@ class notification_ruleController extends Controller
             'target_audience' => 'required|in:all,admin,user,phone,email',
             'channels' => 'required|array|min:1',
             'message' => 'required|string',
+
         ]);
 
         // handle optional fields
@@ -106,15 +107,22 @@ class notification_ruleController extends Controller
         $data['channels'] = json_encode($data['channels']);
         $data['additional'] = json_encode($request->input('additional', []));
         $data['actions'] = json_encode($request->input('actions', []));
+        if ($request->onr) {
+            $data['onr'] = 'true';
+        } else {
+            $data['onr'] = 'false';
+        }
 
-        $notification_rule=Notification_Rule::create($data);$notifier->trigger('notification_rule', 'create', $notification_rule);
+        $notification_rule = Notification_Rule::create($data);
+        $notifier->trigger('notification_rule', 'create', $notification_rule);
         return redirect()->route('Dashboard.notification_rule.index');
     }
 
-    public function restore(string $id,NotificationService $notifier)
+    public function restore(string $id, NotificationService $notifier)
     {
         Gate::authorize('notification_rule.restore');
-        $notification_rule= Notification_Rule::withTrashed()->find($id)->restore();$notifier->trigger('notification_rule', 'restore', $notification_rule);
+        $notification_rule = Notification_Rule::withTrashed()->find($id)->restore();
+        $notifier->trigger('notification_rule', 'restore', $notification_rule);
         return redirect()->route('Dashboard.notification_rule.trash');
     }
 
@@ -161,7 +169,7 @@ class notification_ruleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id,NotificationService $notifier)
+    public function update(Request $request, string $id, NotificationService $notifier)
     {
         Gate::authorize('notification_rule.update');
         $data = $request->validate([
@@ -184,30 +192,36 @@ class notification_ruleController extends Controller
         $data['channels'] = json_encode($data['channels']);
         $data['additional'] = json_encode($request->input('additional', []));
         $data['actions'] = json_encode($request->input('actions', []));
+        if ($request->onr) {
+            $data['onr'] = 'true';
+        } else {
+            $data['onr'] = 'false';
+        }
+        $notification_rule = Notification_Rule::find($id);
 
-        $notification_rule=Notification_Rule::find($id);
 
 
-
-        $notification_rule->update($data);$notifier->trigger('notification_rule', 'edit', $notification_rule);
+        $notification_rule->update($data);
+        $notifier->trigger('notification_rule', 'edit', $notification_rule);
         return redirect()->route('Dashboard.notification_rule.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id,NotificationService $notifier)
+    public function destroy(string $id, NotificationService $notifier)
     {
         Gate::authorize('notification_rule.delete');
-       $notification_rule= Notification_Rule::find($id)->delete(); $notifier->trigger('notification_rule', 'delete', $notification_rule);
+        $notification_rule = Notification_Rule::find($id)->delete();
+        $notifier->trigger('notification_rule', 'delete', $notification_rule);
         return redirect()->route('Dashboard.notification_rule.index');
     }
 
-    public function delete(string $id,NotificationService $notifier)
+    public function delete(string $id, NotificationService $notifier)
     {
         Gate::authorize('notification_rule.forceDelete');
-       $notification_rule= Notification_Rule::withTrashed()->find($id)->forceDelete();
-$notifier->trigger('notification_rule', 'softDelete', $notification_rule);
+        $notification_rule = Notification_Rule::withTrashed()->find($id)->forceDelete();
+        $notifier->trigger('notification_rule', 'softDelete', $notification_rule);
         return redirect()->route('Dashboard.notification_rule.index');
     }
 }

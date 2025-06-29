@@ -1,15 +1,14 @@
 @php
 $settings=App\Models\Setting::first();
-$companyName = $settings->website_name ?? 'Company Name';
-$companyAddress = $settings->address ?? 'Company Address';
-$companyPhone = $settings->website_phone ?? 'Phone Number';
-$companyEmail = $settings->website_email ?? 'Email';
-$companyLogo = public_path($settings->logo ?? 'assets/dashboard/img/city-square.jpg');
+    $companyName = $settings->website_name ?? 'Company Name';
+    $companyAddress = $settings->address ?? 'Company Address';
+    $companyPhone = $settings->website_phone ?? 'Phone Number';
+    $companyEmail = $settings->website_email ?? 'Email';
+    $companyLogo = public_path($settings->logo ?? 'assets/dashboard/img/city-square.jpg');
 @endphp
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Export PDF</title>
@@ -65,8 +64,7 @@ $companyLogo = public_path($settings->logo ?? 'assets/dashboard/img/city-square.
             margin-bottom: 30px;
         }
 
-        th,
-        td {
+        th, td {
             border: 1px solid #bdc3c7;
             padding: 10px;
             text-align: center;
@@ -97,7 +95,6 @@ $companyLogo = public_path($settings->logo ?? 'assets/dashboard/img/city-square.
         }
     </style>
 </head>
-
 <body>
 
     <div class="header">
@@ -107,41 +104,36 @@ $companyLogo = public_path($settings->logo ?? 'assets/dashboard/img/city-square.
             <p>Phone: {{ $companyPhone }} | Email: {{ $companyEmail }}</p>
         </div>
         <div class="logo">
-            <img src="{{ $companyLogo }}" alt="Company Logo">
+            <img src="{{ $companyLogo }}" alt="Company Logo" width="100">
         </div>
     </div>
 
-    <h1>messages Report</h1>
+    <h1>parking_works Report</h1>
 
     <table>
         <thead>
             <tr>
                 <th>#</th>
-            <th scope="col" width='600'>Email</th>
-               <th scope="col"> Type</th>
-                           <th scope="col"> Subject</th>
-                            <th scope="col"> Message</th>
-                            <th>created_at</th>
-
+                    <th scope="col">icon</th>
+                                <th scope="col">title</th>
+                            <th scope="col" width="200">content</th>
+    <th scope="col">step</th>
 
             </tr>
         </thead>
         <tbody>
-            @forelse ($messages as $index => $item)
-            <tr>
-                <td>{{ $index + 1 }}</td>
-              <td width="200">{{ $item->email }}</td>
-    <td width="200">{{ $item->type }}</td>
-    <td width="200">{{ $item->subject}}</td>
-
-    <td width="200">{{ $item->message}}</td>
-  <td width="200">{{ $item->created_at}}</td>
-
-            </tr>
+            @forelse ($parking_works as $index => $item)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                     <td width="">{{ $item->icon }}</td>
+                            <td width="">{{ $item->title }}</td>
+                              <td width="400">{!! $item->content !!}</td>
+                            <td width="">{{ $item->step }}</td>
+                </tr>
             @empty
-            <tr>
-                <td colspan="5" class="no-data">No data available</td>
-            </tr>
+                <tr>
+                    <td colspan="5" class="no-data">No data available</td>
+                </tr>
             @endforelse
         </tbody>
     </table>
@@ -151,5 +143,4 @@ $companyLogo = public_path($settings->logo ?? 'assets/dashboard/img/city-square.
     </div>
 
 </body>
-
 </html>

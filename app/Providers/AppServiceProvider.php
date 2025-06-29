@@ -375,6 +375,14 @@ class AppServiceProvider extends ServiceProvider
             return (in_array('message.index', $user->role->permission->pluck('code')->toArray()));
         });
 
+
+                Gate::define('message.create', function ($user) {
+            return (in_array('message.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+                  Gate::define('message.reply', function ($user) {
+            return (in_array('message.reply', $user->role->permission->pluck('code')->toArray()));
+        });
         Gate::define('message.delete', function ($user) {
             return (in_array('message.delete', $user->role->permission->pluck('code')->toArray()));
         });
@@ -561,6 +569,32 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('color.forceDelete', function ($user) {
             return (in_array('color.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+
+
+         Gate::define('parking_work.index', function ($user) {
+            return (in_array('parking_work.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('parking_work.create', function ($user) {
+            return (in_array('parking_work.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('parking_work.update', function ($user) {
+            return (in_array('parking_work.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('parking_work.delete', function ($user) {
+            return (in_array('parking_work.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('parking_work.restore', function ($user) {
+            return (in_array('parking_work.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('parking_work.forceDelete', function ($user) {
+            return (in_array('parking_work.forceDelete', $user->role->permission->pluck('code')->toArray()));
         });
     }
 }

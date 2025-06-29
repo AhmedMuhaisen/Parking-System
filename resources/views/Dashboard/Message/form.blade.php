@@ -23,12 +23,39 @@
                 </div>
                 <!-- General Form Elements -->
                 @yield('form')
-                <x-inputd value="{{ $message->email }}" title="message Name" type="text" name="name"></x-inputd>
+          <!-- Select Send Type -->
+          @if($page=='create')
+        <label for="send_type">Send To:</label>
+<select name="send_type" id="send_type" class="form-select" onchange="toggleFields()">
+    <option value="">-- Select Type --</option>
+    <option value="user">User</option>
+    <option value="email">Email</option>
+</select>
 
 
 
-        <x-selectd type="text" value="{{ $message->gate->id }}" :array="$gates" name="gate"
-                    id="gate" title="gate" />
+          @endif
+
+<!-- Email Input -->
+<div id="email_input" style="@if($page=='create')display: none;@endif">
+    <label for="email">Email:</label>
+    <input type="email" name="email" value="{{ old('email',$message->email) }}" class="form-control" placeholder="Enter email address">
+</div>
+
+<!-- User Dropdown -->
+<div id="user_select" style="display: none;">
+    <label for="user_id">Select User:</label>
+    <select name="user_id" class="form-select">
+        @foreach ($users as $user)
+            <option value="{{ $user->email }}">{{ $user->first_name . ' '.$user->second_name }}</option>
+        @endforeach
+    </select>
+</div>
+
+
+      <x-inputd value="{{ $message->subject }}" title="subject" type="text" name="subject"></x-inputd>
+
+         <x-textarea value="" title="message" type="text" name="message"></x-textarea>
 
 
                 <button type="submit" class="btn btn-primary my-4 display-block w-100 mx-auto">Submit Form</button>
@@ -44,4 +71,13 @@
 
 </main><!-- End #main -->
 
+
+    <script>
+    function toggleFields() {
+        const type = document.getElementById("send_type").value;
+        document.getElementById("email_input").style.display = (type === 'email') ? 'block' : 'none';
+        document.getElementById("user_select").style.display = (type === 'user') ? 'block' : 'none';
+    }
+
+ </script>
 @endsection

@@ -11,14 +11,16 @@ use App\Http\Controllers\Dashboard\GuestController;
 use App\Http\Controllers\Dashboard\Login_AttemptController;
 use App\Http\Controllers\Dashboard\MessageController;
 use App\Http\Controllers\Dashboard\Notification_RuleController;
+use App\Http\Controllers\Dashboard\Parking_WorkController;
 use App\Http\Controllers\Dashboard\ParkingController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\Register_RequestController;
 use App\Http\Controllers\Dashboard\RoleController;
+use App\Http\Controllers\Dashboard\SettingController;
 use App\Http\Controllers\Dashboard\SpotController;
 use App\Http\Controllers\Dashboard\TestimonialController;
 use App\Http\Controllers\Dashboard\UnitController;
-use App\Http\Controllers\Dashboard\userController;
+use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\UserRoleController;
 use App\Http\Controllers\Dashboard\VehicleController;
 use App\Http\Controllers\Dashboard\VehicleMovementController;
@@ -357,6 +359,9 @@ Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth','admin')->grou
         Route::get('trash', [MessageController::class, 'trash'])->name('trash');
         Route::get('restore/{id}', [MessageController::class, 'restore'])->name('restore');
     });
+   Route::resource('message', MessageController::class);
+
+
 
    Route::prefix('notification_rule')->name('notification_rule.')->group(function () {
         Route::get('/', [Notification_RuleController::class, 'index'])->name('index');
@@ -445,4 +450,26 @@ Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth','admin')->grou
         Route::get('restore/{id}', [ColorController::class, 'restore'])->name('restore');
     });
     Route::resource('color', ColorController::class);
+
+Route::prefix('parking_work')->name('parking_work.')->group(function () {
+        Route::get('/', [Parking_WorkController::class, 'index'])->name('index');
+
+        Route::get('search', [Parking_WorkController::class, 'search'])->name('search');
+
+        Route::get('exportPDF', [Parking_WorkController::class, 'exportPDF'])->name('exportPDF');
+
+        Route::get('exportExcel', [Parking_WorkController::class, 'exportExcel'])->name('exportExcel');
+
+
+        Route::delete('forcedelete/{id}', [Parking_WorkController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [Parking_WorkController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [Parking_WorkController::class, 'restore'])->name('restore');
+    });
+    Route::resource('parking_work', Parking_WorkController::class);
+
+
+
+    Route::get('setting', [SettingController::class, 'index'])->name('setting');
+    Route::put('setting/update/{id}', [SettingController::class, 'update'])->name('setting.update');
+
 });

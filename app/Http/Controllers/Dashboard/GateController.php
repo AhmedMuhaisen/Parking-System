@@ -26,7 +26,8 @@ class GateController extends Controller
 
         $page = 'index';
         $gate = GateModel::get();
-        return view('Dashboard.Gate.index', compact('gate', 'page'));
+        $parkings = Parking::get();
+        return view('Dashboard.Gate.index', compact('gate', 'page','parkings'));
     }
 
     public function search(Request $request)
@@ -117,8 +118,9 @@ $result=$gates->get();
     {
         Gate::authorize('gate.index');
         $gate = GateModel::onlyTrashed()->get();
+         $parkings = Parking::get();
         $page = 'trash';
-        return view('Dashboard.Gate.index', compact('gate', 'page'));
+        return view('Dashboard.Gate.index', compact('gate', 'page','parkings'));
     }
     /**
      * Display the specified resource.

@@ -722,6 +722,9 @@
                     <i class="bi bi-gear"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="components-nav170" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+
+                      <li><a href="{{ route('Dashboard.setting') }}"> <i class="bi bi-circle"></i><span>setting</span></a></li>
+
                     <!-- role -->
                     <li>
                         <a class="nav-link collapsed" data-bs-target="#components-nav171" data-bs-toggle="collapse"
@@ -778,10 +781,24 @@
                             <li><a href="{{ route('Dashboard.color.create') }}"><span>Create color</span></a></li>
                             <li><a href="{{ route('Dashboard.color.trash') }}"><span>Trashed colors</span></a></li>
                         </ul>
+
                     </li>
 
 
+            <li>
+                        <a class="nav-link collapsed" data-bs-target="#components-nav176" data-bs-toggle="collapse"
+                            href="#">
+                            <i class="bi bi-circle"></i><span>parking_work</span><i class="bi bi-chevron-down ms-auto"></i>
+                        </a>
+                        <ul id="components-nav176" class="nav-content collapse">
+                            <li><a href="{{ route('Dashboard.parking_work.index') }}"><span>Show All parking_works</span></a></li>
+                            <li><a href="{{ route('Dashboard.parking_work.create') }}"><span>Create parking_work</span></a></li>
+                            <li><a href="{{ route('Dashboard.parking_work.trash') }}"><span>Trashed parking_works</span></a></li>
+                        </ul>
+
+                    </li>
                 </ul>
+
             </li>
 
 

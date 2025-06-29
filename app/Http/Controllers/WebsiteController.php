@@ -36,7 +36,7 @@ class WebsiteController extends Controller
     function index()
     {
         $settings = Setting::first();
-        $parking_work = ParkingWork::get();
+        $parking_work = ParkingWork::orderBy('step', 'asc')->get();
         $testimonials = Testimonial::get();
 
         return view('website.index', compact('settings', 'parking_work', 'testimonials'));
@@ -82,6 +82,7 @@ class WebsiteController extends Controller
 
         Message::create([
             'email' => $request->email,
+            'type' => $request->outgoing,
             'subject' => $request->subject,
             'message' => $request->message,
         ]);
