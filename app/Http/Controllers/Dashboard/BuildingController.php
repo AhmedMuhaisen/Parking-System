@@ -29,7 +29,8 @@ class BuildingController extends Controller
             'users.vehicle',
             'unit',
         ])->get();
-        return view('Dashboard.Building.index', compact('building', 'page'));
+        $parkings=Parking::get();
+        return view('Dashboard.Building.index', compact('building','parkings', 'page'));
     }
 
     public function search(Request $request)
@@ -128,7 +129,8 @@ class BuildingController extends Controller
         Gate::authorize('building.index');
         $building = Building::onlyTrashed()->get();
         $page = 'trash';
-        return view('Dashboard.Building.index', compact('building', 'page'));
+        $parkings=Parking::get();
+        return view('Dashboard.Building.index', compact('building', 'page','parkings',));
     }
     /**
      * Display the specified resource.

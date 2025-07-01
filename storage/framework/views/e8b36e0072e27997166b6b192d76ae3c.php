@@ -1,22 +1,21 @@
-@extends('website.main')
-@section('content')
+<?php $__env->startSection('content'); ?>
 <main class="main">
 
     <!-- Hero Section -->
-    <section id="hero" class="hero section" style="background-image:url({{ asset($settings->header_background) }}) ">
+    <section id="hero" class="hero section" style="background-image:url(<?php echo e(asset($settings->header_background)); ?>) ">
         <div class="container">
             <div class="row mt-5">
                 <div class="w-50 col-lg-7 content-col" data-aos="fade-up">
                     <div class="content">
 
                         <div class="main-heading">
-                            <h1>{{ $settings->header_title }}</h1>
+                            <h1><?php echo e($settings->header_title); ?></h1>
                         </div>
 
                         <div class="divider"></div>
 
                         <div class="description">
-                            <p>{{ $settings->header_subtitle }}</p>
+                            <p><?php echo e($settings->header_subtitle); ?></p>
                         </div>
 
                         <div class="cta-button">
@@ -31,7 +30,7 @@
                 <div class="w-50 col-lg-5" data-aos="zoom-out">
                     <div class="visual-content">
                         <div class="fluid-shape">
-                            <img src="{{ asset($settings->header_image ) }}" alt="Abstract Fluid Shape"
+                            <img src="<?php echo e(asset($settings->header_image )); ?>" alt="Abstract Fluid Shape"
                                 class="fluid-img">
                         </div>
 
@@ -66,7 +65,7 @@
             <div class="row gx-5 align-items-center">
                 <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
                     <div class="about-image position-relative">
-                        <div class="image" style="background-image: url({{ asset( $settings->about_image ) }})">
+                        <div class="image" style="background-image: url(<?php echo e(asset( $settings->about_image )); ?>)">
 
                         </div>
                         <div class="experience-badge">
@@ -78,9 +77,10 @@
 
                 <div class="col-lg-6 mt-4 mt-lg-0" data-aos="fade-left" data-aos-delay="300">
                     <div class="about-content">
-                        <h2>{{ $settings->about_title }}</h2>
+                        <h2><?php echo e($settings->about_title); ?></h2>
                         <p class="lead">
-                            {!! $settings->about_content !!}
+                            <?php echo $settings->about_content; ?>
+
                         </p>
 
 
@@ -104,16 +104,16 @@
 
                 <div class="content-left flex-grow-1" data-aos="fade-right" data-aos-delay="200">
                     <span class="badge text-uppercase mb-2">Don't Miss!</span>
-                    <h2>{{ $settings->advantage_title }}</h2>
-                    <p class="my-4">{!! $settings->advantage_text !!}</p>
+                    <h2><?php echo e($settings->advantage_title); ?></h2>
+                    <p class="my-4"><?php echo $settings->advantage_text; ?></p>
 
                     <div class="features d-flex flex-wrap gap-3 mb-4">
-                        @foreach (json_decode($settings->advantages) as $advantage)
+                        <?php $__currentLoopData = json_decode($settings->advantages); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $advantage): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="feature-item">
                             <i class="bi bi-check-circle-fill"></i>
-                            <span>{{ $advantage }}</span>
+                            <span><?php echo e($advantage); ?></span>
                         </div>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
 
 
@@ -126,7 +126,7 @@
                 </div>
 
                 <div class="content-right position-relative" data-aos="fade-left" data-aos-delay="300">
-                    <img src="{{ asset($settings->advantage_image) }}" alt="Digital Platform"
+                    <img src="<?php echo e(asset($settings->advantage_image)); ?>" alt="Digital Platform"
                         class="img-fluid rounded-4">
                     <div class="floating-card">
                         <div class="card-icon">
@@ -162,21 +162,21 @@
         <div class="container" data-aos="fade-up" data-aos-delay="100">
 
             <div class="steps-wrapper">
-@foreach ($parking_work as $work)
+<?php $__currentLoopData = $parking_work; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $work): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
          <div class="step-item" data-aos="fade-right" data-aos-delay="200">
                     <div class="step-content">
                         <div class="step-icon">
-                            <i class="bi bi-{{$work->icon}}"></i>
+                            <i class="bi bi-<?php echo e($work->icon); ?>"></i>
                         </div>
                         <div class="step-info">
-                            <span class="step-number">Step{{ $work->step }}</span>
-                            <h3>{{ $work->title }}</h3>
-                            <p>{!! $work->content !!}</p>
+                            <span class="step-number">Step<?php echo e($work->step); ?></span>
+                            <h3><?php echo e($work->title); ?></h3>
+                            <p><?php echo $work->content; ?></p>
                         </div>
                     </div>
                 </div><!-- End Step Item -->
 
-@endforeach
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
 
             </div>
@@ -216,36 +216,37 @@
 
                 <div class="swiper-wrapper">
 
-@foreach ($testimonials as $testimonial)
+<?php $__currentLoopData = $testimonials; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $testimonial): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
       <div class="swiper-slide">
                         <div class="testimonial-item">
                             <div class="row">
                                 <div class="col-lg-9">
                                     <div class="rating mb-3">
-                                      @for($i = 0; $i < $testimonial->rating; $i++)
+                                      <?php for($i = 0; $i < $testimonial->rating; $i++): ?>
                                         <i class="bi bi-star-fill"></i>
-                                      @endfor
+                                      <?php endfor; ?>
 
                                     </div>
                                     <div class="pargrafe-content">
                                         <p>
-                                           {{$testimonial->text}}
+                                           <?php echo e($testimonial->text); ?>
+
 
                                         </p>
 
                                     </div>
                                     <div class="profile d-flex align-items-center">
-                                        <img src="{{ asset($testimonial->user->image)}}"
+                                        <img src="<?php echo e(asset($testimonial->user->image)); ?>"
                                             class="profile-img" alt="">
                                         <div class="profile-info">
-                                            <h3>{{ $testimonial->user->first_name }}  {{ $testimonial->user->second_name }}</h3>
-                                            <span>{{ $testimonial->user->type }}</span>
+                                            <h3><?php echo e($testimonial->user->first_name); ?>  <?php echo e($testimonial->user->second_name); ?></h3>
+                                            <span><?php echo e($testimonial->user->type); ?></span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 d-none d-lg-block">
                                     <div class="featured-img-wrapper">
-                                        <img src="{{ asset($testimonial->user->image)}}"
+                                        <img src="<?php echo e(asset($testimonial->user->image)); ?>"
                                             class="featured-img" alt="">
                                     </div>
                                 </div>
@@ -253,7 +254,7 @@
                         </div>
                     </div><!-- End Testimonial Item -->
 
-@endforeach
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
 
                 </div>
@@ -290,7 +291,7 @@
                         </div>
                         <div class="info-content">
                             <h4>Our Address</h4>
-                            <p>{{ $settings->Address }}</p>
+                            <p><?php echo e($settings->Address); ?></p>
                         </div>
                     </div>
                 </div>
@@ -302,7 +303,7 @@
                         </div>
                         <div class="info-content">
                             <h4>Email Address</h4>
-                            <p>{{ $settings->Website_Email }}</p>
+                            <p><?php echo e($settings->Website_Email); ?></p>
 
                         </div>
                     </div>
@@ -315,7 +316,7 @@
                         </div>
                         <div class="info-content">
                             <h4>Phone Number</h4>
-                            <p>{{ $settings->Website_phone }}</p>
+                            <p><?php echo e($settings->Website_phone); ?></p>
 
                         </div>
                     </div>
@@ -332,7 +333,7 @@
                     <div class="contact-form-wrapper">
                         <h2 class="text-center mb-4">Get in Touch</h2>
 
-                        <form action="{{ route('website.contact') }}" method="post" class="php-email-form">
+                        <form action="<?php echo e(route('website.contact')); ?>" method="post" class="php-email-form">
 
                             <div class="row g-3">
                                 <div class="col-md-6">
@@ -395,4 +396,6 @@
     </section><!-- /Contact Section -->
 
 </main>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('website.main', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\Parking_System\resources\views/website/index.blade.php ENDPATH**/ ?>

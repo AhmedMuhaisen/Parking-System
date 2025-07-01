@@ -221,8 +221,8 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
-
         Gate::define('building.index', function ($user) {
+
             return (in_array('building.index', $user->role->permission->pluck('code')->toArray()));
         });
 
