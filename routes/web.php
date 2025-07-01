@@ -6,7 +6,7 @@ use App\Http\Controllers\Dashboard\CameraController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\ColorController;
 use App\Http\Controllers\Dashboard\DashboardController;
-use App\Http\Controllers\Dashboard\gateController;
+use App\Http\Controllers\Dashboard\GateController;
 use App\Http\Controllers\Dashboard\GuestController;
 use App\Http\Controllers\Dashboard\Login_AttemptController;
 use App\Http\Controllers\Dashboard\MessageController;
