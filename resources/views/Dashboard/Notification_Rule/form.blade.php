@@ -80,7 +80,8 @@
             is-invalid
             @enderror" required>
                         <option value="">-- Select --</option>
-                        @foreach(['vehicle', 'camera', 'section', 'gate'] as $type)
+                        @foreach(['vehicle', 'camera', 'guest','user','spot','building','unit','parking','vehicle_type',
+                        'vehicle_brand','message','notification_rule','category', 'gate','testimonial'] as $type)
                         <option value="{{ $type }}" {{ old('entity_type',$notification_rule->entity_type) == $type ?
                             'selected' : '' }}>{{ ucfirst($type) }}</option>
                         @endforeach
@@ -94,7 +95,7 @@
                     <select name="event_type" class="form-select     @error('event_type')
             is-invalid
             @enderror" required>
-                        @foreach(['create', 'move', 'open', 'delete', 'edit'] as $event)
+                        @foreach(['create', 'move', 'open', 'delete', 'edit','register','send'] as $event)
                         <option value="{{ $event }}" {{ old('event_type',$notification_rule->event_type) == $event ?
                             'selected' : '' }}>{{ ucfirst($event) }}</option>
                         @endforeach
@@ -107,25 +108,9 @@
                         <input type="checkbox" name="onr" id="onr"> Onr
                     </label>
                 </div>
-                <div class="mb-3">
-                    <label>Target Audience</label>
-                    <select name="target_audience" id="targetAudience" class="form-select     @error('target_audience')
-            is-invalid
-            @enderror" required>
-                        <option value="all" {{ old('target_audience',$notification_rule->target_audience) == 'all' ?
-                            'selected' : '' }}>All Users</option>
-                        <option value="admin" {{ old('target_audience',$notification_rule->target_audience) == 'admin' ?
-                            'selected' : '' }}>Admins Only</option>
-                        <option value="user" {{ old('target_audience',$notification_rule->target_audience) == 'user' ?
-                            'selected' : '' }}>Specific User</option>
-                        <option value="phone" {{ old('target_audience',$notification_rule->target_audience) == 'phone' ?
-                            'selected' : '' }}>Phone Number</option>
-                        <option value="email" {{ old('target_audience',$notification_rule->target_audience) == 'email' ?
-                            'selected' : '' }}>Email Address</option>
-                    </select> @error('target_audience')
-                    <p class="text-danger">{{ $message }}</p>
-                    @enderror
-                </div>
+
+   <x-selectd type="text" value="{{ $notification_rule->target_audience }}" :array="$target_audience" name="target_audience_id"
+                    id="target_audience" title="target_audience" />
 
 
 

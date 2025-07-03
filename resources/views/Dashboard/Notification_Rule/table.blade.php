@@ -7,18 +7,17 @@
                              <td>{{ $item->message}}</td>
 
 
-                              <td>{{ $item->target_audience }}</td>
+                              <td>{{ $item->target_audience->name }}</td>
                     <td width="200">{{ $item->user_id}}</td>
-      <td width="200">{{ $item->phone}}</td>
-            <td width="200">{{ $item->email}}</td>
+
 
           <td width="200">{{ $item->channels}}</td>
 
                               <td width="200">{{ $item->additional}}</td>
-      <td width="200">{{ $item->phone}}</td>
+
             <td width="200">{{ $item->actions}}</td>
 
-
+    <td width="200">{{ $item->created_at}}</td>
 
 
 

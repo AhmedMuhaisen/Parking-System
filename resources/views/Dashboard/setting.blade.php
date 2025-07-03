@@ -27,8 +27,8 @@
                     @method('put')
 
 
-    <x-inputd value="{{ $setting->logo }}" title="logo" folder='{{ $folder }}'
-                        type="file" name="logo"></x-inputd>
+    <x-inputd value="{{ $setting->website_logo }}" title="logo" folder='{{ $folder }}'
+                        type="file" name="website_logo"></x-inputd>
                     <x-inputd value="{{ $setting->website_name }}" title="website_name" type="text" name="website_name">
                     </x-inputd>
                     <x-inputd value="{{ $setting->website_email }}" title="website_email" type="text"

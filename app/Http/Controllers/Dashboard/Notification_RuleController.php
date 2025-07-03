@@ -8,6 +8,7 @@ use App\Models\Building;
 use App\Models\Notification_Rule;
 use App\Models\Unit;
 use App\Models\notification_rules;
+use App\Models\Target_Audience;
 use App\Services\NotificationService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -76,7 +77,9 @@ class notification_ruleController extends Controller
         Gate::authorize('notification_rule.create');
         $page = 'create';
         $notification_rule = new Notification_Rule();
-        return view('Dashboard.Notification_Rule.create', compact('page', 'notification_rule'));
+
+        $target_audience=Target_Audience::get();
+        return view('Dashboard.Notification_Rule.create', compact('page', 'notification_rule','target_audience'));
     }
 
     /**
@@ -89,7 +92,7 @@ class notification_ruleController extends Controller
         $data = $request->validate([
             'entity_type' => 'required|string',
             'event_type' => 'required|string',
-            'target_audience' => 'required|in:all,admin,user,phone,email',
+            'target_audience_id' => 'required|exists:target_audiences,id',
             'channels' => 'required|array|min:1',
             'message' => 'required|string',
 
@@ -159,11 +162,11 @@ class notification_ruleController extends Controller
         $folder = 'notification_rules';
         $notification_rule = Notification_Rule::find($id);
         $page = 'edit';
-
+  $target_audience=Target_Audience::get();
 
 
         $folder = 'notification_rules';
-        return view('Dashboard.Notification_Rule.edit', compact('page', 'notification_rule', 'folder', 'building', 'unit'));
+        return view('Dashboard.Notification_Rule.edit', compact('page', 'notification_rule', 'folder', 'building', 'unit','target_audience'));
     }
 
     /**
@@ -175,7 +178,7 @@ class notification_ruleController extends Controller
         $data = $request->validate([
             'entity_type' => 'required|string',
             'event_type' => 'required|string',
-            'target_audience' => 'required|in:all,admin,user,phone,email',
+            'target_audience_id' =>'required|exists:target_audiences,id',
             'channels' => 'required|array|min:1',
             'message' => 'required|string',
         ]);

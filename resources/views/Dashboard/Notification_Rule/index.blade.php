@@ -43,16 +43,7 @@
                 </div>
 
                 <div class="datatable-top">
-                    <div class="datatable-dropdown">
-                        <label>
-                            <select class="datatable-selector" name="per-page">
-                                <option value="5">5</option>
-                                <option value="10" selected="">10</option>
-                                <option value="15">15</option>
-                                <option value="-1">All</option>
-                            </select> entries per page
-                        </label>
-                    </div>
+
                     <div class="datatable-search">
                         <a class="btn btn-dark" href="" id="printExcelReport">Export Excel</a>
                         <a class="btn btn-danger" id="printPdfReport" href="">Export
@@ -70,13 +61,13 @@
                             <th scope="col">event_type</th>
                             <th scope="col" width="200">message</th>
                             <th scope="col">target_audience</th>
-                            <th scope="col">user_id</th>
-                            <th scope="col">phone</th>
-                            <th scope="col" width='100'>email</th>
+                            <th scope="col">user</th>
+
                             <th scope="col">channels</th>
                             <th scope="col">additional</th>
-                            <th scope="col">phone</th>
+
                             <th scope="col">actions</th>
+    <th scope="col">created_at</th>
 
                             <th scope="col" width="120">Action</th>
                         </tr>
@@ -90,34 +81,43 @@
 
 
                             <td scope="col" colspan="1" width='200'>
-                                <x-input type="channels" value="" name="channels" id="channels" title="search" />
-                            </td>
-
-
-
-
-
-
-
-                            <td scope="col" colspan="1" width='200'>
                                 <x-input type="text" value="" name="event_type" id="event_type" title="search" />
                             </td>
 
-                            <td scope="col" colspan="1" width='200'>
-                                <x-input type="text" value="" name="title" id="title" title="search" />
-                            </td>
+
                             <td scope="col" width='200' width='100'>
                                 <x-input type="text" value="" title="search" name="message" id="message" />
                             </td>
 
-                            <td scope="col" width='200' width='100'>
-                                <x-input type="text" value="" title="search" name="created_by" id="created_by" />
-                            </td>
 
                             <td scope="col" width='200' width='100'>
                                 <x-input type="text" value="" title="search" name="target_audience"
                                     id="target_audience" />
                             </td>
+
+    <td scope="col" colspan="1" width='200'>
+                                <x-input type="user" value="" name="user" id="user" title="search" />
+                            </td>
+
+
+
+
+                                <td scope="col" colspan="1" width='200'>
+                                <x-input type="channels" value="" name="channels" id="channels" title="search" />
+                            </td>
+
+
+                                <td scope="col" colspan="1" width='200'>
+                                <x-input type="additional" value="" name="additional" id="additional" title="search" />
+                            </td>
+
+
+                                <td scope="col" colspan="1" width='200'>
+                                <x-input type="action" value="" name="action" id="action" title="search" />
+                            </td>
+
+
+
                             <td scope="col" width='200' width='100'>
                                 <x-input type="date" value="" title="search" name="created_at" id="created_at" />
                             </td>

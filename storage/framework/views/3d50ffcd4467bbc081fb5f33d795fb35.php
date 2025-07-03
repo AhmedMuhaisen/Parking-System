@@ -31,7 +31,7 @@
     <!-- Template Main CSS File -->
     <link href="<?php echo e(asset('assets/Dashboard/css/style.css')); ?>" rel="stylesheet">
     <link href="<?php echo e(asset('assets/Dashboard/css/all.min.css')); ?>" rel="stylesheet">
-
+     <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css','resources/js/app.js']); ?>
     <?php echo $__env->yieldContent('style'); ?>
     <!-- =======================================================
   * Template Name: NiceAdmin
@@ -43,14 +43,22 @@
 </head>
 
 <body style="direction: ltr">
-
+<?php
+    $notification=App\Models\SystemNotification::where('user_id',Auth::id())->where('is_read',0)->get();
+    $user=Auth::user();
+    $settings=App\Models\Setting::first();
+?>
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
 
         <div class="d-flex align-items-center justify-content-between">
-            <a href="index.html" class="logo d-flex align-items-center">
-                <img src="<?php echo e(asset('assets/Dashboard/img/logo.png')); ?>" alt="">
-                <span class="d-none d-lg-block">NiceAdmin</span>
+            <a href="<?php echo e(route('website.')); ?>" class="logo d-flex align-items-center">
+               <?php if($settings->website_logo): ?>
+               <div class="d-flex align-items-center justify-center">
+<img src="<?php echo e(asset($settings->website_logo)); ?>" alt="">
+<h5 class="mb-0" style="font-weight: bold; color:#012970;"><?php echo e($settings->website_name); ?></h5>
+</div>
+               <?php endif; ?>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div><!-- End Logo -->
@@ -71,169 +79,69 @@
                     </a>
                 </li><!-- End Search Icon-->
 
+
+
+
+
                 <li class="nav-item dropdown">
 
                     <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                         <i class="bi bi-bell"></i>
-                        <span class="badge bg-primary badge-number" id="notification-count">4</span>
+                        <span class="badge bg-primary badge-number" id="notification_count"><?php echo e($notification->count()); ?></span>
                     </a><!-- End Notification Icon -->
 
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications" id="dropdown-notification">
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications" id="dropdown_notification">
                         <li class="dropdown-header">
-                            You have 4 new notifications
+                            You have <?php echo e($notification->count()); ?> new notifications
                             <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
                         </li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-exclamation-circle text-warning"></i>
-                            <div>
-                                <h4>Lorem Ipsum</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>30 min. ago</p>
-                            </div>
+<div id="notification_content" style="font-size: 13px !important; color: rgb(173 145 145);">
+                        <?php $__currentLoopData = $notification; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                             <li class="notification-item">
+                                <i class="bi bi-info-circle text-primary"></i>
+                                <div>
+                               <p><?php echo e($item->message); ?></p>
+                               </div>
                         </li>
-
-                        <li>
+                           <li>
                             <hr class="dropdown-divider">
                         </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-x-circle text-danger"></i>
-                            <div>
-                                <h4>Atque rerum nesciunt</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>1 hr. ago</p>
-                            </div>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-check-circle text-success"></i>
-                            <div>
-                                <h4>Sit rerum fuga</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>2 hrs. ago</p>
-                            </div>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-info-circle text-primary"></i>
-                            <div>
-                                <h4>Dicta reprehenderit</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>4 hrs. ago</p>
-                            </div>
-                        </li>
-
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+</div>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li class="dropdown-footer">
-                            <a href="#">Show all notifications</a>
+                            <a href="<?php echo e(route('Dashboard.notification_system.index')); ?>">Show all notifications</a>
                         </li>
 
                     </ul><!-- End Notification Dropdown Items -->
 
                 </li><!-- End Notification Nav -->
 
-                <li class="nav-item dropdown">
-
-                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                        <i class="bi bi-chat-left-text"></i>
-                        <span class="badge bg-success badge-number">3</span>
-                    </a><!-- End Messages Icon -->
-
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
-                        <li class="dropdown-header">
-                            You have 3 new messages
-                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="message-item">
-                            <a href="#">
-                                <img src="<?php echo e(asset('assets/Dashboard/img/messages-1.jpg')); ?>" alt=""
-                                    class="rounded-circle">
-                                <div>
-                                    <h4>Maria Hudson</h4>
-                                    <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                                    <p>4 hrs. ago</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="message-item">
-                            <a href="#">
-                                <img src="<?php echo e(asset('assets/Dashboard/img/messages-2.jpg')); ?>" alt=""
-                                    class="rounded-circle">
-                                <div>
-                                    <h4>Anna Nelson</h4>
-                                    <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                                    <p>6 hrs. ago</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="message-item">
-                            <a href="#">
-                                <img src="<?php echo e(asset('assets/Dashboard/img/messages-3.jpg')); ?>" alt=""
-                                    class="rounded-circle">
-                                <div>
-                                    <h4>David Muldon</h4>
-                                    <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                                    <p>8 hrs. ago</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="dropdown-footer">
-                            <a href="#">Show all messages</a>
-                        </li>
-
-                    </ul><!-- End Messages Dropdown Items -->
-
-                </li><!-- End Messages Nav -->
 
                 <li class="nav-item dropdown pe-3">
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="<?php echo e(asset('assets/Dashboard/img/profile-img.jpg')); ?>" alt="Profile"
+                        <img src="<?php echo e(asset($user->image)); ?>" alt="Profile"
                             class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+                        <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo e($user->first_name . ' '.$user->second_name); ?></span>
                     </a><!-- End Profile Iamge Icon -->
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li class="dropdown-header">
-                            <h6>Kevin Anderson</h6>
-                            <span>Web Designer</span>
+                            <h6><?php echo e($user->first_name . ' '.$user->second_name); ?></h6>
+                            <span><?php echo e($user->type); ?></span>
                         </li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                            <a class="dropdown-item d-flex align-items-center" href="<?php echo e(route('website.profile')); ?>">
                                 <i class="bi bi-person"></i>
                                 <span>My Profile</span>
                             </a>
@@ -242,31 +150,21 @@
                             <hr class="dropdown-divider">
                         </li>
 
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                                <i class="bi bi-gear"></i>
-                                <span>Account Settings</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
+
+
+
+
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                                <i class="bi bi-question-circle"></i>
-                                <span>Need Help?</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
+                             <form action="<?php echo e(route('logout')); ?>" method="post">
+                    <?php echo csrf_field(); ?>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <i class="bi bi-box-arrow-right"></i>
-                                <span>Sign Out</span>
+
+                    <button type="submit" class="btn-getstarted border-0">logout</button>
+
                             </a>
+                              </form>
                         </li>
 
                     </ul><!-- End Profile Dropdown Items -->
@@ -686,6 +584,22 @@
             </li><!-- End Components Nav -->
 
 
+                  <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav24" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>notification_system</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav24" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="<?php echo e(route('Dashboard.notification_system.index')); ?>">
+                            <i class="bi bi-circle"></i><span>show all</span>
+                        </a>
+                    </li>
+
+
+                </ul>
+            </li><!-- End Components Nav -->
+
+
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-nav17" data-bs-toggle="collapse" href="#">
@@ -784,6 +698,20 @@
 
                     </li>
 
+  <li>
+                        <a class="nav-link collapsed" data-bs-target="#components-nav177" data-bs-toggle="collapse"
+                            href="#">
+                            <i class="bi bi-circle"></i><span>target_audience</span><i class="bi bi-chevron-down ms-auto"></i>
+                        </a>
+                        <ul id="components-nav177" class="nav-content collapse">
+                            <li><a href="<?php echo e(route('Dashboard.target_audience.index')); ?>"><span>Show All target_audiences</span></a></li>
+                            <li><a href="<?php echo e(route('Dashboard.target_audience.create')); ?>"><span>Create target_audience</span></a></li>
+                            <li><a href="<?php echo e(route('Dashboard.target_audience.trash')); ?>"><span>Trashed target_audiences</span></a></li>
+                        </ul>
+                    </li>
+
+
+
 
             <li>
                         <a class="nav-link collapsed" data-bs-target="#components-nav176" data-bs-toggle="collapse"
@@ -808,15 +736,13 @@
     <?php echo $__env->yieldContent('content'); ?>
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-        </div>
+
         <div class="credits">
             <!-- All the links in the footer should remain intact. -->
             <!-- You can delete the links only if you purchased the pro version. -->
             <!-- Licensing information: https://bootstrapmade.com/license/ -->
             <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+            Designed by <a href="https://bootstrapmade.com/">ِAhmed Muhaisen</a>
         </div>
     </footer><!-- End Footer -->
 
@@ -835,28 +761,49 @@
 
     <!-- Template Main JS File -->
     <script src="<?php echo e(asset('assets/Dashboard/js/main.js')); ?>"></script>
+
+
     <?php echo $__env->yieldContent('script'); ?>
-    <script>
-        Echo.channel('user.' + USER_ID)
-    .listen('NewSystemNotification', (e) => {
-        // أضف الإشعار في القائمة فورًا
-        const notifDropdown = document.getElementById("dropdown-notification");
-        const notifCount = document.getElementById("notification-count");
+       <script>
+    window.USER_ID = <?php echo e(Auth()->id()); ?>;
 
-        notifCount.innerText = parseInt(notifCount.innerText) + 1;
+    document.addEventListener('DOMContentLoaded', function () {
+        window.Echo.channel('user.' + USER_ID)
+            .listen('NewSystemNotification', (e) => {
+                const notifDropdown = document.getElementById("notification_content");
+                const notifCount = document.getElementById("notification_count");
 
-        notifDropdown.innerHTML = `
-            <li class="notification-item">
-                <i class="bi bi-info-circle text-primary"></i>
-                <div>
+                // تحديث العداد وتلوينه
+                notifCount.innerText = parseInt(notifCount.innerText) + 1;
+                notifCount.style.setProperty("background-color", "red", "important");
 
-                    <p>${e.message}</p>
-                    <p>${e.created_at}</p>
-                </div>
-            </li>
-        ` + notifDropdown.innerHTML;
+                // إنشاء العنصر الجديد
+                const li = document.createElement("li");
+                li.classList.add("notification-item");
+
+                const icon = document.createElement("i");
+                icon.classList.add("bi", "bi-info-circle", "text-primary");
+
+                const div = document.createElement("div");
+                const pMessage = document.createElement("p");
+                pMessage.textContent = e.message;
+
+                div.appendChild(pMessage);
+                li.appendChild(icon);
+                li.appendChild(div);
+
+                // الفاصل
+                const dividerLi = document.createElement("li");
+                const hr = document.createElement("hr");
+                hr.classList.add("dropdown-divider");
+                dividerLi.appendChild(hr);
+
+                // الإدراج في الأعلى
+                notifDropdown.insertBefore(dividerLi, notifDropdown.firstChild);
+                notifDropdown.insertBefore(li, dividerLi);
+            });
     });
-    </script>
+</script>
 </body>
 
 </html>

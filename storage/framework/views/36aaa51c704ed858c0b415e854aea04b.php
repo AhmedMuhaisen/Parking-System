@@ -7,18 +7,17 @@
                              <td><?php echo e($item->message); ?></td>
 
 
-                              <td><?php echo e($item->target_audience); ?></td>
+                              <td><?php echo e($item->target_audience->name); ?></td>
                     <td width="200"><?php echo e($item->user_id); ?></td>
-      <td width="200"><?php echo e($item->phone); ?></td>
-            <td width="200"><?php echo e($item->email); ?></td>
+
 
           <td width="200"><?php echo e($item->channels); ?></td>
 
                               <td width="200"><?php echo e($item->additional); ?></td>
-      <td width="200"><?php echo e($item->phone); ?></td>
+
             <td width="200"><?php echo e($item->actions); ?></td>
 
-
+    <td width="200"><?php echo e($item->created_at); ?></td>
 
 
 

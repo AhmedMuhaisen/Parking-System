@@ -52,7 +52,14 @@
             <a href="{{ url('website') }}" class="logo d-flex align-items-center me-auto me-xl-0">
                 <!-- Uncomment the line below if you also wish to use an image logo -->
                 <!-- <img src="{{ asset('assets/website/img/logo.webp') }}" alt=""> -->
-                <h1 class="sitename">{{ $settings->website_logo }}</h1>
+                      <a href="{{ route('website.') }}" class="logo d-flex align-items-center">
+               @if($settings->website_logo)
+<img src="{{ asset($settings->website_logo) }}" alt="">
+               @else
+<h1>{{ $setting->website_name }}</h1>
+
+               @endif
+            </a>
             </a>
 
             <nav id="navmenu" class="navmenu">

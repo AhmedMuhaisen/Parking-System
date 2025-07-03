@@ -70,6 +70,7 @@ public function systemNotifications()
     return $this->hasMany(SystemNotification::class);
 }
 
+
     public static function search($request)
     {
         $users = user::with(['building', 'unit', 'vehicle']) ->withCount('vehicle');

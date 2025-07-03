@@ -45,6 +45,7 @@ class SettingController extends Controller
          'advantages' => 'required',
     ]);
         $setting = Setting::find(1);
+
   if ($request->website_logo) {
             $website_logo = $request->website_logo;
             $website_logo = $website_logo->storePublicly('setting', 'new');

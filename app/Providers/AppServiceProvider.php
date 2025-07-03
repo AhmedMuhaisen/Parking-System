@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        Paginator::useBootstrap();
         Gate::define('category.index', function ($user) {
             return (in_array('category.index', $user->role->permission->pluck('code')->toArray()));
         });
@@ -446,6 +449,32 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
+                Gate::define('notification_system.index', function ($user) {
+            return (in_array('notification_system.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('notification_system.create', function ($user) {
+            return (in_array('notification_system.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('notification_system.update', function ($user) {
+            return (in_array('notification_system.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('notification_system.delete', function ($user) {
+            return (in_array('notification_system.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('notification_system.restore', function ($user) {
+            return (in_array('notification_system.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('notification_system.forceDelete', function ($user) {
+            return (in_array('notification_system.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+
+
         Gate::define('register_request.index', function ($user) {
             return (in_array('register_request.index', $user->role->permission->pluck('code')->toArray()));
         });
@@ -571,6 +600,32 @@ class AppServiceProvider extends ServiceProvider
             return (in_array('color.forceDelete', $user->role->permission->pluck('code')->toArray()));
         });
 
+
+
+
+           Gate::define('target_audience.index', function ($user) {
+            return (in_array('target_audience.index', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('target_audience.create', function ($user) {
+            return (in_array('target_audience.create', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('target_audience.update', function ($user) {
+            return (in_array('target_audience.update', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('target_audience.delete', function ($user) {
+            return (in_array('target_audience.delete', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('target_audience.restore', function ($user) {
+            return (in_array('target_audience.restore', $user->role->permission->pluck('code')->toArray()));
+        });
+
+        Gate::define('target_audience.forceDelete', function ($user) {
+            return (in_array('target_audience.forceDelete', $user->role->permission->pluck('code')->toArray()));
+        });
 
 
          Gate::define('parking_work.index', function ($user) {

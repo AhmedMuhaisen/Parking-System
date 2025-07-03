@@ -43,16 +43,7 @@
                 </div>
 
                 <div class="datatable-top">
-                    <div class="datatable-dropdown">
-                        <label>
-                            <select class="datatable-selector" name="per-page">
-                                <option value="5">5</option>
-                                <option value="10" selected="">10</option>
-                                <option value="15">15</option>
-                                <option value="-1">All</option>
-                            </select> entries per page
-                        </label>
-                    </div>
+
                     <div class="datatable-search">
                         <a class="btn btn-dark" href="" id="printExcelReport">Export Excel</a>
                         <a class="btn btn-danger" id="printPdfReport" href="">Export
@@ -70,13 +61,13 @@
                             <th scope="col">event_type</th>
                             <th scope="col" width="200">message</th>
                             <th scope="col">target_audience</th>
-                            <th scope="col">user_id</th>
-                            <th scope="col">phone</th>
-                            <th scope="col" width='100'>email</th>
+                            <th scope="col">user</th>
+
                             <th scope="col">channels</th>
                             <th scope="col">additional</th>
-                            <th scope="col">phone</th>
+
                             <th scope="col">actions</th>
+    <th scope="col">created_at</th>
 
                             <th scope="col" width="120">Action</th>
                         </tr>
@@ -118,35 +109,6 @@
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\App\View\Components\Input::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['type' => 'channels','value' => '','name' => 'channels','id' => 'channels','title' => 'search']); ?>
-<?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginal786b6632e4e03cdf0a10e8880993f28a)): ?>
-<?php $attributes = $__attributesOriginal786b6632e4e03cdf0a10e8880993f28a; ?>
-<?php unset($__attributesOriginal786b6632e4e03cdf0a10e8880993f28a); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal786b6632e4e03cdf0a10e8880993f28a)): ?>
-<?php $component = $__componentOriginal786b6632e4e03cdf0a10e8880993f28a; ?>
-<?php unset($__componentOriginal786b6632e4e03cdf0a10e8880993f28a); ?>
-<?php endif; ?>
-                            </td>
-
-
-
-
-
-
-
-                            <td scope="col" colspan="1" width='200'>
-                                <?php if (isset($component)) { $__componentOriginal786b6632e4e03cdf0a10e8880993f28a = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal786b6632e4e03cdf0a10e8880993f28a = $attributes; } ?>
-<?php $component = App\View\Components\Input::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('input'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\App\View\Components\Input::ignoredParameterNames()); ?>
-<?php endif; ?>
 <?php $component->withAttributes(['type' => 'text','value' => '','name' => 'event_type','id' => 'event_type','title' => 'search']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -160,28 +122,7 @@
 <?php endif; ?>
                             </td>
 
-                            <td scope="col" colspan="1" width='200'>
-                                <?php if (isset($component)) { $__componentOriginal786b6632e4e03cdf0a10e8880993f28a = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal786b6632e4e03cdf0a10e8880993f28a = $attributes; } ?>
-<?php $component = App\View\Components\Input::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('input'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\App\View\Components\Input::ignoredParameterNames()); ?>
-<?php endif; ?>
-<?php $component->withAttributes(['type' => 'text','value' => '','name' => 'title','id' => 'title','title' => 'search']); ?>
-<?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginal786b6632e4e03cdf0a10e8880993f28a)): ?>
-<?php $attributes = $__attributesOriginal786b6632e4e03cdf0a10e8880993f28a; ?>
-<?php unset($__attributesOriginal786b6632e4e03cdf0a10e8880993f28a); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal786b6632e4e03cdf0a10e8880993f28a)): ?>
-<?php $component = $__componentOriginal786b6632e4e03cdf0a10e8880993f28a; ?>
-<?php unset($__componentOriginal786b6632e4e03cdf0a10e8880993f28a); ?>
-<?php endif; ?>
-                            </td>
+
                             <td scope="col" width='200' width='100'>
                                 <?php if (isset($component)) { $__componentOriginal786b6632e4e03cdf0a10e8880993f28a = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal786b6632e4e03cdf0a10e8880993f28a = $attributes; } ?>
@@ -205,28 +146,6 @@
 <?php endif; ?>
                             </td>
 
-                            <td scope="col" width='200' width='100'>
-                                <?php if (isset($component)) { $__componentOriginal786b6632e4e03cdf0a10e8880993f28a = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal786b6632e4e03cdf0a10e8880993f28a = $attributes; } ?>
-<?php $component = App\View\Components\Input::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('input'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\App\View\Components\Input::ignoredParameterNames()); ?>
-<?php endif; ?>
-<?php $component->withAttributes(['type' => 'text','value' => '','title' => 'search','name' => 'created_by','id' => 'created_by']); ?>
-<?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginal786b6632e4e03cdf0a10e8880993f28a)): ?>
-<?php $attributes = $__attributesOriginal786b6632e4e03cdf0a10e8880993f28a; ?>
-<?php unset($__attributesOriginal786b6632e4e03cdf0a10e8880993f28a); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal786b6632e4e03cdf0a10e8880993f28a)): ?>
-<?php $component = $__componentOriginal786b6632e4e03cdf0a10e8880993f28a; ?>
-<?php unset($__componentOriginal786b6632e4e03cdf0a10e8880993f28a); ?>
-<?php endif; ?>
-                            </td>
 
                             <td scope="col" width='200' width='100'>
                                 <?php if (isset($component)) { $__componentOriginal786b6632e4e03cdf0a10e8880993f28a = $component; } ?>
@@ -250,6 +169,106 @@
 <?php unset($__componentOriginal786b6632e4e03cdf0a10e8880993f28a); ?>
 <?php endif; ?>
                             </td>
+
+    <td scope="col" colspan="1" width='200'>
+                                <?php if (isset($component)) { $__componentOriginal786b6632e4e03cdf0a10e8880993f28a = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal786b6632e4e03cdf0a10e8880993f28a = $attributes; } ?>
+<?php $component = App\View\Components\Input::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('input'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\App\View\Components\Input::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['type' => 'user','value' => '','name' => 'user','id' => 'user','title' => 'search']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal786b6632e4e03cdf0a10e8880993f28a)): ?>
+<?php $attributes = $__attributesOriginal786b6632e4e03cdf0a10e8880993f28a; ?>
+<?php unset($__attributesOriginal786b6632e4e03cdf0a10e8880993f28a); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal786b6632e4e03cdf0a10e8880993f28a)): ?>
+<?php $component = $__componentOriginal786b6632e4e03cdf0a10e8880993f28a; ?>
+<?php unset($__componentOriginal786b6632e4e03cdf0a10e8880993f28a); ?>
+<?php endif; ?>
+                            </td>
+
+
+
+
+                                <td scope="col" colspan="1" width='200'>
+                                <?php if (isset($component)) { $__componentOriginal786b6632e4e03cdf0a10e8880993f28a = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal786b6632e4e03cdf0a10e8880993f28a = $attributes; } ?>
+<?php $component = App\View\Components\Input::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('input'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\App\View\Components\Input::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['type' => 'channels','value' => '','name' => 'channels','id' => 'channels','title' => 'search']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal786b6632e4e03cdf0a10e8880993f28a)): ?>
+<?php $attributes = $__attributesOriginal786b6632e4e03cdf0a10e8880993f28a; ?>
+<?php unset($__attributesOriginal786b6632e4e03cdf0a10e8880993f28a); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal786b6632e4e03cdf0a10e8880993f28a)): ?>
+<?php $component = $__componentOriginal786b6632e4e03cdf0a10e8880993f28a; ?>
+<?php unset($__componentOriginal786b6632e4e03cdf0a10e8880993f28a); ?>
+<?php endif; ?>
+                            </td>
+
+
+                                <td scope="col" colspan="1" width='200'>
+                                <?php if (isset($component)) { $__componentOriginal786b6632e4e03cdf0a10e8880993f28a = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal786b6632e4e03cdf0a10e8880993f28a = $attributes; } ?>
+<?php $component = App\View\Components\Input::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('input'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\App\View\Components\Input::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['type' => 'additional','value' => '','name' => 'additional','id' => 'additional','title' => 'search']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal786b6632e4e03cdf0a10e8880993f28a)): ?>
+<?php $attributes = $__attributesOriginal786b6632e4e03cdf0a10e8880993f28a; ?>
+<?php unset($__attributesOriginal786b6632e4e03cdf0a10e8880993f28a); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal786b6632e4e03cdf0a10e8880993f28a)): ?>
+<?php $component = $__componentOriginal786b6632e4e03cdf0a10e8880993f28a; ?>
+<?php unset($__componentOriginal786b6632e4e03cdf0a10e8880993f28a); ?>
+<?php endif; ?>
+                            </td>
+
+
+                                <td scope="col" colspan="1" width='200'>
+                                <?php if (isset($component)) { $__componentOriginal786b6632e4e03cdf0a10e8880993f28a = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal786b6632e4e03cdf0a10e8880993f28a = $attributes; } ?>
+<?php $component = App\View\Components\Input::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('input'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\App\View\Components\Input::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['type' => 'action','value' => '','name' => 'action','id' => 'action','title' => 'search']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal786b6632e4e03cdf0a10e8880993f28a)): ?>
+<?php $attributes = $__attributesOriginal786b6632e4e03cdf0a10e8880993f28a; ?>
+<?php unset($__attributesOriginal786b6632e4e03cdf0a10e8880993f28a); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal786b6632e4e03cdf0a10e8880993f28a)): ?>
+<?php $component = $__componentOriginal786b6632e4e03cdf0a10e8880993f28a; ?>
+<?php unset($__componentOriginal786b6632e4e03cdf0a10e8880993f28a); ?>
+<?php endif; ?>
+                            </td>
+
+
+
                             <td scope="col" width='200' width='100'>
                                 <?php if (isset($component)) { $__componentOriginal786b6632e4e03cdf0a10e8880993f28a = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal786b6632e4e03cdf0a10e8880993f28a = $attributes; } ?>

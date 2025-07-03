@@ -43,69 +43,68 @@ class Notification_Rule extends Model
 //         return $this->hasMany(Guest::class);
 //     }
 
-//     function testimonials()
-//     {
-//         return $this->hasMany(Testimonial::class);
-//     }
-
+    function target_audience()
+    {
+        return $this->belongsTo(Target_Audience::class)->withDefault();
+    }
 
     public static function search($request)
     {
-        $users = user::with(['building', 'unit', 'vehicle']) ->withCount('vehicle');
+        $notification_rule = Notification_Rule::with(['building', 'unit', 'vehicle']) ->withCount('vehicle');
 
         // Filter by related User (Owner Name)
         if ($request->filled('name')) {
-            $users->whereRaw("CONCAT(first_name, ' ', second_name) LIKE ?", ["%{$request->name}%"]);
+            $notification_rule->whereRaw("CONCAT(first_name, ' ', second_name) LIKE ?", ["%{$request->name}%"]);
         }
 
         if ($request->filled('email')) {
-            $users->where('email', 'like', '%' . $request->email . '%');
+            $notification_rule->where('email', 'like', '%' . $request->email . '%');
         }
 
         if ($request->filled('phone')) {
-            $users->where('phone', 'like', '%' . $request->phone . '%');
+            $notification_rule->where('phone', 'like', '%' . $request->phone . '%');
         }
 
         if ($request->filled('type')) {
-            $users->where('type', 'like', '%' . $request->type . '%');
+            $notification_rule->where('type', 'like', '%' . $request->type . '%');
         }
         // Filter by related Category
         if ($request->filled('building')) {
-            $users->whereHas('building', function ($q) use ($request) {
+            $notification_rule->whereHas('building', function ($q) use ($request) {
                 $q->where('id', $request->building);
             });
         }
 
         if ($request->filled('unit')) {
-            $users->whereHas('unit', function ($q) use ($request) {
+            $notification_rule->whereHas('unit', function ($q) use ($request) {
                 $q->where('id', $request->unit);
             });
         }
 
         if ($request->filled('user_number')) {
-            $users->where('user_number', 'like', '%' . $request->user_number . '%');
+            $notification_rule->where('user_number', 'like', '%' . $request->user_number . '%');
         }
 
         if ($request->filled('verified')) {
             if ($request->verified == "Deactivated") {
-                $users->where('email_verified_at', null);
+                $notification_rule->where('email_verified_at', null);
             } else {
-                $users->where('email_verified_at', '!=', null);
+                $notification_rule->where('email_verified_at', '!=', null);
             }
         }
 if ($request->filled('vehicles_count')) {
-    $users->having('vehicle_count', '=', $request->vehicles_count);
+    $notification_rule->having('vehicle_count', '=', $request->vehicles_count);
 }
 
         // Filter by Created At
         if ($request->filled('created_at')) {
-            $users->where('created_at', 'like', '%' . $request->created_at . '%');
+            $notification_rule->where('created_at', 'like', '%' . $request->created_at . '%');
         }
 
         // Show trashed only if specified
         if ($request->page == 'trash') {
-            $users = $users->onlyTrashed();
+            $notification_rule = $notification_rule->onlyTrashed();
         }
-        return $users;
+        return $notification_rule;
     }
 }

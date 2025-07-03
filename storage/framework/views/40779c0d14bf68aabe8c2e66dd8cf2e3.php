@@ -52,7 +52,14 @@
             <a href="<?php echo e(url('website')); ?>" class="logo d-flex align-items-center me-auto me-xl-0">
                 <!-- Uncomment the line below if you also wish to use an image logo -->
                 <!-- <img src="<?php echo e(asset('assets/website/img/logo.webp')); ?>" alt=""> -->
-                <h1 class="sitename"><?php echo e($settings->website_logo); ?></h1>
+                      <a href="<?php echo e(route('website.')); ?>" class="logo d-flex align-items-center">
+               <?php if($settings->website_logo): ?>
+<img src="<?php echo e(asset($settings->website_logo)); ?>" alt="">
+               <?php else: ?>
+<h1><?php echo e($setting->website_name); ?></h1>
+
+               <?php endif; ?>
+            </a>
             </a>
 
             <nav id="navmenu" class="navmenu">

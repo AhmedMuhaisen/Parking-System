@@ -28,14 +28,14 @@
 
     <?php if (isset($component)) { $__componentOriginalff4285866aa89ec70778390fc98eafd4 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalff4285866aa89ec70778390fc98eafd4 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputd','data' => ['value' => ''.e($setting->logo).'','title' => 'logo','folder' => ''.e($folder).'','type' => 'file','name' => 'logo']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.inputd','data' => ['value' => ''.e($setting->website_logo).'','title' => 'logo','folder' => ''.e($folder).'','type' => 'file','name' => 'website_logo']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
 <?php $component->withName('inputd'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['value' => ''.e($setting->logo).'','title' => 'logo','folder' => ''.e($folder).'','type' => 'file','name' => 'logo']); ?> <?php echo $__env->renderComponent(); ?>
+<?php $component->withAttributes(['value' => ''.e($setting->website_logo).'','title' => 'logo','folder' => ''.e($folder).'','type' => 'file','name' => 'website_logo']); ?> <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginalff4285866aa89ec70778390fc98eafd4)): ?>
 <?php $attributes = $__attributesOriginalff4285866aa89ec70778390fc98eafd4; ?>

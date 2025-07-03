@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\NewSystemNotification;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Dashboard\BuildingController;
 use App\Http\Controllers\Dashboard\CameraController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Dashboard\GuestController;
 use App\Http\Controllers\Dashboard\Login_AttemptController;
 use App\Http\Controllers\Dashboard\MessageController;
 use App\Http\Controllers\Dashboard\Notification_RuleController;
+use App\Http\Controllers\Dashboard\notification_SystemController;
 use App\Http\Controllers\Dashboard\Parking_WorkController;
 use App\Http\Controllers\Dashboard\ParkingController;
 use App\Http\Controllers\Dashboard\PermissionController;
@@ -18,6 +20,7 @@ use App\Http\Controllers\Dashboard\Register_RequestController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\SettingController;
 use App\Http\Controllers\Dashboard\SpotController;
+use App\Http\Controllers\Dashboard\Target_AudienceController;
 use App\Http\Controllers\Dashboard\TestimonialController;
 use App\Http\Controllers\Dashboard\UnitController;
 use App\Http\Controllers\Dashboard\UserController;
@@ -27,6 +30,7 @@ use App\Http\Controllers\Dashboard\VehicleMovementController;
 use App\Http\Controllers\Dashboard\VehiclesBrandController;
 use App\Http\Controllers\Dashboard\VehiclesTypeController;
 use App\Http\Controllers\WebsiteController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WebsiteController::class, 'index']);
@@ -380,6 +384,26 @@ Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth','admin')->grou
     Route::resource('notification_rule', Notification_RuleController::class);
 
 
+
+
+   Route::prefix('notification_system')->name('notification_system.')->group(function () {
+        Route::get('/', [notification_SystemController::class, 'index'])->name('index');
+
+        Route::get('search', [notification_SystemController::class, 'search'])->name('search');
+
+        Route::get('exportPDF', [notification_SystemController::class, 'exportPDF'])->name('exportPDF');
+
+        Route::get('exportExcel', [notification_SystemController::class, 'exportExcel'])->name('exportExcel');
+
+
+        Route::delete('forcedelete/{id}', [notification_SystemController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [notification_SystemController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [notification_SystemController::class, 'restore'])->name('restore');
+    });
+    Route::resource('notification_system', notification_SystemController::class);
+
+
+
     Route::prefix('testimonial')->name('testimonial.')->group(function () {
         Route::get('/', [TestimonialController::class, 'index'])->name('index');
 
@@ -451,6 +475,17 @@ Route::prefix('Dashboard')->name('Dashboard.')->middleware('auth','admin')->grou
     });
     Route::resource('color', ColorController::class);
 
+
+    Route::prefix('target_audience')->name('target_audience.')->group(function () {
+        Route::get('/', [Target_AudienceController::class, 'index'])->name('index');
+        Route::delete('forcedelete/{id}', [Target_AudienceController::class, 'delete'])->name('forcedelete');
+        Route::get('trash', [Target_AudienceController::class, 'trash'])->name('trash');
+        Route::get('restore/{id}', [Target_AudienceController::class, 'restore'])->name('restore');
+          Route::get('search/{id?}', [Target_AudienceController::class, 'search'])->name('search');
+    });
+    Route::resource('target_audience', Target_AudienceController::class);
+
+
 Route::prefix('parking_work')->name('parking_work.')->group(function () {
         Route::get('/', [Parking_WorkController::class, 'index'])->name('index');
 
@@ -473,3 +508,14 @@ Route::prefix('parking_work')->name('parking_work.')->group(function () {
     Route::put('setting/update/{id}', [SettingController::class, 'update'])->name('setting.update');
 
 });
+
+Route::get('/test-broadcast', function () {
+    $fakeNotification = [
+        'message' => 'This is a test message',
+        'created_at' => now(),
+    ];
+
+    broadcast(new NewSystemNotification($fakeNotification, Auth::id()));
+    return 'Broadcasted';
+});
+

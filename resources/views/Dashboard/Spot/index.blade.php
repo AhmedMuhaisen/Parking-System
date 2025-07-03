@@ -44,16 +44,7 @@
                 </div>
 
                 <div class="datatable-top">
-                    <div class="datatable-dropdown">
-                        <label>
-                            <select class="datatable-selector" name="per-page">
-                                <option value="5">5</option>
-                                <option value="10" selected="">10</option>
-                                <option value="15">15</option>
-                                <option value="-1">All</option>
-                            </select> entries per page
-                        </label>
-                    </div>
+
                     <div class="datatable-search">
                         <a class="btn btn-dark" href="" id="printExcelReport">Export Excel</a>
                         <a class="btn btn-danger" id="printPdfReport" href="">Export

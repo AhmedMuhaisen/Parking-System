@@ -7,7 +7,7 @@ use App\Models\Building;
 use App\Models\VehiclesBrand;
 use App\Models\Guest;
 use App\Models\MotorType;
-use App\Models\Register_request;
+use App\Models\Register_Request;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Vehicle;
@@ -134,7 +134,7 @@ function register_request_post(Request $request ,NotificationService $notifier) 
 $request->validate([
     'email'=>['required ',' email ','max:200',Rule::unique('users', 'email')]
 ]);
-  $register_request= Register_request::create([
+  $register_request= Register_Request::create([
             'email' => $request->email,
   ]);
 
